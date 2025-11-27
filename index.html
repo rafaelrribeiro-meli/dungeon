@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo Leveling | System Admin</title>
+    <title>Dungeon & Analytics | System Admin</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -81,9 +81,7 @@
         .text-shadow { text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
         .text-shadow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
         .rank-tag { clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
-        .radar-chart-bg { fill: rgba(0, 0, 0, 0.5); stroke: #333; stroke-width: 1; }
-        .radar-chart-area { fill: rgba(0, 240, 255, 0.2); stroke: #00F0FF; stroke-width: 2; filter: drop-shadow(0 0 5px #00F0FF); }
-
+        
         /* Loader */
         .system-loader {
             width: 100%; height: 2px; background: #1f2937; position: relative; overflow: hidden;
@@ -103,8 +101,8 @@
             <div class="absolute inset-0 bg-neon-blue blur-[60px] opacity-20 animate-pulse"></div>
             <i class="fas fa-dragon text-6xl text-neon-blue relative z-10"></i>
         </div>
-        <h1 class="text-6xl font-display font-bold text-white mb-2 tracking-[0.2em] text-shadow">SYSTEM</h1>
-        <p class="text-neon-blue font-mono text-xs tracking-widest mb-12" data-translate="init_resources">INITIALIZING RESOURCES...</p>
+        <h1 class="text-6xl font-display font-bold text-white mb-2 tracking-[0.1em] text-shadow">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></h1>
+        <p class="text-gray-500 font-mono text-xs tracking-widest mb-12" data-translate="init_resources">INITIALIZING SYSTEM...</p>
         
         <div id="init-btn-area" class="animate-bounce">
             <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase" data-translate="btn_init">
@@ -160,7 +158,7 @@
             <div class="container mx-auto px-4 h-full flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-dragon text-neon-blue text-2xl"></i>
-                    <span class="text-xl font-bold font-display tracking-wider hidden md:block">HUNTER <span class="text-neon-blue">SYSTEM</span></span>
+                    <span class="text-xl font-bold font-display tracking-wider hidden md:block">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></span>
                 </div>
 
                 <div class="flex gap-1 md:gap-6 bg-black/40 rounded-full px-2 p-1 border border-border">
@@ -607,9 +605,10 @@
                 guilds_registered: "Guildas Registradas", new_guild: "Nova Guilda", all_hunters: "Todos os Hunters", recruit: "Recrutar",
                 market: "Mercado Negro", consumables: "Consumíveis", item_potion: "Poção de XP (Grande)", item_potion_desc: "Garante +500 XP instantaneamente.", buy: "Comprar", item_bomb_desc: "Causa 2000 de dano ao Raid Boss.", artifacts: "Artefatos Lendários", inventory: "Seu Inventário", empty_inv: "Inventário vazio.",
                 mission_details: "Detalhes da Missão", form_title: "Nome da Dungeon", form_rank: "Rank", form_date: "Prazo", form_tools: "Ferramentas", form_desc: "Descrição", reward: "Recompensa", delete: "Excluir", save: "Salvar",
-                hunter_reg: "Registro de Hunter", form_name: "Nome", form_class: "Classe", init_attrs: "Atributos Iniciais", confirm: "Confirmar", revoke: "Revogar",
+                hunter_reg: "Registro de Hunter", form_name: "Nome", form_class: "Classe", init_attrs: "Atributos Iniciais", confirm: "Confirmar", revoke: "Revocar",
                 manage_guild: "Gerenciar Guilda", guild_name: "Nome", guild_leader: "Líder", guild_members: "Membros", guild_members_hint: "Selecione os Hunters.",
-                settings: "Configurações", language: "Idioma / Language", active_hunter: "Hunter Ativo", active_hunter_hint: "Troque de personagem para gerenciar inventário.", restore: "Restaurar"
+                settings: "Configurações", language: "Idioma / Language", active_hunter: "Hunter Ativo", active_hunter_hint: "Troque de personagem para gerenciar inventário.", restore: "Restaurar",
+                tool_proficiency: "Proficiência em Ferramentas", status_window: "Janela de Status"
             },
             'en': {
                 init_resources: "INITIALIZING RESOURCES...", btn_init: "INITIALIZE", connecting: "CONNECTING TO SERVER...",
@@ -626,7 +625,8 @@
                 mission_details: "Mission Details", form_title: "Dungeon Name", form_rank: "Rank", form_date: "Deadline", form_tools: "Tools", form_desc: "Description", reward: "Reward", delete: "Delete", save: "Save",
                 hunter_reg: "Hunter Registration", form_name: "Name", form_class: "Class", init_attrs: "Initial Attributes", confirm: "Confirm", revoke: "Revoke",
                 manage_guild: "Manage Guild", guild_name: "Name", guild_leader: "Leader", guild_members: "Members", guild_members_hint: "Select Hunters.",
-                settings: "Settings", language: "Language", active_hunter: "Active Hunter", active_hunter_hint: "Switch character to manage inventory.", restore: "Restore"
+                settings: "Settings", language: "Language", active_hunter: "Active Hunter", active_hunter_hint: "Switch character to manage inventory.", restore: "Restore",
+                tool_proficiency: "Tool Proficiency", status_window: "Status Window"
             },
             'es': {
                 init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AL SERVIDOR...",
@@ -643,7 +643,8 @@
                 mission_details: "Detalles de Misión", form_title: "Nombre Mazmorra", form_rank: "Rango", form_date: "Plazo", form_tools: "Herramientas", form_desc: "Descripción", reward: "Recompensa", delete: "Eliminar", save: "Guardar",
                 hunter_reg: "Registro de Cazador", form_name: "Nombre", form_class: "Clase", init_attrs: "Atributos Iniciales", confirm: "Confirmar", revoke: "Revocar",
                 manage_guild: "Gestionar Gremio", guild_name: "Nombre", guild_leader: "Líder", guild_members: "Miembros", guild_members_hint: "Seleccionar Cazadores.",
-                settings: "Configuración", language: "Idioma", active_hunter: "Cazador Activo", active_hunter_hint: "Cambia de personaje para gestionar inventario.", restore: "Restaurar"
+                settings: "Configuración", language: "Idioma", active_hunter: "Cazador Activo", active_hunter_hint: "Cambia de personaje para gestionar inventario.", restore: "Restaurar",
+                tool_proficiency: "Dominio de Herramientas", status_window: "Ventana de Estado"
             }
         };
 
@@ -1266,55 +1267,6 @@
                 ranking.innerHTML = list.slice(0, 5).map(hunterHTML).join('');
             },
 
-            // --- RADAR CHART GENERATOR ---
-            generateRadarChart: (attributes) => {
-                const size = 200;
-                const center = size / 2;
-                const radius = size / 2 - 20;
-                const maxVal = 20; // Scale 0-20
-                const keys = ATTRIBUTES;
-                const total = keys.length;
-                const angleSlice = (Math.PI * 2) / total;
-
-                const getCoords = (value, i) => {
-                    const r = (value / maxVal) * radius;
-                    const angle = i * angleSlice - Math.PI / 2; // Start at top
-                    return {
-                        x: center + r * Math.cos(angle),
-                        y: center + r * Math.sin(angle)
-                    };
-                };
-
-                let points = "";
-                keys.forEach((key, i) => {
-                    const val = attributes[key] || 0;
-                    const coords = getCoords(val, i);
-                    points += `${coords.x},${coords.y} `;
-                });
-
-                let axes = "";
-                keys.forEach((key, i) => {
-                    const end = getCoords(maxVal, i);
-                    axes += `<line x1="${center}" y1="${center}" x2="${end.x}" y2="${end.y}" class="radar-chart-bg"/>`;
-                    // Labels
-                    const labelPos = getCoords(maxVal + 5, i);
-                    let anchor = "middle";
-                    if(labelPos.x < center - 10) anchor = "end";
-                    if(labelPos.x > center + 10) anchor = "start";
-                    axes += `<text x="${labelPos.x}" y="${labelPos.y}" text-anchor="${anchor}" fill="#aaa" font-size="8" font-family="sans-serif">${key}</text>`;
-                });
-
-                return `
-                <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-                    <circle cx="${center}" cy="${center}" r="${radius}" fill="none" stroke="#222" stroke-width="1"/>
-                    <circle cx="${center}" cy="${center}" r="${radius * 0.66}" fill="none" stroke="#222" stroke-width="1"/>
-                    <circle cx="${center}" cy="${center}" r="${radius * 0.33}" fill="none" stroke="#222" stroke-width="1"/>
-                    ${axes}
-                    <polygon points="${points}" class="radar-chart-area" fill-opacity="0.3"/>
-                </svg>
-                `;
-            },
-
             showHunterDetails: (id) => {
                 const h = app.data.hunters.find(x => x.id === id);
                 if(!h) return;
@@ -1324,10 +1276,41 @@
                 const stats = h.stats || {done: 0};
                 const inventory = h.inventory || [];
                 const attributes = h.attributes || {};
+                const skills = h.skills || {};
                 const achievements = h.achievements || [];
                 const isAwakened = h.rank === 'S';
 
-                const radarSvg = ui.generateRadarChart(attributes);
+                const attributesListHtml = ATTRIBUTES.map(attr => {
+                    const val = attributes[attr] || 0;
+                    const width = Math.min(100, val * 5); 
+                    return `
+                    <div class="mb-2">
+                        <div class="flex justify-between text-[10px] uppercase font-bold mb-1">
+                            <span class="text-gray-400">${attr}</span>
+                            <span class="text-neon-blue">${val}</span>
+                        </div>
+                        <div class="w-full bg-black h-1.5 rounded-full overflow-hidden border border-white/5">
+                            <div class="bg-gradient-to-r from-blue-600 to-neon-blue h-full" style="width: ${width}%"></div>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+
+                const toolsListHtml = TOOLS.map(tool => {
+                    const val = skills[tool] || 0;
+                    const width = Math.min(100, val * 5); // Assuming 20 is a good visual cap
+                    return `
+                    <div class="mb-2">
+                        <div class="flex justify-between text-[10px] uppercase font-bold mb-1">
+                            <span class="text-gray-400">${tool}</span>
+                            <span class="text-neon-green">${val}</span>
+                        </div>
+                        <div class="w-full bg-black h-1.5 rounded-full overflow-hidden border border-white/5">
+                            <div class="bg-gradient-to-r from-green-900 to-neon-green h-full" style="width: ${width}%"></div>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
 
                 const html = `
                     <div class="relative bg-gradient-to-r from-purple-900/40 to-black p-6 border-b border-neon-purple/30">
@@ -1384,8 +1367,12 @@
                                 </div>
                             </div>
                             
-                            <div class="flex justify-center items-center bg-black/20 rounded-lg p-2">
-                                ${radarSvg}
+                            <div class="bg-black/20 rounded-lg p-3 border border-white/5 overflow-y-auto custom-scrollbar" style="max-height: 300px;">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-white/10 pb-1">${ui.t('status_window')}</h4>
+                                ${attributesListHtml}
+                                
+                                <h4 class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-white/10 pb-1 mt-4">${ui.t('tool_proficiency')}</h4>
+                                ${toolsListHtml}
                             </div>
                         </div>
 
