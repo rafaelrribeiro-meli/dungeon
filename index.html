@@ -104,37 +104,37 @@
             <i class="fas fa-dragon text-6xl text-neon-blue relative z-10"></i>
         </div>
         <h1 class="text-6xl font-display font-bold text-white mb-2 tracking-[0.2em] text-shadow">SYSTEM</h1>
-        <p class="text-neon-blue font-mono text-xs tracking-widest mb-12">INITIALIZING RESOURCES...</p>
+        <p class="text-neon-blue font-mono text-xs tracking-widest mb-12" data-translate="init_resources">INITIALIZING RESOURCES...</p>
         
         <div id="init-btn-area" class="animate-bounce">
-            <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase">
+            <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase" data-translate="btn_init">
                 Initialize
             </button>
         </div>
         
         <div id="loading-bar-area" class="hidden w-64">
             <div class="system-loader mb-2"></div>
-            <div class="font-mono text-[10px] text-gray-500 text-right">CONNECTING TO SERVER...</div>
+            <div class="font-mono text-[10px] text-gray-500 text-right" data-translate="connecting">CONNECTING TO SERVER...</div>
         </div>
     </div>
 
     <div id="level-up-modal" class="fixed inset-0 z-[90] bg-black/90 flex items-center justify-center hidden">
         <div class="text-center animate-level-up">
             <h2 class="text-6xl md:text-8xl font-display font-bold text-neon-gold text-shadow-gold mb-4">LEVEL UP!</h2>
-            <div class="text-2xl text-white font-display tracking-widest mb-8">You have become stronger.</div>
+            <div class="text-2xl text-white font-display tracking-widest mb-8" data-translate="levelup_msg">You have become stronger.</div>
             <div class="inline-block p-1 rounded-full bg-gradient-to-r from-transparent via-neon-gold to-transparent w-full h-[1px] mb-8"></div>
             <div class="flex justify-center gap-8 text-center">
                 <div>
-                    <div class="text-gray-400 text-xs uppercase">Level Anterior</div>
+                    <div class="text-gray-400 text-xs uppercase" data-translate="prev_level">Level Anterior</div>
                     <div class="text-4xl font-bold text-white" id="lvl-prev">1</div>
                 </div>
                 <div class="text-neon-gold text-4xl"><i class="fas fa-arrow-right"></i></div>
                 <div>
-                    <div class="text-neon-gold text-xs uppercase font-bold">Novo Level</div>
+                    <div class="text-neon-gold text-xs uppercase font-bold" data-translate="new_level">Novo Level</div>
                     <div class="text-6xl font-bold text-neon-gold text-shadow-gold" id="lvl-new">2</div>
                 </div>
             </div>
-            <button onclick="document.getElementById('level-up-modal').classList.add('hidden')" class="mt-12 px-8 py-2 border border-neon-gold text-neon-gold hover:bg-neon-gold hover:text-black font-bold tracking-widest transition uppercase">Close</button>
+            <button onclick="document.getElementById('level-up-modal').classList.add('hidden')" class="mt-12 px-8 py-2 border border-neon-gold text-neon-gold hover:bg-neon-gold hover:text-black font-bold tracking-widest transition uppercase" data-translate="close">Close</button>
         </div>
     </div>
 
@@ -142,14 +142,14 @@
         <div class="absolute inset-0 bg-neon-purple blur-[100px] opacity-20 animate-pulse"></div>
         <i class="fas fa-bolt text-6xl text-neon-gold mb-6 animate-bounce"></i>
         <h1 class="text-5xl font-display font-bold text-white tracking-[0.3em] mb-4">AWAKENING</h1>
-        <p class="text-gray-300 mb-8 text-center max-w-md">O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.</p>
+        <p class="text-gray-300 mb-8 text-center max-w-md" data-translate="awk_msg">O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.</p>
         
         <div class="text-center mb-8">
             <div class="text-2xl text-gray-500 line-through" id="awk-old-class">Fighter</div>
             <div class="text-4xl text-neon-gold font-bold animate-pulse" id="awk-new-class">Warlord</div>
         </div>
 
-        <button onclick="document.getElementById('awakening-modal').classList.add('hidden')" class="px-8 py-3 border border-neon-gold bg-neon-gold/10 text-neon-gold font-bold uppercase tracking-widest hover:bg-neon-gold hover:text-black transition">
+        <button onclick="document.getElementById('awakening-modal').classList.add('hidden')" class="px-8 py-3 border border-neon-gold bg-neon-gold/10 text-neon-gold font-bold uppercase tracking-widest hover:bg-neon-gold hover:text-black transition" data-translate="awk_accept">
             ACEITAR PODER
         </button>
     </div>
@@ -164,10 +164,10 @@
                 </div>
 
                 <div class="flex gap-1 md:gap-6 bg-black/40 rounded-full px-2 p-1 border border-border">
-                    <button onclick="app.router('dashboard')" id="nav-dashboard" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-blue bg-neon-blue/10 transition">Dash</button>
-                    <button onclick="app.router('dungeons')" id="nav-dungeons" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition">Missões</button>
-                    <button onclick="app.router('hunters')" id="nav-hunters" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition">Guilda</button>
-                    <button onclick="app.router('shop')" id="nav-shop" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-gold hover:text-white transition">Loja</button>
+                    <button onclick="app.router('dashboard')" id="nav-dashboard" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-blue bg-neon-blue/10 transition" data-translate="nav_dash">Dash</button>
+                    <button onclick="app.router('dungeons')" id="nav-dungeons" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition" data-translate="nav_missions">Missões</button>
+                    <button onclick="app.router('hunters')" id="nav-hunters" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition" data-translate="nav_guild">Guilda</button>
+                    <button onclick="app.router('shop')" id="nav-shop" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-gold hover:text-white transition" data-translate="nav_shop">Loja</button>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -192,12 +192,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
                     <div class="md:col-span-8 glass-panel p-6 rounded-xl border border-neon-blue/20 relative overflow-hidden group">
                         <div class="absolute -right-10 -top-10 w-64 h-64 bg-neon-blue/10 rounded-full blur-3xl group-hover:bg-neon-blue/20 transition duration-700"></div>
-                        <h1 class="text-3xl md:text-4xl font-display font-bold text-white mb-2">Bem-vindo, <span class="text-neon-blue" id="dash-user-name">Hunter</span>.</h1>
-                        <p class="text-gray-400 text-sm mb-6 max-w-md">O sistema aguarda suas ordens. Novas dungeons detectadas na área.</p>
+                        <h1 class="text-3xl md:text-4xl font-display font-bold text-white mb-2"><span data-translate="welcome">Bem-vindo</span>, <span class="text-neon-blue" id="dash-user-name">Hunter</span>.</h1>
+                        <p class="text-gray-400 text-sm mb-6 max-w-md" data-translate="welcome_sub">O sistema aguarda suas ordens. Novas dungeons detectadas na área.</p>
                         <div class="flex gap-3">
-                            <button onclick="ui.prepareDungeonForm()" class="px-5 py-2 bg-neon-blue text-black font-bold text-xs uppercase tracking-widest hover:shadow-[0_0_15px_rgba(0,240,255,0.6)] transition clip-polygon">Nova Missão</button>
+                            <button onclick="ui.prepareDungeonForm()" class="px-5 py-2 bg-neon-blue text-black font-bold text-xs uppercase tracking-widest hover:shadow-[0_0_15px_rgba(0,240,255,0.6)] transition clip-polygon" data-translate="new_mission">Nova Missão</button>
                             <button onclick="app.claimDaily()" id="btn-daily" class="px-5 py-2 border border-neon-gold text-neon-gold font-bold text-xs uppercase tracking-widest hover:bg-neon-gold hover:text-black transition">
-                                <i class="fas fa-gift mr-2"></i> Recompensa Diária
+                                <i class="fas fa-gift mr-2"></i> <span data-translate="daily_reward">Recompensa Diária</span>
                             </button>
                         </div>
                     </div>
@@ -216,19 +216,19 @@
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-blue">
-                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1">Missões Ativas</div>
+                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_active">Missões Ativas</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-active">0</div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-purple">
-                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1">Guildas</div>
+                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_guilds">Guildas</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-hunters">0</div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-gold">
-                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1">Seu Ouro</div>
+                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_gold">Seu Ouro</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-gold">0</div>
                     </div>
                     <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-green">
-                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1">Seu Level</div>
+                        <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_level">Seu Level</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-level">0</div>
                     </div>
                 </div>
@@ -236,8 +236,8 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-blue pl-3">Dungeons Recentes</h3>
-                            <button onclick="app.router('dungeons')" class="text-xs text-gray-500 hover:text-neon-blue transition">Ver Todas</button>
+                            <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-blue pl-3" data-translate="recent_dungeons">Dungeons Recentes</h3>
+                            <button onclick="app.router('dungeons')" class="text-xs text-gray-500 hover:text-neon-blue transition" data-translate="view_all">Ver Todas</button>
                         </div>
                         <div id="recent-dungeons-list" class="grid grid-cols-1 gap-3">
                             </div>
@@ -253,13 +253,13 @@
 
             <div id="view-dungeons" class="hidden animate-level-up">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                    <h2 class="text-2xl font-display font-bold text-white">Quadro de Missões</h2>
+                    <h2 class="text-2xl font-display font-bold text-white" data-translate="board_missions">Quadro de Missões</h2>
                     <div class="flex gap-2 w-full md:w-auto">
-                        <input type="text" id="search-dungeon" onkeyup="ui.renderDungeons()" placeholder="Buscar missão..." class="bg-black/50 border border-border rounded px-4 py-2 text-sm w-full md:w-64 focus:border-neon-blue outline-none text-white">
+                        <input type="text" id="search-dungeon" onkeyup="ui.renderDungeons()" placeholder="..." class="bg-black/50 border border-border rounded px-4 py-2 text-sm w-full md:w-64 focus:border-neon-blue outline-none text-white">
                         <select id="filter-dungeon" onchange="ui.renderDungeons()" class="bg-black/50 border border-border rounded px-4 py-2 text-sm text-gray-300 outline-none">
-                            <option value="all">Todas</option>
-                            <option value="active">Em Andamento</option>
-                            <option value="mine">Minhas</option>
+                            <option value="all" data-translate="filter_all">Todas</option>
+                            <option value="active" data-translate="filter_active">Em Andamento</option>
+                            <option value="mine" data-translate="filter_mine">Minhas</option>
                         </select>
                     </div>
                 </div>
@@ -269,9 +269,9 @@
             <div id="view-hunters" class="hidden animate-level-up">
                 <div class="mb-10">
                     <div class="flex justify-between items-center mb-6 border-b border-border pb-2">
-                        <h2 class="text-2xl font-display font-bold text-neon-blue">Guildas Registradas</h2>
+                        <h2 class="text-2xl font-display font-bold text-neon-blue" data-translate="guilds_registered">Guildas Registradas</h2>
                         <button onclick="ui.prepareGuildForm()" class="px-4 py-2 bg-neon-blue/10 border border-neon-blue hover:bg-neon-blue hover:text-black rounded text-xs font-bold uppercase transition">
-                            <i class="fas fa-shield-alt mr-2"></i> Nova Guilda
+                            <i class="fas fa-shield-alt mr-2"></i> <span data-translate="new_guild">Nova Guilda</span>
                         </button>
                     </div>
                     <div id="guilds-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -280,9 +280,9 @@
 
                 <div>
                     <div class="flex justify-between items-center mb-6 border-b border-border pb-2">
-                        <h2 class="text-2xl font-display font-bold text-white">Todos os Hunters</h2>
+                        <h2 class="text-2xl font-display font-bold text-white" data-translate="all_hunters">Todos os Hunters</h2>
                         <button onclick="ui.prepareHunterForm()" class="px-4 py-2 border border-border hover:border-neon-purple text-gray-300 hover:text-white rounded text-xs font-bold uppercase transition">
-                            <i class="fas fa-user-plus mr-2"></i> Recrutar
+                            <i class="fas fa-user-plus mr-2"></i> <span data-translate="recruit">Recrutar</span>
                         </button>
                     </div>
                     <div id="hunters-grid" class="flex flex-col gap-3"></div>
@@ -292,22 +292,22 @@
             <div id="view-shop" class="hidden animate-level-up">
                 
                 <div class="flex justify-between items-center mb-8 border-b border-border pb-4">
-                    <h2 class="text-2xl font-display font-bold text-neon-gold"><i class="fas fa-store mr-2"></i> Mercado Negro</h2>
+                    <h2 class="text-2xl font-display font-bold text-neon-gold"><i class="fas fa-store mr-2"></i> <span data-translate="market">Mercado Negro</span></h2>
                     <div class="bg-neon-gold/10 border border-neon-gold px-4 py-2 rounded text-neon-gold font-mono font-bold">
                         <span id="shop-gold-display">0</span> G
                     </div>
                 </div>
 
-                <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-purple-500 pl-3">Consumíveis</h3>
+                <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-purple-500 pl-3" data-translate="consumables">Consumíveis</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     <div class="glass-panel p-6 border border-border hover:border-neon-purple transition group text-center">
                         <div class="w-16 h-16 rounded-full bg-purple-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
                             <i class="fas fa-flask text-2xl text-purple-400"></i>
                         </div>
-                        <h3 class="font-bold text-white mb-1">Poção de XP (Grande)</h3>
-                        <p class="text-xs text-gray-500 mb-4">Garante +500 XP instantaneamente.</p>
+                        <h3 class="font-bold text-white mb-1" data-translate="item_potion">Poção de XP (Grande)</h3>
+                        <p class="text-xs text-gray-500 mb-4" data-translate="item_potion_desc">Garante +500 XP instantaneamente.</p>
                         <button onclick="app.buyItem('xp_potion', 1000)" class="w-full py-2 bg-purple-500/10 border border-purple-500/50 text-purple-400 hover:bg-purple-500 hover:text-white font-bold text-xs uppercase transition">
-                            Comprar (1000 G)
+                            <span data-translate="buy">Comprar</span> (1000 G)
                         </button>
                     </div>
                     <div class="glass-panel p-6 border border-border hover:border-neon-red transition group text-center">
@@ -315,20 +315,20 @@
                             <i class="fas fa-bomb text-2xl text-red-400"></i>
                         </div>
                         <h3 class="font-bold text-white mb-1">Raid Bomb</h3>
-                        <p class="text-xs text-gray-500 mb-4">Causa 2000 de dano ao Raid Boss.</p>
+                        <p class="text-xs text-gray-500 mb-4" data-translate="item_bomb_desc">Causa 2000 de dano ao Raid Boss.</p>
                         <button onclick="app.buyItem('raid_bomb', 2500)" class="w-full py-2 bg-red-500/10 border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-white font-bold text-xs uppercase transition">
-                            Comprar (2500 G)
+                            <span data-translate="buy">Comprar</span> (2500 G)
                         </button>
                     </div>
                 </div>
 
-                <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-blue pl-3">Artefatos Lendários</h3>
+                <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-blue pl-3" data-translate="artifacts">Artefatos Lendários</h3>
                 <div id="shop-collectibles-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
                     </div>
 
-                <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-green pl-3">Seu Inventário</h3>
+                <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-green pl-3" data-translate="inventory">Seu Inventário</h3>
                 <div id="user-inventory-grid" class="bg-black/30 border border-border rounded-lg p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 min-h-[100px]">
-                    <p class="col-span-full text-center text-gray-500 text-xs py-4">Inventário vazio.</p>
+                    <p class="col-span-full text-center text-gray-500 text-xs py-4" data-translate="empty_inv">Inventário vazio.</p>
                 </div>
 
             </div>
@@ -344,7 +344,7 @@
     <div id="modal-dungeon" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-[#0f1115] border border-border w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-border flex justify-between items-center bg-[#15181e]">
-                <h3 class="text-xl font-display font-bold text-white">Detalhes da Missão</h3>
+                <h3 class="text-xl font-display font-bold text-white" data-translate="mission_details">Detalhes da Missão</h3>
                 <button onclick="ui.closeModal('modal-dungeon')" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 overflow-y-auto custom-scrollbar">
@@ -352,31 +352,31 @@
                     <input type="hidden" id="d-id">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome da Dungeon</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="form_title">Nome da Dungeon</label>
                             <input type="text" id="d-name" required class="w-full bg-black/50 border border-border rounded p-3 text-white focus:border-neon-blue outline-none transition">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Rank (Dificuldade)</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="form_rank">Rank</label>
                             <select id="d-rank" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none" onchange="ui.updateXPPreview()">
-                                <option value="E">Rank E (Iniciante)</option>
-                                <option value="D">Rank D (Fácil)</option>
-                                <option value="C">Rank C (Normal)</option>
-                                <option value="B">Rank B (Difícil)</option>
-                                <option value="A">Rank A (Elite)</option>
-                                <option value="S">Rank S (Pesadelo)</option>
+                                <option value="E">Rank E</option>
+                                <option value="D">Rank D</option>
+                                <option value="C">Rank C</option>
+                                <option value="B">Rank B</option>
+                                <option value="A">Rank A</option>
+                                <option value="S">Rank S</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Status</label>
                             <select id="d-status" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none">
-                                <option value="Active">Em Andamento</option>
-                                <option value="Pending">Pendente</option>
-                                <option value="Done">Concluída</option>
-                                <option value="Failed">Falhou</option>
+                                <option value="Active">Active</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Done">Done</option>
+                                <option value="Failed">Failed</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prazo</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="form_date">Prazo</label>
                             <input type="date" id="d-date" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none">
                         </div>
                     </div>
@@ -387,21 +387,21 @@
                             <div id="d-hunters-list" class="bg-black/30 border border-border rounded p-2 h-32 overflow-y-auto custom-scrollbar grid grid-cols-1 gap-1"></div>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Ferramentas Necessárias</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2" data-translate="form_tools">Ferramentas</label>
                             <div id="d-tools-list" class="bg-black/30 border border-border rounded p-2 h-32 overflow-y-auto custom-scrollbar grid grid-cols-2 gap-1"></div>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Descrição</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="form_desc">Descrição</label>
                         <textarea id="d-desc" rows="2" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none resize-none"></textarea>
                     </div>
 
                     <div class="flex justify-between items-center pt-4 border-t border-border mt-4">
-                        <div class="text-xs text-gray-400">Recompensa Estimada: <span id="xp-preview" class="text-neon-purple font-bold text-base ml-1">100 XP</span></div>
+                        <div class="text-xs text-gray-400"><span data-translate="reward">Recompensa</span>: <span id="xp-preview" class="text-neon-purple font-bold text-base ml-1">100 XP</span></div>
                         <div class="flex gap-3">
-                            <button type="button" id="btn-delete-dungeon" onclick="app.deleteDungeon()" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase hidden">Excluir</button>
-                            <button type="submit" class="bg-neon-blue text-black font-bold px-6 py-2 rounded text-xs uppercase hover:bg-white transition">Salvar Missão</button>
+                            <button type="button" id="btn-delete-dungeon" onclick="app.deleteDungeon()" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase hidden" data-translate="delete">Excluir</button>
+                            <button type="submit" class="bg-neon-blue text-black font-bold px-6 py-2 rounded text-xs uppercase hover:bg-white transition" data-translate="save">Salvar</button>
                         </div>
                     </div>
                 </form>
@@ -412,19 +412,19 @@
     <div id="modal-hunter" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-[#0f1115] border border-border w-full max-w-md rounded-xl shadow-2xl overflow-y-auto max-h-[90vh]">
             <div class="p-6 border-b border-border flex justify-between items-center">
-                <h3 class="text-xl font-display font-bold text-white">Registro de Hunter</h3>
+                <h3 class="text-xl font-display font-bold text-white" data-translate="hunter_reg">Registro de Hunter</h3>
                 <button onclick="ui.closeModal('modal-hunter')" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6">
                 <form id="form-hunter" onsubmit="app.saveHunter(event)" class="space-y-4">
                     <input type="hidden" id="h-id">
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="form_name">Nome</label>
                         <input type="text" id="h-name" required class="w-full bg-black/50 border border-border rounded p-3 text-white focus:border-neon-purple outline-none">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Classe</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="form_class">Classe</label>
                             <select id="h-class" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none">
                                 <option value="Assassin">Assassin</option>
                                 <option value="Mage">Mage</option>
@@ -441,7 +441,7 @@
                     </div>
                     
                     <div class="border-t border-border pt-4">
-                        <label class="block text-xs font-bold text-neon-blue uppercase mb-2">Atributos Iniciais</label>
+                        <label class="block text-xs font-bold text-neon-blue uppercase mb-2" data-translate="init_attrs">Atributos Iniciais</label>
                         <div id="h-attributes-inputs" class="grid grid-cols-3 gap-2">
                             </div>
                     </div>
@@ -450,8 +450,8 @@
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Bio</label>
                         <textarea id="h-bio" rows="2" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none"></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-neon-purple text-white font-bold px-6 py-3 rounded text-xs uppercase hover:bg-purple-600 transition mt-2">Confirmar Registro</button>
-                    <button type="button" id="btn-delete-hunter" onclick="app.deleteHunter()" class="w-full text-red-500 py-2 text-xs font-bold uppercase hover:underline hidden">Revogar Licença</button>
+                    <button type="submit" class="w-full bg-neon-purple text-white font-bold px-6 py-3 rounded text-xs uppercase hover:bg-purple-600 transition mt-2" data-translate="confirm">Confirmar</button>
+                    <button type="button" id="btn-delete-hunter" onclick="app.deleteHunter()" class="w-full text-red-500 py-2 text-xs font-bold uppercase hover:underline hidden" data-translate="revoke">Revogar</button>
                 </form>
             </div>
         </div>
@@ -466,7 +466,7 @@
     <div id="modal-guild" class="fixed inset-0 z-[85] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-[#0f1115] border border-neon-blue w-full max-w-lg rounded-xl shadow-[0_0_30px_rgba(0,240,255,0.2)]">
             <div class="p-6 border-b border-border flex justify-between items-center bg-[#15181e]">
-                <h3 class="text-xl font-display font-bold text-neon-blue"><i class="fas fa-shield-alt mr-2"></i> Gerenciar Guilda</h3>
+                <h3 class="text-xl font-display font-bold text-neon-blue"><i class="fas fa-shield-alt mr-2"></i> <span data-translate="manage_guild">Gerenciar Guilda</span></h3>
                 <button onclick="ui.closeModal('modal-guild')" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6">
@@ -474,30 +474,30 @@
                     <input type="hidden" id="g-id">
                     <div class="grid grid-cols-3 gap-4">
                         <div class="col-span-2">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome da Guilda</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="guild_name">Nome</label>
                             <input type="text" id="g-name" required class="w-full bg-black/50 border border-border rounded p-3 text-white focus:border-neon-blue outline-none">
                         </div>
                          <div class="col-span-1">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Emblema (URL)</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Emblema</label>
                             <input type="text" id="g-emblem" placeholder="http://..." class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none">
                         </div>
                     </div>
                     
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Líder da Guilda</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="guild_leader">Líder</label>
                         <select id="g-leader" required class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none">
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Membros da Guilda</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2" data-translate="guild_members">Membros</label>
                         <div id="g-members-list" class="bg-black/30 border border-border rounded p-2 h-40 overflow-y-auto custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
-                        <p class="text-[10px] text-gray-500 mt-1">Selecione os Hunters que compõem esta guilda.</p>
+                        <p class="text-[10px] text-gray-500 mt-1" data-translate="guild_members_hint">Selecione os Hunters que compõem esta guilda.</p>
                     </div>
 
                     <div class="flex gap-3 pt-4 border-t border-border mt-2">
-                         <button type="button" id="btn-delete-guild" onclick="app.deleteGuild()" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase hidden w-1/4">Desfazer</button>
-                        <button type="submit" class="flex-grow bg-neon-blue text-black font-bold px-6 py-3 rounded text-xs uppercase hover:bg-white transition">Salvar Guilda</button>
+                         <button type="button" id="btn-delete-guild" onclick="app.deleteGuild()" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase hidden w-1/4" data-translate="delete">Desfazer</button>
+                        <button type="submit" class="flex-grow bg-neon-blue text-black font-bold px-6 py-3 rounded text-xs uppercase hover:bg-white transition" data-translate="save">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -507,21 +507,31 @@
     <div id="modal-settings" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-[#0f1115] border border-border w-full max-w-sm rounded-xl shadow-2xl">
             <div class="p-6 border-b border-border flex justify-between items-center">
-                <h3 class="text-xl font-display font-bold text-white">Configurações</h3>
+                <h3 class="text-xl font-display font-bold text-white" data-translate="settings">Configurações</h3>
                 <button onclick="ui.closeModal('modal-settings')" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 space-y-6">
+                
                 <div>
-                    <label class="block text-xs font-bold text-neon-blue uppercase mb-2">Hunter Ativo (Login)</label>
+                    <label class="block text-xs font-bold text-neon-green uppercase mb-2" data-translate="language">Idioma / Language</label>
+                    <div class="flex gap-2">
+                        <button onclick="app.setLang('pt')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white">🇧🇷 PT</button>
+                        <button onclick="app.setLang('en')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white">🇺🇸 EN</button>
+                        <button onclick="app.setLang('es')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white">🇪🇸 ES</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-neon-blue uppercase mb-2" data-translate="active_hunter">Hunter Ativo</label>
                     <select id="settings-user-select" onchange="app.switchUser(this.value)" class="w-full bg-black border border-neon-blue/30 rounded p-3 text-white outline-none">
                     </select>
-                    <p class="text-[10px] text-gray-500 mt-1">Troque de personagem para gerenciar inventário individual.</p>
+                    <p class="text-[10px] text-gray-500 mt-1" data-translate="active_hunter_hint">Troque de personagem para gerenciar inventário individual.</p>
                 </div>
 
                 <div class="border-t border-border pt-4">
-                    <button onclick="app.exportData()" class="w-full border border-border text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-white/5 mb-2"><i class="fas fa-download mr-2"></i> Backup Dados</button>
+                    <button onclick="app.exportData()" class="w-full border border-border text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-white/5 mb-2"><i class="fas fa-download mr-2"></i> Backup</button>
                     <label class="block w-full border border-border text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-white/5 text-center cursor-pointer mb-4">
-                        <i class="fas fa-upload mr-2"></i> Restaurar
+                        <i class="fas fa-upload mr-2"></i> <span data-translate="restore">Restaurar</span>
                         <input type="file" class="hidden" onchange="app.importData(this)">
                     </label>
                     <button onclick="app.factoryReset()" class="w-full bg-red-900/20 text-red-500 py-2 rounded text-xs font-bold uppercase hover:bg-red-900/40">Factory Reset</button>
@@ -533,9 +543,7 @@
     <script>
         // --- CONFIG & STATE ---
         const DB_KEY = 'sololeveling_db';
-        
-        // 🔴 COLOQUE SEU LINK RAW DO GITHUB AQUI:
-        const REMOTE_DB_URL = 'https://raw.githubusercontent.com/rafaelrribeiro-meli/dungeon/refs/heads/main/hunter_system.json'; 
+        const REMOTE_DB_URL = 'https://raw.githubusercontent.com/rafaelrribeiro-meli/dungeon/main/hunter_system.json'; 
         
         const TOOLS = ["SQL", "Python", "Excel", "Sheet", "Looker Studio", "Power BI", "Tableau", "Monday", "Miro", "Data Flow"];
         const ATTRIBUTES = ["Lógica", "Programação", "Estatística", "IA", "ML", "Analysis", "DataViz", "Projeto", "Business"];
@@ -584,6 +592,61 @@
             'S': { xp: 5000, gold: 3000, color: 'text-neon-red', border: 'border-neon-red' }
         };
 
+        // Translations
+        const TRANSLATIONS = {
+            'pt': {
+                init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AO SERVIDOR...",
+                levelup_msg: "Você se tornou mais forte.", prev_level: "Nível Anterior", new_level: "Novo Nível", close: "Fechar",
+                awk_msg: "O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.", awk_accept: "ACEITAR PODER",
+                nav_dash: "Dash", nav_missions: "Missões", nav_guild: "Guilda", nav_shop: "Loja",
+                welcome: "Bem-vindo", welcome_sub: "O sistema aguarda suas ordens. Novas dungeons detectadas na área.",
+                new_mission: "Nova Missão", daily_reward: "Recompensa Diária",
+                stat_active: "Missões Ativas", stat_guilds: "Guildas", stat_gold: "Seu Ouro", stat_level: "Seu Level",
+                recent_dungeons: "Dungeons Recentes", view_all: "Ver Todas",
+                board_missions: "Quadro de Missões", filter_all: "Todas", filter_active: "Em Andamento", filter_mine: "Minhas",
+                guilds_registered: "Guildas Registradas", new_guild: "Nova Guilda", all_hunters: "Todos os Hunters", recruit: "Recrutar",
+                market: "Mercado Negro", consumables: "Consumíveis", item_potion: "Poção de XP (Grande)", item_potion_desc: "Garante +500 XP instantaneamente.", buy: "Comprar", item_bomb_desc: "Causa 2000 de dano ao Raid Boss.", artifacts: "Artefatos Lendários", inventory: "Seu Inventário", empty_inv: "Inventário vazio.",
+                mission_details: "Detalhes da Missão", form_title: "Nome da Dungeon", form_rank: "Rank", form_date: "Prazo", form_tools: "Ferramentas", form_desc: "Descrição", reward: "Recompensa", delete: "Excluir", save: "Salvar",
+                hunter_reg: "Registro de Hunter", form_name: "Nome", form_class: "Classe", init_attrs: "Atributos Iniciais", confirm: "Confirmar", revoke: "Revogar",
+                manage_guild: "Gerenciar Guilda", guild_name: "Nome", guild_leader: "Líder", guild_members: "Membros", guild_members_hint: "Selecione os Hunters.",
+                settings: "Configurações", language: "Idioma / Language", active_hunter: "Hunter Ativo", active_hunter_hint: "Troque de personagem para gerenciar inventário.", restore: "Restaurar"
+            },
+            'en': {
+                init_resources: "INITIALIZING RESOURCES...", btn_init: "INITIALIZE", connecting: "CONNECTING TO SERVER...",
+                levelup_msg: "You have become stronger.", prev_level: "Previous Level", new_level: "New Level", close: "Close",
+                awk_msg: "The Hunter has broken their limits. A new class and power have been unlocked.", awk_accept: "ACCEPT POWER",
+                nav_dash: "Dash", nav_missions: "Missions", nav_guild: "Guild", nav_shop: "Shop",
+                welcome: "Welcome", welcome_sub: "The system awaits your orders. New dungeons detected in the area.",
+                new_mission: "New Mission", daily_reward: "Daily Reward",
+                stat_active: "Active Missions", stat_guilds: "Guilds", stat_gold: "Your Gold", stat_level: "Your Level",
+                recent_dungeons: "Recent Dungeons", view_all: "View All",
+                board_missions: "Mission Board", filter_all: "All", filter_active: "In Progress", filter_mine: "Mine",
+                guilds_registered: "Registered Guilds", new_guild: "New Guild", all_hunters: "All Hunters", recruit: "Recruit",
+                market: "Black Market", consumables: "Consumables", item_potion: "XP Potion (Large)", item_potion_desc: "Grants +500 XP instantly.", buy: "Buy", item_bomb_desc: "Deals 2000 damage to Raid Boss.", artifacts: "Legendary Artifacts", inventory: "Your Inventory", empty_inv: "Empty inventory.",
+                mission_details: "Mission Details", form_title: "Dungeon Name", form_rank: "Rank", form_date: "Deadline", form_tools: "Tools", form_desc: "Description", reward: "Reward", delete: "Delete", save: "Save",
+                hunter_reg: "Hunter Registration", form_name: "Name", form_class: "Class", init_attrs: "Initial Attributes", confirm: "Confirm", revoke: "Revoke",
+                manage_guild: "Manage Guild", guild_name: "Name", guild_leader: "Leader", guild_members: "Members", guild_members_hint: "Select Hunters.",
+                settings: "Settings", language: "Language", active_hunter: "Active Hunter", active_hunter_hint: "Switch character to manage inventory.", restore: "Restore"
+            },
+            'es': {
+                init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AL SERVIDOR...",
+                levelup_msg: "Te has vuelto más fuerte.", prev_level: "Nivel Anterior", new_level: "Nuevo Nivel", close: "Cerrar",
+                awk_msg: "El Cazador ha roto sus límites. Se ha desbloqueado una nueva clase y poder.", awk_accept: "ACEPTAR PODER",
+                nav_dash: "Tablero", nav_missions: "Misiones", nav_guild: "Gremio", nav_shop: "Tienda",
+                welcome: "Bienvenido", welcome_sub: "El sistema espera tus órdenes. Nuevas mazmorras detectadas.",
+                new_mission: "Nueva Misión", daily_reward: "Recompensa Diaria",
+                stat_active: "Misiones Activas", stat_guilds: "Gremios", stat_gold: "Tu Oro", stat_level: "Tu Nivel",
+                recent_dungeons: "Mazmorras Recientes", view_all: "Ver Todas",
+                board_missions: "Tablero de Misiones", filter_all: "Todas", filter_active: "En Progreso", filter_mine: "Mías",
+                guilds_registered: "Gremios Registrados", new_guild: "Nuevo Gremio", all_hunters: "Todos los Cazadores", recruit: "Reclutar",
+                market: "Mercado Negro", consumables: "Consumibles", item_potion: "Poción de XP (Grande)", item_potion_desc: "Otorga +500 XP al instante.", buy: "Comprar", item_bomb_desc: "Causa 2000 de daño al Jefe.", artifacts: "Artefactos Legendarios", inventory: "Tu Inventario", empty_inv: "Inventario vacío.",
+                mission_details: "Detalles de Misión", form_title: "Nombre Mazmorra", form_rank: "Rango", form_date: "Plazo", form_tools: "Herramientas", form_desc: "Descripción", reward: "Recompensa", delete: "Eliminar", save: "Guardar",
+                hunter_reg: "Registro de Cazador", form_name: "Nombre", form_class: "Clase", init_attrs: "Atributos Iniciales", confirm: "Confirmar", revoke: "Revocar",
+                manage_guild: "Gestionar Gremio", guild_name: "Nombre", guild_leader: "Líder", guild_members: "Miembros", guild_members_hint: "Seleccionar Cazadores.",
+                settings: "Configuración", language: "Idioma", active_hunter: "Cazador Activo", active_hunter_hint: "Cambia de personaje para gestionar inventario.", restore: "Restaurar"
+            }
+        };
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const sfx = {
             playTone: (freq, type, duration) => {
@@ -610,8 +673,12 @@
         // --- APP CONTROLLER (FETCH ENABLED) ---
         const app = {
             data: { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0 },
+            lang: localStorage.getItem('sololeveling_lang') || 'pt', // Language State
             
             init: async () => {
+                // Initialize Language UI
+                ui.updateTranslations();
+
                 document.getElementById('init-btn-area').classList.add('hidden');
                 document.getElementById('loading-bar-area').classList.remove('hidden');
                 sfx.playTone(200, 'square', 2);
@@ -675,6 +742,13 @@
             },
 
             save: () => localStorage.setItem(DB_KEY, JSON.stringify(app.data)),
+
+            setLang: (l) => {
+                app.lang = l;
+                localStorage.setItem('sololeveling_lang', l);
+                ui.updateTranslations();
+                ui.renderAll(); // Re-render dynamic content
+            },
 
             getCurrentUser: () => app.data.hunters[app.data.currentUserIndex] || app.data.hunters[0],
 
@@ -1048,7 +1122,21 @@
 
         // --- UI MANAGER ---
         const ui = {
+            t: (key) => {
+                const l = app.lang || 'pt';
+                return TRANSLATIONS[l][key] || key;
+            },
+
+            updateTranslations: () => {
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    el.innerText = ui.t(key);
+                });
+            },
+
             renderAll: () => {
+                ui.updateTranslations(); // Translate Static Text first
+
                 const user = app.getCurrentUser();
                 document.getElementById('user-name-display').innerText = user.name;
                 document.getElementById('user-role-display').innerText = `Level ${user.level} ${user.class}`;
@@ -1123,7 +1211,7 @@
                 const guildContainer = document.getElementById('guilds-grid');
                 
                 if (app.data.guilds.length === 0) {
-                     guildContainer.innerHTML = '<div class="text-gray-500 text-xs col-span-3 text-center py-4">Nenhuma guilda formada.</div>';
+                     guildContainer.innerHTML = `<div class="text-gray-500 text-xs col-span-3 text-center py-4">Nenhuma guilda formada.</div>`;
                 } else {
                     guildContainer.innerHTML = app.data.guilds.map(g => {
                         const leader = app.data.hunters.find(h => h.id === g.leaderId);
@@ -1136,7 +1224,7 @@
                             <img src="${emblem}" class="w-12 h-12 rounded-full object-cover border-2 border-neon-blue relative z-10">
                             <div class="relative z-10">
                                 <h4 class="font-bold text-white font-display text-lg">${g.name}</h4>
-                                <div class="text-[10px] text-gray-400 uppercase tracking-wider">Líder: <span class="text-white">${leaderName}</span></div>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-wider">${ui.t('guild_leader')}: <span class="text-white">${leaderName}</span></div>
                                 <div class="text-[10px] text-neon-blue mt-1"><i class="fas fa-users"></i> ${g.members.length} Membros</div>
                             </div>
                         </div>
@@ -1346,13 +1434,13 @@
                         <h3 class="font-bold text-white mb-1 truncate">${c.name}</h3>
                         <p class="text-[10px] text-gray-500 mb-4 h-8 overflow-hidden">${c.desc}</p>
                         <button onclick="app.buyCollectible('${c.id}')" ${owned ? 'disabled' : ''} class="w-full py-2 bg-gray-800 border border-gray-600 text-gray-300 ${owned ? 'cursor-not-allowed' : 'hover:bg-neon-blue hover:text-black hover:border-neon-blue'} font-bold text-xs uppercase transition">
-                            ${owned ? 'Item Único' : `Comprar (${c.price} G)`}
+                            ${owned ? 'Item Único' : `${ui.t('buy')} (${c.price} G)`}
                         </button>
                     </div>`;
                 }).join('');
 
                 if(userInv.length === 0) {
-                     invGrid.innerHTML = '<p class="col-span-full text-center text-gray-500 text-xs py-4">Inventário vazio.</p>';
+                     invGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 text-xs py-4">${ui.t('empty_inv')}</p>`;
                 } else {
                     invGrid.innerHTML = userInv.map(cId => {
                         const item = COLLECTIBLES.find(c => c.id === cId);
