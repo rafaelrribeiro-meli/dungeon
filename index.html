@@ -195,9 +195,10 @@
                     <span class="text-xl font-bold font-display tracking-wider hidden md:block">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></span>
                 </div>
 
-                <div class="flex gap-1 md:gap-6 bg-black/40 rounded-full px-2 p-1 border border-border">
+                <div class="flex gap-1 md:gap-4 bg-black/40 rounded-full px-2 p-1 border border-border overflow-x-auto">
                     <button onclick="app.router('dashboard')" id="nav-dashboard" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-blue bg-neon-blue/10 transition" data-translate="nav_dash">Dash</button>
                     <button onclick="app.router('dungeons')" id="nav-dungeons" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition" data-translate="nav_missions">Missões</button>
+                    <button onclick="app.router('requests')" id="nav-requests" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition">Requests</button>
                     <button onclick="app.router('hunters')" id="nav-hunters" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition" data-translate="nav_guild">Guilda</button>
                     <button onclick="app.router('shop')" id="nav-shop" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-gold hover:text-white transition" data-translate="nav_shop">Loja</button>
                 </div>
@@ -235,27 +236,22 @@
                     </div>
 
                     <div onclick="app.attackBoss()" class="md:col-span-4 glass-panel p-6 rounded-xl border border-neon-red/20 relative overflow-hidden flex flex-col justify-center cursor-pointer hover:border-neon-red hover:shadow-[0_0_15px_rgba(255,42,42,0.3)] active:scale-95 transition select-none group">
-                        
                         <div class="absolute inset-0 bg-red-500/0 active:bg-red-500/20 transition-colors duration-75 z-20"></div>
-
                         <div class="flex justify-between items-end mb-2 relative z-10">
                             <div class="text-neon-red font-display font-bold tracking-widest flex items-center gap-2">
                                 <i class="fas fa-skull"></i> RAID BOSS
                             </div>
                             <div class="text-xs text-red-300 font-mono" id="boss-hp-text">0 / 0 HP</div>
                         </div>
-                        
                         <div class="w-full bg-red-950 h-4 rounded-full overflow-hidden relative z-10 border border-red-900/50">
                             <div id="boss-hp-bar" class="h-full bg-gradient-to-r from-red-800 via-red-600 to-neon-red shadow-[0_0_10px_#FF2A2A] transition-all duration-300" style="width: 0%"></div>
                         </div>
-                        
                         <div class="flex justify-between items-center mt-2 relative z-10">
                             <p class="text-[10px] text-red-400/50 font-mono uppercase tracking-widest group-hover:text-red-400 transition">Clique para atacar!</p>
                             <div class="flex items-center gap-2 text-neon-red font-bold text-xs bg-red-950/50 px-2 py-1 rounded border border-red-900">
                                 <i class="fas fa-bomb"></i> <span id="dash-bomb-count">0</span>
                             </div>
                         </div>
-                        
                         <div class="absolute inset-0 bg-gradient-to-t from-red-900/20 to-transparent pointer-events-none"></div>
                     </div>
                 </div>
@@ -282,16 +278,16 @@
                 <div class="glass-panel p-4 rounded-xl border border-border mb-8">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-green pl-3">
-                            <i class="fas fa-satellite-dish mr-2 text-neon-green"></i> Requests (Solicitações)
+                            <i class="fas fa-satellite-dish mr-2 text-neon-green"></i> Live Requests
                         </h3>
                         <div class="flex items-center gap-2">
-                            <span class="text-[10px] text-gray-500 uppercase">Tickets Rápidos</span>
+                            <button onclick="app.router('requests')" class="text-xs text-gray-500 hover:text-neon-green uppercase font-bold mr-2">Ver Todos</button>
                             <button onclick="ui.prepareRequestForm()" class="w-6 h-6 rounded bg-neon-green text-black font-bold flex items-center justify-center hover:scale-110 transition" title="Nova Solicitação">
                                 <i class="fas fa-plus text-xs"></i>
                             </button>
                         </div>
                     </div>
-                    <div id="requests-list" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div id="dashboard-requests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                         </div>
                 </div>
 
@@ -311,6 +307,26 @@
                             </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="view-requests" class="hidden animate-level-up">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <h2 class="text-2xl font-display font-bold text-neon-green">Quadro de Requests</h2>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <input type="text" id="search-request" onkeyup="ui.renderRequestsPage()" placeholder="Buscar Ticket..." class="bg-black/50 border border-border rounded px-4 py-2 text-sm w-full md:w-64 focus:border-neon-green outline-none text-white">
+                        <select id="filter-request" onchange="ui.renderRequestsPage()" class="bg-black/50 border border-border rounded px-4 py-2 text-sm text-gray-300 outline-none">
+                            <option value="all">Todos</option>
+                            <option value="active">Pendentes</option>
+                            <option value="completed">Concluídos</option>
+                            <option value="mine">Meus / Atribuídos</option>
+                        </select>
+                        <button onclick="ui.prepareRequestForm()" class="bg-neon-green/20 border border-neon-green text-neon-green px-4 py-2 rounded font-bold text-xs uppercase hover:bg-neon-green hover:text-black transition">
+                            <i class="fas fa-plus mr-1"></i> Novo
+                        </button>
+                    </div>
+                </div>
+                <div id="requests-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    </div>
             </div>
 
             <div id="view-dungeons" class="hidden animate-level-up">
@@ -778,7 +794,7 @@
                 market: "Black Market", consumables: "Consumables", item_potion: "XP Potion (Large)", item_potion_desc: "Grants +500 XP instantly.", buy: "Buy", item_bomb_desc: "Deals 2000 damage to Raid Boss.", artifacts: "Legendary Artifacts", inventory: "Your Inventory", empty_inv: "Empty inventory.",
                 mission_details: "Mission Details", form_title: "Dungeon Name", form_rank: "Rank", form_date: "Deadline", form_tools: "Tools", form_desc: "Description", reward: "Reward", delete: "Delete", save: "Save",
                 hunter_reg: "Hunter Registration", form_name: "Name", form_class: "Class", init_attrs: "Initial Attributes", confirm: "Confirm", revoke: "Revoke",
-                manage_guild: "Manage Guild", guild_name: "Name", guild_leader: "Líder", guild_members: "Members", guild_members_hint: "Select Hunters.",
+                manage_guild: "Manage Guild", guild_name: "Name", guild_leader: "Leader", guild_members: "Members", guild_members_hint: "Select Hunters.",
                 settings: "Settings", language: "Language", active_hunter: "Active Hunter", active_hunter_hint: "Switch character to manage inventory.", restore: "Restore",
                 tool_proficiency: "Tool Proficiency", status_window: "Status Window"
             },
@@ -981,16 +997,21 @@
             },
 
             router: (viewId) => {
-                ['dashboard', 'dungeons', 'hunters', 'shop'].forEach(v => {
+                ['dashboard', 'dungeons', 'hunters', 'shop', 'requests'].forEach(v => {
                     document.getElementById(`view-${v}`).classList.add('hidden');
-                    document.getElementById(`nav-${v}`).classList.remove('text-neon-blue', 'bg-neon-blue/10');
-                    if(v !== 'shop') document.getElementById(`nav-${v}`).classList.add('text-gray-400');
+                    const nav = document.getElementById(`nav-${v}`);
+                    if(nav) {
+                        nav.classList.remove('text-neon-blue', 'bg-neon-blue/10');
+                        if(v !== 'shop') nav.classList.add('text-gray-400');
+                    }
                 });
                 document.getElementById(`view-${viewId}`).classList.remove('hidden');
                 
                 const navBtn = document.getElementById(`nav-${viewId}`);
-                navBtn.classList.remove('text-gray-400');
-                navBtn.classList.add('text-neon-blue', 'bg-neon-blue/10');
+                if(navBtn) {
+                    navBtn.classList.remove('text-gray-400');
+                    navBtn.classList.add('text-neon-blue', 'bg-neon-blue/10');
+                }
                 sfx.click();
             },
 
@@ -1019,7 +1040,7 @@
                 ui.renderAll();
             },
 
-            // --- REQUEST SYSTEM LOGIC (MANUAL) ---
+            // --- REQUEST SYSTEM LOGIC ---
             saveRequest: (e) => {
                 e.preventDefault();
                 const title = document.getElementById('req-title').value;
@@ -1033,13 +1054,14 @@
                     title: title,
                     xp: xp,
                     assignedTo: assignedTo,
-                    createdAt: new Date().toLocaleTimeString()
+                    createdAt: new Date().toLocaleTimeString(),
+                    status: 'Active' // New field to track status
                 };
                 
                 app.data.requests.push(newReq);
                 app.save();
                 ui.closeModal('modal-request');
-                ui.renderRequests();
+                ui.renderAll(); // Rerender all to update both dashboard and requests page
                 ui.showToast('Ticket criado com sucesso.', 'success');
                 sfx.click();
             },
@@ -1054,10 +1076,14 @@
                     if(typeof user.stats.requests === 'undefined') user.stats.requests = 0;
                     user.stats.requests++;
 
+                    // Mark as completed instead of deleting
+                    req.status = 'Completed';
+                    req.completedAt = new Date().toLocaleTimeString();
+                    req.completedBy = user.id;
+
                     app.addXP(req.xp);
-                    app.data.requests.splice(reqIndex, 1);
                     app.save();
-                    ui.renderRequests();
+                    ui.renderAll(); // Rerender to move card from Active lists
                     ui.showToast(`Request Concluído: +${req.xp} XP`, 'success');
                     sfx.requestComplete();
                 }
@@ -1213,7 +1239,7 @@
 
                 if (id) {
                     const h = app.data.hunters.find(x => x.id === id);
-                    if(h) {
+                    if (h) {
                         Object.assign(h, {name, class: cls, avatar, bio});
                         if(Object.keys(h.attributes || {}).length === 0) h.attributes = initialAttributes;
                     }
@@ -1454,38 +1480,33 @@
 
                 ui.renderDungeons();
                 ui.renderHuntersAndGuilds();
-                ui.renderRequests();
+                ui.renderDashboardRequests(); // Only render pending requests on dash
+                ui.renderRequestsPage(); // Render full list on the dedicated page
                 ui.renderShop();
                 ui.renderSettingsUserSelect();
             },
 
-            renderRequests: () => {
-                const container = document.getElementById('requests-list');
-                const list = app.data.requests;
+            renderDashboardRequests: () => {
+                // Renders only active requests, limited to 4, for the dashboard widget
+                const container = document.getElementById('dashboard-requests-list');
                 const currentUser = app.getCurrentUser();
+                
+                // Filter only Active (not completed)
+                const list = app.data.requests.filter(r => (!r.status || r.status === 'Active')).slice(0, 4);
 
                 if (list.length === 0) {
-                    container.innerHTML = `<div class="col-span-full text-center text-gray-500 text-xs py-4">Sem solicitações no momento.</div>`;
+                    container.innerHTML = `<div class="col-span-full text-center text-gray-500 text-xs py-4">Sem solicitações pendentes.</div>`;
                     return;
                 }
 
                 container.innerHTML = list.map(r => {
-                    // Logic for assignment
                     const isAssigned = r.assignedTo ? true : false;
                     let assignedHunter = null;
-                    if(isAssigned) {
-                        assignedHunter = app.data.hunters.find(h => h.id === r.assignedTo);
-                    }
-
-                    // Can the current user complete this?
-                    // Yes if: It's unassigned OR assigned to me.
+                    if(isAssigned) assignedHunter = app.data.hunters.find(h => h.id === r.assignedTo);
                     const canComplete = !isAssigned || r.assignedTo === currentUser.id;
-                    
                     const borderColor = isAssigned ? 'border-neon-blue' : 'border-neon-green';
                     const icon = canComplete ? '<i class="fas fa-check text-xs"></i>' : '<i class="fas fa-lock text-xs"></i>';
-                    const btnClass = canComplete 
-                        ? 'border-gray-600 hover:bg-neon-green hover:text-black hover:border-neon-green text-gray-400 cursor-pointer' 
-                        : 'border-red-900 text-red-900 cursor-not-allowed opacity-50';
+                    const btnClass = canComplete ? 'border-gray-600 hover:bg-neon-green hover:text-black hover:border-neon-green text-gray-400 cursor-pointer' : 'border-red-900 text-red-900 cursor-not-allowed opacity-50';
                     const action = canComplete ? `onclick="app.completeRequest('${r.id}')"` : '';
 
                     return `
@@ -1496,11 +1517,99 @@
                                 ${assignedHunter ? `<img src="${assignedHunter.avatar}" class="w-4 h-4 rounded-full border border-neon-blue" title="Atribuído a ${assignedHunter.name}">` : ''}
                             </div>
                             <h4 class="text-xs font-bold text-white leading-tight truncate" title="${escapeHTML(r.title)}">${escapeHTML(r.title)}</h4>
-                            <div class="text-[9px] text-neon-purple mt-1">+${r.xp} XP ${isAssigned ? '<span class="text-neon-blue ml-1">(Atribuído)</span>' : ''}</div>
+                            <div class="text-[9px] text-neon-purple mt-1">+${r.xp} XP</div>
                         </div>
                         <button ${action} class="w-8 h-8 rounded-full border ${btnClass} transition flex-shrink-0 flex items-center justify-center">
                             ${icon}
                         </button>
+                    </div>
+                `}).join('');
+            },
+
+            renderRequestsPage: () => {
+                // Renders the full list with filters on the dedicated view
+                const container = document.getElementById('requests-grid');
+                const filter = document.getElementById('filter-request').value; // all, active, completed, mine
+                const search = document.getElementById('search-request').value.toLowerCase();
+                const currentUser = app.getCurrentUser();
+
+                let list = app.data.requests.filter(r => {
+                    const status = r.status || 'Active'; // default to active if undefined
+                    
+                    if (search && !r.title.toLowerCase().includes(search)) return false;
+                    
+                    if (filter === 'active' && status === 'Completed') return false;
+                    if (filter === 'completed' && status !== 'Completed') return false;
+                    if (filter === 'mine') {
+                        // Show assigned to me (Active) OR Completed by me
+                        if (r.assignedTo === currentUser.id && status === 'Active') return true;
+                        if (r.completedBy === currentUser.id) return true;
+                        return false;
+                    }
+                    return true;
+                });
+
+                // Sort: Active first, then by date
+                list.sort((a, b) => {
+                    const statusA = a.status || 'Active';
+                    const statusB = b.status || 'Active';
+                    if (statusA === statusB) return b.id.localeCompare(a.id); // Newest first based on ID timestamp
+                    return statusA === 'Active' ? -1 : 1;
+                });
+
+                if (list.length === 0) {
+                    container.innerHTML = `<div class="col-span-full text-center text-gray-500 text-sm py-10">Nenhum ticket encontrado.</div>`;
+                    return;
+                }
+
+                container.innerHTML = list.map(r => {
+                    const status = r.status || 'Active';
+                    const isCompleted = status === 'Completed';
+                    const isAssigned = r.assignedTo ? true : false;
+                    
+                    let assignedHunter = null;
+                    if(isAssigned) assignedHunter = app.data.hunters.find(h => h.id === r.assignedTo);
+                    
+                    let completedByHunter = null;
+                    if(isCompleted && r.completedBy) completedByHunter = app.data.hunters.find(h => h.id === r.completedBy);
+
+                    const canComplete = !isCompleted && (!isAssigned || r.assignedTo === currentUser.id);
+                    
+                    // Card Styling
+                    let borderColor = 'border-neon-green';
+                    if (isCompleted) borderColor = 'border-gray-600 opacity-70';
+                    else if (isAssigned) borderColor = 'border-neon-blue';
+
+                    const icon = isCompleted ? '<i class="fas fa-check-double text-neon-green"></i>' : (canComplete ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>');
+                    
+                    const btnClass = canComplete 
+                        ? 'bg-neon-green/10 text-neon-green border border-neon-green hover:bg-neon-green hover:text-black cursor-pointer' 
+                        : (isCompleted ? 'text-gray-500 border border-transparent cursor-default' : 'text-red-500 border border-red-900 cursor-not-allowed');
+                    
+                    const action = canComplete ? `onclick="app.completeRequest('${r.id}')"` : '';
+
+                    return `
+                    <div class="glass-panel p-4 rounded-lg border-l-4 ${borderColor} relative group transition hover:bg-white/5">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-mono text-gray-400 bg-black/30 px-2 py-0.5 rounded">${r.createdAt}</span>
+                            <span class="text-[10px] font-bold uppercase ${isCompleted ? 'text-gray-400' : 'text-neon-green'}">${isCompleted ? 'Concluído' : 'Pendente'}</span>
+                        </div>
+                        
+                        <h4 class="font-bold text-white text-sm mb-2 line-clamp-2 ${isCompleted ? 'line-through text-gray-500' : ''}">${escapeHTML(r.title)}</h4>
+                        
+                        <div class="flex justify-between items-end mt-4">
+                            <div class="flex items-center gap-2">
+                                ${assignedHunter && !isCompleted ? 
+                                    `<img src="${assignedHunter.avatar}" class="w-6 h-6 rounded-full border border-neon-blue" title="Atribuído a: ${assignedHunter.name}">` : ''}
+                                ${completedByHunter ? 
+                                    `<img src="${completedByHunter.avatar}" class="w-6 h-6 rounded-full border border-gray-500 grayscale" title="Concluído por: ${completedByHunter.name}">` : ''}
+                                <span class="text-xs font-bold text-neon-purple">+${r.xp} XP</span>
+                            </div>
+                            
+                            <button ${action} class="w-8 h-8 rounded-full flex items-center justify-center transition ${btnClass}">
+                                ${icon}
+                            </button>
+                        </div>
                     </div>
                 `}).join('');
             },
