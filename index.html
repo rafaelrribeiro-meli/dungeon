@@ -34,7 +34,6 @@
                         'glow': 'glow 2s ease-in-out infinite alternate',
                         'level-up': 'levelUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
                         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         glow: {
@@ -93,8 +92,6 @@
             animation: loading 1.5s infinite ease-in-out;
         }
         @keyframes loading { 0% { left: -50%; } 100% { left: 100%; } }
-
-        .clip-polygon { clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%); }
     </style>
 </head>
 <body class="font-body overflow-x-hidden text-sm md:text-base selection:bg-neon-blue selection:text-black">
@@ -102,38 +99,37 @@
     <div id="boot-screen" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center">
         <div class="relative mb-8">
             <div class="absolute inset-0 bg-neon-blue blur-[60px] opacity-20 animate-pulse"></div>
-            <i class="fas fa-dragon text-6xl text-neon-blue relative z-10 animate-pulse-slow"></i>
+            <i class="fas fa-dragon text-6xl text-neon-blue relative z-10"></i>
         </div>
-        <h1 class="text-6xl font-display font-bold text-white mb-2 tracking-[0.1em] text-shadow text-center">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></h1>
-        <p class="text-gray-500 font-mono text-xs tracking-widest mb-12 animate-pulse" data-translate="init_resources">INITIALIZING SYSTEM...</p>
+        <h1 class="text-6xl font-display font-bold text-white mb-2 tracking-[0.1em] text-shadow">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></h1>
+        <p class="text-gray-500 font-mono text-xs tracking-widest mb-12" data-translate="init_resources">INITIALIZING SYSTEM...</p>
         
         <div id="init-btn-area" class="animate-bounce">
-            <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase clip-polygon" data-translate="btn_init">
+            <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase" data-translate="btn_init">
                 Initialize
             </button>
         </div>
         
         <div id="loading-bar-area" class="hidden w-64">
             <div class="system-loader mb-2"></div>
-            <div class="font-mono text-[10px] text-gray-500 text-right" data-translate="connecting">CONNECTING...</div>
+            <div class="font-mono text-[10px] text-gray-500 text-right" data-translate="connecting">CONNECTING TO SERVER...</div>
         </div>
     </div>
 
-    <div id="level-up-modal" class="fixed inset-0 z-[90] bg-black/90 flex items-center justify-center hidden backdrop-blur-md">
-        <div class="text-center animate-level-up relative">
-             <div class="absolute inset-0 bg-neon-gold blur-[100px] opacity-20"></div>
+    <div id="level-up-modal" class="fixed inset-0 z-[90] bg-black/90 flex items-center justify-center hidden">
+        <div class="text-center animate-level-up">
             <h2 class="text-6xl md:text-8xl font-display font-bold text-neon-gold text-shadow-gold mb-4">LEVEL UP!</h2>
             <div class="text-2xl text-white font-display tracking-widest mb-8" data-translate="levelup_msg">You have become stronger.</div>
             <div class="inline-block p-1 rounded-full bg-gradient-to-r from-transparent via-neon-gold to-transparent w-full h-[1px] mb-8"></div>
-            <div class="flex justify-center gap-8 text-center items-center">
+            <div class="flex justify-center gap-8 text-center">
                 <div>
                     <div class="text-gray-400 text-xs uppercase" data-translate="prev_level">Level Anterior</div>
-                    <div class="text-4xl font-bold text-white font-display" id="lvl-prev">1</div>
+                    <div class="text-4xl font-bold text-white" id="lvl-prev">1</div>
                 </div>
-                <div class="text-neon-gold text-4xl"><i class="fas fa-angle-double-right"></i></div>
+                <div class="text-neon-gold text-4xl"><i class="fas fa-arrow-right"></i></div>
                 <div>
                     <div class="text-neon-gold text-xs uppercase font-bold" data-translate="new_level">Novo Level</div>
-                    <div class="text-6xl font-bold text-neon-gold text-shadow-gold font-display" id="lvl-new">2</div>
+                    <div class="text-6xl font-bold text-neon-gold text-shadow-gold" id="lvl-new">2</div>
                 </div>
             </div>
             <button onclick="document.getElementById('level-up-modal').classList.add('hidden')" class="mt-12 px-8 py-2 border border-neon-gold text-neon-gold hover:bg-neon-gold hover:text-black font-bold tracking-widest transition uppercase" data-translate="close">Close</button>
@@ -143,16 +139,15 @@
     <div id="awakening-modal" class="fixed inset-0 z-[95] bg-black flex flex-col items-center justify-center hidden">
         <div class="absolute inset-0 bg-neon-purple blur-[100px] opacity-20 animate-pulse"></div>
         <i class="fas fa-bolt text-6xl text-neon-gold mb-6 animate-bounce"></i>
-        <h1 class="text-5xl font-display font-bold text-white tracking-[0.3em] mb-4 text-center">AWAKENING</h1>
-        <p class="text-gray-300 mb-8 text-center max-w-md px-4" data-translate="awk_msg">O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.</p>
+        <h1 class="text-5xl font-display font-bold text-white tracking-[0.3em] mb-4">AWAKENING</h1>
+        <p class="text-gray-300 mb-8 text-center max-w-md" data-translate="awk_msg">O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.</p>
         
-        <div class="text-center mb-8 flex flex-col items-center gap-2">
-            <div class="text-2xl text-gray-500 line-through font-display" id="awk-old-class">Fighter</div>
-            <i class="fas fa-arrow-down text-neon-purple"></i>
-            <div class="text-5xl text-neon-gold font-bold animate-pulse font-display text-shadow-gold" id="awk-new-class">Warlord</div>
+        <div class="text-center mb-8">
+            <div class="text-2xl text-gray-500 line-through" id="awk-old-class">Fighter</div>
+            <div class="text-4xl text-neon-gold font-bold animate-pulse" id="awk-new-class">Warlord</div>
         </div>
 
-        <button onclick="document.getElementById('awakening-modal').classList.add('hidden')" class="px-8 py-3 border border-neon-gold bg-neon-gold/10 text-neon-gold font-bold uppercase tracking-widest hover:bg-neon-gold hover:text-black transition clip-polygon" data-translate="awk_accept">
+        <button onclick="document.getElementById('awakening-modal').classList.add('hidden')" class="px-8 py-3 border border-neon-gold bg-neon-gold/10 text-neon-gold font-bold uppercase tracking-widest hover:bg-neon-gold hover:text-black transition" data-translate="awk_accept">
             ACEITAR PODER
         </button>
     </div>
@@ -166,7 +161,7 @@
                     <span class="text-xl font-bold font-display tracking-wider hidden md:block">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></span>
                 </div>
 
-                <div class="flex gap-1 md:gap-4 bg-black/40 rounded-full px-2 p-1 border border-border">
+                <div class="flex gap-1 md:gap-6 bg-black/40 rounded-full px-2 p-1 border border-border">
                     <button onclick="app.router('dashboard')" id="nav-dashboard" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-neon-blue bg-neon-blue/10 transition" data-translate="nav_dash">Dash</button>
                     <button onclick="app.router('dungeons')" id="nav-dungeons" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition" data-translate="nav_missions">Missões</button>
                     <button onclick="app.router('hunters')" id="nav-hunters" class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-gray-400 hover:text-white transition" data-translate="nav_guild">Guilda</button>
@@ -174,14 +169,14 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <button onclick="app.toggleSound()" id="sound-btn" class="text-gray-400 hover:text-neon-blue transition"><i class="fas fa-volume-up"></i></button>
-                    <button onclick="ui.openModal('modal-settings')" class="text-gray-400 hover:text-white transition"><i class="fas fa-cog"></i></button>
-                    <div class="flex items-center gap-3 pl-4 border-l border-border cursor-pointer hover:bg-white/5 p-1 rounded transition group" onclick="ui.openModal('modal-settings')" title="Trocar Usuário">
+                    <button onclick="app.toggleSound()" id="sound-btn" class="text-gray-400 hover:text-neon-blue"><i class="fas fa-volume-up"></i></button>
+                    <button onclick="ui.openModal('modal-settings')" class="text-gray-400 hover:text-white"><i class="fas fa-cog"></i></button>
+                    <div class="flex items-center gap-3 pl-4 border-l border-border cursor-pointer hover:bg-white/5 p-1 rounded transition" onclick="ui.openModal('modal-settings')" title="Trocar Usuário">
                         <div class="text-right hidden lg:block">
-                            <div class="text-white font-bold text-xs leading-none group-hover:text-neon-blue transition" id="user-name-display">Loading...</div>
+                            <div class="text-white font-bold text-xs leading-none" id="user-name-display">Loading...</div>
                             <div class="text-neon-blue text-[10px] uppercase" id="user-role-display">...</div>
                         </div>
-                        <img id="user-avatar-display" src="" class="w-8 h-8 rounded bg-gray-800 object-cover border border-gray-600 group-hover:border-neon-blue transition">
+                        <img id="user-avatar-display" src="" class="w-8 h-8 rounded bg-gray-800 object-cover border border-gray-600">
                     </div>
                 </div>
             </div>
@@ -197,41 +192,40 @@
                         <div class="absolute -right-10 -top-10 w-64 h-64 bg-neon-blue/10 rounded-full blur-3xl group-hover:bg-neon-blue/20 transition duration-700"></div>
                         <h1 class="text-3xl md:text-4xl font-display font-bold text-white mb-2"><span data-translate="welcome">Bem-vindo</span>, <span class="text-neon-blue" id="dash-user-name">Hunter</span>.</h1>
                         <p class="text-gray-400 text-sm mb-6 max-w-md" data-translate="welcome_sub">O sistema aguarda suas ordens. Novas dungeons detectadas na área.</p>
-                        <div class="flex gap-3 relative z-10">
-                            <button onclick="ui.prepareDungeonForm()" class="px-5 py-2 bg-neon-blue text-black font-bold text-xs uppercase tracking-widest hover:shadow-[0_0_15px_rgba(0,240,255,0.6)] hover:bg-white transition clip-polygon" data-translate="new_mission">Nova Missão</button>
-                            <button onclick="app.claimDaily()" id="btn-daily" class="px-5 py-2 border border-neon-gold text-neon-gold font-bold text-xs uppercase tracking-widest hover:bg-neon-gold hover:text-black transition clip-polygon">
+                        <div class="flex gap-3">
+                            <button onclick="ui.prepareDungeonForm()" class="px-5 py-2 bg-neon-blue text-black font-bold text-xs uppercase tracking-widest hover:shadow-[0_0_15px_rgba(0,240,255,0.6)] transition clip-polygon" data-translate="new_mission">Nova Missão</button>
+                            <button onclick="app.claimDaily()" id="btn-daily" class="px-5 py-2 border border-neon-gold text-neon-gold font-bold text-xs uppercase tracking-widest hover:bg-neon-gold hover:text-black transition">
                                 <i class="fas fa-gift mr-2"></i> <span data-translate="daily_reward">Recompensa Diária</span>
                             </button>
                         </div>
                     </div>
 
-                    <div id="raid-boss-card" class="md:col-span-4 glass-panel p-6 rounded-xl border border-neon-red/20 relative overflow-hidden flex flex-col justify-center transition-transform">
+                    <div class="md:col-span-4 glass-panel p-6 rounded-xl border border-neon-red/20 relative overflow-hidden flex flex-col justify-center">
                         <div class="flex justify-between items-end mb-2 relative z-10">
-                            <div class="text-neon-red font-display font-bold tracking-widest animate-pulse">RAID BOSS</div>
+                            <div class="text-neon-red font-display font-bold tracking-widest">RAID BOSS</div>
                             <div class="text-xs text-red-300 font-mono" id="boss-hp-text">0 / 0 HP</div>
                         </div>
                         <div class="w-full bg-red-950 h-2 rounded-full overflow-hidden relative z-10">
-                            <div id="boss-hp-bar" class="h-full bg-gradient-to-r from-red-700 to-neon-red shadow-[0_0_10px_#FF2A2A] transition-all duration-500" style="width: 0%"></div>
+                            <div id="boss-hp-bar" class="h-full bg-gradient-to-r from-red-700 to-neon-red shadow-[0_0_10px_#FF2A2A]" style="width: 0%"></div>
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-red-900/20 to-transparent"></div>
-                        <div class="absolute -bottom-4 -right-4 text-8xl text-red-900/20 font-display font-bold select-none">BOSS</div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-blue hover:bg-white/5 transition">
+                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-blue">
                         <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_active">Missões Ativas</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-active">0</div>
                     </div>
-                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-purple hover:bg-white/5 transition">
+                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-purple">
                         <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_guilds">Guildas</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-hunters">0</div>
                     </div>
-                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-gold hover:bg-white/5 transition">
+                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-gold">
                         <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_gold">Seu Ouro</div>
-                        <div class="text-3xl font-display font-bold text-white text-neon-gold" id="stat-gold">0</div>
+                        <div class="text-3xl font-display font-bold text-white" id="stat-gold">0</div>
                     </div>
-                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-green hover:bg-white/5 transition">
+                    <div class="glass-panel p-4 rounded-lg border-t-2 border-neon-green">
                         <div class="text-gray-500 text-[10px] uppercase font-bold mb-1" data-translate="stat_level">Seu Level</div>
                         <div class="text-3xl font-display font-bold text-white" id="stat-level">0</div>
                     </div>
@@ -241,7 +235,7 @@
                     <div class="lg:col-span-2">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-blue pl-3" data-translate="recent_dungeons">Dungeons Recentes</h3>
-                            <button onclick="app.router('dungeons')" class="text-xs text-gray-500 hover:text-neon-blue transition uppercase font-bold" data-translate="view_all">Ver Todas</button>
+                            <button onclick="app.router('dungeons')" class="text-xs text-gray-500 hover:text-neon-blue transition" data-translate="view_all">Ver Todas</button>
                         </div>
                         <div id="recent-dungeons-list" class="grid grid-cols-1 gap-3">
                             </div>
@@ -250,7 +244,7 @@
                     <div>
                         <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-purple pl-3 mb-4">Elite Hunters</h3>
                         <div id="ranking-list" class="flex flex-col gap-3">
-                             </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -259,8 +253,8 @@
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                     <h2 class="text-2xl font-display font-bold text-white" data-translate="board_missions">Quadro de Missões</h2>
                     <div class="flex gap-2 w-full md:w-auto">
-                        <input type="text" id="search-dungeon" onkeyup="ui.renderDungeons()" placeholder="..." class="bg-black/50 border border-border rounded px-4 py-2 text-sm w-full md:w-64 focus:border-neon-blue outline-none text-white transition">
-                        <select id="filter-dungeon" onchange="ui.renderDungeons()" class="bg-black/50 border border-border rounded px-4 py-2 text-sm text-gray-300 outline-none focus:border-neon-blue transition">
+                        <input type="text" id="search-dungeon" onkeyup="ui.renderDungeons()" placeholder="..." class="bg-black/50 border border-border rounded px-4 py-2 text-sm w-full md:w-64 focus:border-neon-blue outline-none text-white">
+                        <select id="filter-dungeon" onchange="ui.renderDungeons()" class="bg-black/50 border border-border rounded px-4 py-2 text-sm text-gray-300 outline-none">
                             <option value="all" data-translate="filter_all">Todas</option>
                             <option value="active" data-translate="filter_active">Em Andamento</option>
                             <option value="mine" data-translate="filter_mine">Minhas</option>
@@ -278,7 +272,8 @@
                             <i class="fas fa-shield-alt mr-2"></i> <span data-translate="new_guild">Nova Guilda</span>
                         </button>
                     </div>
-                    <div id="guilds-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                    <div id="guilds-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        </div>
                 </div>
 
                 <div>
@@ -303,40 +298,42 @@
 
                 <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-purple-500 pl-3" data-translate="consumables">Consumíveis</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div class="glass-panel p-6 border border-border hover:border-neon-purple transition group text-center rounded-lg">
-                        <div class="w-16 h-16 rounded-full bg-purple-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition shadow-[0_0_15px_rgba(147,51,234,0.3)]">
+                    <div class="glass-panel p-6 border border-border hover:border-neon-purple transition group text-center">
+                        <div class="w-16 h-16 rounded-full bg-purple-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
                             <i class="fas fa-flask text-2xl text-purple-400"></i>
                         </div>
                         <h3 class="font-bold text-white mb-1" data-translate="item_potion">Poção de XP (Grande)</h3>
                         <p class="text-xs text-gray-500 mb-4" data-translate="item_potion_desc">Garante +500 XP instantaneamente.</p>
-                        <button onclick="app.buyItem('xp_potion', 1000)" class="w-full py-2 bg-purple-500/10 border border-purple-500/50 text-purple-400 hover:bg-purple-500 hover:text-white font-bold text-xs uppercase transition rounded">
+                        <button onclick="app.buyItem('xp_potion', 1000)" class="w-full py-2 bg-purple-500/10 border border-purple-500/50 text-purple-400 hover:bg-purple-500 hover:text-white font-bold text-xs uppercase transition">
                             <span data-translate="buy">Comprar</span> (1000 G)
                         </button>
                     </div>
-                    <div class="glass-panel p-6 border border-border hover:border-neon-red transition group text-center rounded-lg">
-                        <div class="w-16 h-16 rounded-full bg-red-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition shadow-[0_0_15px_rgba(220,38,38,0.3)]">
+                    <div class="glass-panel p-6 border border-border hover:border-neon-red transition group text-center">
+                        <div class="w-16 h-16 rounded-full bg-red-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
                             <i class="fas fa-bomb text-2xl text-red-400"></i>
                         </div>
                         <h3 class="font-bold text-white mb-1">Raid Bomb</h3>
                         <p class="text-xs text-gray-500 mb-4" data-translate="item_bomb_desc">Causa 2000 de dano ao Raid Boss.</p>
-                        <button onclick="app.buyItem('raid_bomb', 2500)" class="w-full py-2 bg-red-500/10 border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-white font-bold text-xs uppercase transition rounded">
+                        <button onclick="app.buyItem('raid_bomb', 2500)" class="w-full py-2 bg-red-500/10 border border-red-500/50 text-red-400 hover:bg-red-500 hover:text-white font-bold text-xs uppercase transition">
                             <span data-translate="buy">Comprar</span> (2500 G)
                         </button>
                     </div>
                 </div>
 
                 <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-blue pl-3" data-translate="artifacts">Artefatos Lendários</h3>
-                <div id="shop-collectibles-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></div>
+                <div id="shop-collectibles-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
+                    </div>
 
                 <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-green pl-3" data-translate="inventory">Seu Inventário</h3>
                 <div id="user-inventory-grid" class="bg-black/30 border border-border rounded-lg p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 min-h-[100px]">
                     <p class="col-span-full text-center text-gray-500 text-xs py-4" data-translate="empty_inv">Inventário vazio.</p>
                 </div>
+
             </div>
 
         </main>
 
-        <button onclick="ui.prepareDungeonForm()" class="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-neon-blue text-black shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:scale-110 hover:bg-white transition flex items-center justify-center z-40">
+        <button onclick="ui.prepareDungeonForm()" class="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-neon-blue text-black shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:scale-110 transition flex items-center justify-center z-40">
             <i class="fas fa-plus text-xl"></i>
         </button>
 
@@ -401,7 +398,7 @@
                     <div class="flex justify-between items-center pt-4 border-t border-border mt-4">
                         <div class="text-xs text-gray-400"><span data-translate="reward">Recompensa</span>: <span id="xp-preview" class="text-neon-purple font-bold text-base ml-1">100 XP</span></div>
                         <div class="flex gap-3">
-                            <button type="button" id="btn-delete-dungeon" onclick="app.deleteDungeon()" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase hidden transition" data-translate="delete">Excluir</button>
+                            <button type="button" id="btn-delete-dungeon" onclick="app.deleteDungeon()" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase hidden" data-translate="delete">Excluir</button>
                             <button type="submit" class="bg-neon-blue text-black font-bold px-6 py-2 rounded text-xs uppercase hover:bg-white transition" data-translate="save">Salvar</button>
                         </div>
                     </div>
@@ -449,7 +446,7 @@
 
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Bio</label>
-                        <textarea id="h-bio" rows="2" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none resize-none"></textarea>
+                        <textarea id="h-bio" rows="2" class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none"></textarea>
                     </div>
                     <button type="submit" class="w-full bg-neon-purple text-white font-bold px-6 py-3 rounded text-xs uppercase hover:bg-purple-600 transition mt-2" data-translate="confirm">Confirmar</button>
                     <button type="button" id="btn-delete-hunter" onclick="app.deleteHunter()" class="w-full text-red-500 py-2 text-xs font-bold uppercase hover:underline hidden" data-translate="revoke">Revogar</button>
@@ -516,9 +513,9 @@
                 <div>
                     <label class="block text-xs font-bold text-neon-green uppercase mb-2" data-translate="language">Idioma / Language</label>
                     <div class="flex gap-2">
-                        <button onclick="app.setLang('pt')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white transition">🇧🇷 PT</button>
-                        <button onclick="app.setLang('en')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white transition">🇺🇸 EN</button>
-                        <button onclick="app.setLang('es')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white transition">🇪🇸 ES</button>
+                        <button onclick="app.setLang('pt')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white">🇧🇷 PT</button>
+                        <button onclick="app.setLang('en')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white">🇺🇸 EN</button>
+                        <button onclick="app.setLang('es')" class="flex-1 py-2 border border-border rounded text-xs font-bold hover:bg-white/10 text-white">🇪🇸 ES</button>
                     </div>
                 </div>
 
@@ -530,20 +527,12 @@
                 </div>
 
                 <div class="border-t border-border pt-4">
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Backup de Dados (JSON)</label>
-                    <div class="flex gap-2 mb-4">
-                        <button onclick="app.exportData()" class="flex-1 bg-neon-blue/10 border border-neon-blue text-neon-blue py-2 rounded text-xs font-bold uppercase hover:bg-neon-blue hover:text-black transition">
-                            <i class="fas fa-download mr-2"></i> Backup
-                        </button>
-                        <label class="flex-1 bg-white/5 border border-border text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-white/10 text-center cursor-pointer transition">
-                            <i class="fas fa-upload mr-2"></i> <span data-translate="restore">Restaurar</span>
-                            <input type="file" class="hidden" onchange="app.importData(this)" accept=".json">
-                        </label>
-                    </div>
-
-                    <button onclick="app.factoryReset()" class="w-full bg-red-900/20 border border-red-900/50 text-red-500 py-2 rounded text-xs font-bold uppercase hover:bg-red-900/40 transition">
-                        <i class="fas fa-trash-alt mr-2"></i> Factory Reset
-                    </button>
+                    <button onclick="app.exportData()" class="w-full border border-border text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-white/5 mb-2"><i class="fas fa-download mr-2"></i> Backup</button>
+                    <label class="block w-full border border-border text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-white/5 text-center cursor-pointer mb-4">
+                        <i class="fas fa-upload mr-2"></i> <span data-translate="restore">Restaurar</span>
+                        <input type="file" class="hidden" onchange="app.importData(this)">
+                    </label>
+                    <button onclick="app.factoryReset()" class="w-full bg-red-900/20 text-red-500 py-2 rounded text-xs font-bold uppercase hover:bg-red-900/40">Factory Reset</button>
                 </div>
             </div>
         </div>
@@ -552,7 +541,7 @@
     <script>
         // --- CONFIG & STATE ---
         const DB_KEY = 'sololeveling_db';
-        const REMOTE_DB_URL = 'https://raw.githubusercontent.com/rafaelrribeiro-meli/dungeon/refs/heads/main/hunter_system.json'; 
+        const REMOTE_DB_URL = 'https://raw.githubusercontent.com/rafaelrribeiro-meli/dungeon/main/hunter_system.json'; 
         
         const TOOLS = ["SQL", "Python", "Excel", "Sheet", "Looker Studio", "Power BI", "Tableau", "Monday", "Miro", "Data Flow"];
         const ATTRIBUTES = ["Lógica", "Programação", "Estatística", "IA", "ML", "Analysis", "DataViz", "Projeto", "Business"];
@@ -601,9 +590,10 @@
             'S': { xp: 5000, gold: 3000, color: 'text-neon-red', border: 'border-neon-red' }
         };
 
+        // Translations
         const TRANSLATIONS = {
             'pt': {
-                init_resources: "INICIALIZANDO SISTEMA...", btn_init: "INICIALIZAR", connecting: "BUSCANDO DADOS NO GITHUB...",
+                init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AO SERVIDOR...",
                 levelup_msg: "Você se tornou mais forte.", prev_level: "Nível Anterior", new_level: "Novo Nível", close: "Fechar",
                 awk_msg: "O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.", awk_accept: "ACEITAR PODER",
                 nav_dash: "Dash", nav_missions: "Missões", nav_guild: "Guilda", nav_shop: "Loja",
@@ -621,7 +611,7 @@
                 tool_proficiency: "Proficiência em Ferramentas", status_window: "Janela de Status"
             },
             'en': {
-                init_resources: "INITIALIZING SYSTEM...", btn_init: "INITIALIZE", connecting: "FETCHING GITHUB DATA...",
+                init_resources: "INITIALIZING RESOURCES...", btn_init: "INITIALIZE", connecting: "CONNECTING TO SERVER...",
                 levelup_msg: "You have become stronger.", prev_level: "Previous Level", new_level: "New Level", close: "Close",
                 awk_msg: "The Hunter has broken their limits. A new class and power have been unlocked.", awk_accept: "ACCEPT POWER",
                 nav_dash: "Dash", nav_missions: "Missions", nav_guild: "Guild", nav_shop: "Shop",
@@ -639,7 +629,7 @@
                 tool_proficiency: "Tool Proficiency", status_window: "Status Window"
             },
             'es': {
-                init_resources: "INICIALIZANDO SISTEMA...", btn_init: "INICIALIZAR", connecting: "BUSCANDO DATOS EN GITHUB...",
+                init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AL SERVIDOR...",
                 levelup_msg: "Te has vuelto más fuerte.", prev_level: "Nivel Anterior", new_level: "Nuevo Nivel", close: "Cerrar",
                 awk_msg: "El Cazador ha roto sus límites. Se ha desbloqueado una nueva clase y poder.", awk_accept: "ACEPTAR PODER",
                 nav_dash: "Tablero", nav_missions: "Misiones", nav_guild: "Gremio", nav_shop: "Tienda",
@@ -678,136 +668,93 @@
             click: () => sfx.playTone(400, 'triangle', 0.05),
             levelup: () => { 
                 [440, 554, 659, 880].forEach((f, i) => setTimeout(() => sfx.playTone(f, 'square', 0.4), i * 150)); 
-            },
-            boom: () => {
-                 sfx.playTone(100, 'sawtooth', 0.5);
-                 sfx.playTone(50, 'square', 0.5);
             }
         };
 
-        // --- APP CONTROLLER ---
+        // --- APP CONTROLLER (FETCH ENABLED) ---
         const app = {
-            data: { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserId: null },
-            lang: localStorage.getItem('sololeveling_lang') || 'pt',
+            data: { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0 },
+            lang: localStorage.getItem('sololeveling_lang') || 'pt', // Language State
             
             init: async () => {
+                // Initialize Language UI
                 ui.updateTranslations();
 
                 document.getElementById('init-btn-area').classList.add('hidden');
                 document.getElementById('loading-bar-area').classList.remove('hidden');
                 sfx.playTone(200, 'square', 2);
 
-                const loadingText = document.querySelector('#loading-bar-area div:last-child');
-                
                 try {
-                    // 1. Try to fetch from GitHub (with 5s Timeout)
-                    loadingText.innerText = "FETCHING GITHUB DATA...";
+                    const loadingText = document.querySelector('#loading-bar-area div:last-child');
+                    loadingText.innerText = "FETCHING REMOTE DATA...";
                     
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 5000);
-                    
-                    const response = await fetch(REMOTE_DB_URL, { signal: controller.signal });
-                    clearTimeout(timeoutId);
-
-                    if (response.ok) {
+                    if(REMOTE_DB_URL && REMOTE_DB_URL.includes('http')) {
+                        const response = await fetch(REMOTE_DB_URL);
+                        if (!response.ok) throw new Error('Falha na rede');
                         const remoteData = await response.json();
-                        app.data = remoteData;
-                        app.ensureIntegrity();
-                        app.save(); // Update local with fresh remote data
-                        console.log("Synced from GitHub.");
-                    } else {
-                        throw new Error("GitHub fail");
-                    }
-
-                } catch (e) {
-                    console.log("Fetch failed or timed out. Using Local/Seed.");
-                    // 2. Fallback to LocalStorage
-                    const stored = localStorage.getItem(DB_KEY);
-                    if (stored) {
-                        try {
-                            app.data = JSON.parse(stored);
-                            app.ensureIntegrity();
-                            console.log("Loaded from LocalStorage.");
-                        } catch(err) {
-                            app.seedData(); // Corrupt local? Reset to seed.
+                        
+                        if(remoteData.hunters) {
+                            app.data = remoteData;
+                            app.save(); 
+                            console.log("Dados carregados do GitHub com sucesso!");
+                        } else {
+                            throw new Error('JSON Inválido');
                         }
                     } else {
-                        // 3. Fallback to Seed
-                        console.log("No local data. Using Seed.");
+                        throw new Error('URL não configurada');
+                    }
+
+                } catch (error) {
+                    console.warn("Não foi possível carregar do GitHub, usando LocalStorage/Seed.", error);
+                    const stored = localStorage.getItem(DB_KEY);
+                    if (stored) {
+                        app.data = JSON.parse(stored);
+                        if (!app.data.guilds) app.data.guilds = [];
+                        app.data.hunters.forEach(h => { 
+                            if(!h.inventory) h.inventory = []; 
+                            if(!h.skills) h.skills = {};
+                            if(!h.stats) h.stats = { done: 0 };
+                            if(!h.attributes) h.attributes = {}; 
+                            if(!h.achievements) h.achievements = [];
+                        });
+                    } else {
                         app.seedData();
                     }
-                } finally {
-                    // Ensure UI ALWAYS loads
-                    setTimeout(() => {
-                        document.getElementById('boot-screen').classList.add('hidden');
-                        document.getElementById('app-container').classList.remove('hidden');
-                        ui.renderAll();
-                        sfx.success();
-                    }, 1000);
                 }
+                
+                setTimeout(() => {
+                    document.getElementById('boot-screen').classList.add('hidden');
+                    document.getElementById('app-container').classList.remove('hidden');
+                    ui.renderAll();
+                    sfx.success();
+                }, 1000);
             },
 
-            ensureIntegrity: () => {
-                 if (!app.data.guilds) app.data.guilds = [];
-                 if (!app.data.dungeons) app.data.dungeons = [];
-                 if (!app.data.hunters) app.data.hunters = [];
-                 
-                 app.data.hunters.forEach(h => { 
-                    if(!h.inventory) h.inventory = []; 
-                    if(!h.skills) h.skills = {};
-                    if(!h.stats) h.stats = { done: 0 };
-                    if(!h.attributes) h.attributes = {}; 
-                    if(!h.achievements) h.achievements = [];
-                 });
-                 
-                 // Handle specific JSON import issue where currentUserIndex is present but not ID
-                 if (app.data.currentUserIndex !== undefined && !app.data.currentUserId) {
-                    const idx = app.data.currentUserIndex;
-                    if (app.data.hunters[idx]) {
-                        app.data.currentUserId = app.data.hunters[idx].id;
-                    }
-                 }
-
-                 // Migrate from Index/Missing ID to ID based session
-                 if(!app.data.currentUserId && app.data.hunters.length > 0) {
-                     app.data.currentUserId = app.data.hunters[0].id;
-                 }
-            },
-
-            // USER'S SPECIFIC SEED DATA (FALLBACK)
             seedData: () => {
-                const initialData = {"hunters":[{"id":"h1764274448752","name":"Rafa Ribeiro","class":"Fighter","avatar":"https://lh3.googleusercontent.com/sitesv/AAzXCkfLWyTtr9ux6Z9sqb9TFbUyEVLjRyt5CzC0-acrHtt8cPX-cB0oMwZrtQvKI-iMfKtdtFiJEpCCxMp5WMfcqzWQp8vDwQLHy8zdPWuStA9ovay_Wwy71IPAXr78BxKNUB7Qe4zmbNsCESE8ktcRke8c3zTCtcVfdeBh9bSkfqTJVAUwjX5CeJFAl7Ac7CHAGFJN0MUFfVYf56_Y92D8KOmMw5M33FIQ3ysYMCQ=w1280","bio":"Leave Your Mark","level":2,"xp":900,"gold":1700,"inventory":[],"skills":{"SQL":3,"Python":1,"Sheet":4,"Looker Studio":2,"Data Flow":1},"stats":{"done":4},"achievements":["solo"],"attributes":{"Lógica":4,"Programação":4,"Estatística":1,"IA":0,"ML":0,"Analysis":6,"DataViz":2,"Projeto":1,"Business":1},"lastDaily":"Thu Nov 27 2025"},{"id":"h1764274483403","name":"Felipe Fileni","class":"Tank","avatar":"https://lh3.googleusercontent.com/sitesv/AAzXCkdNRslQmfRg_NnIi5UVYgEC-_XnLH99icmXDQjTXvReVG667hryeT1wUwz3lDlYk1UKO1CGz_TN92Yilzwu6VloL_K5h_W8oQE1UjgC-_ktcGXGaM8QwW6i6Nwspuwe-DVr8KaYhBBkG7t92VE9ViTOW1rDDnCJA57-ubBhDycR-jOY_Y3qpa-eiKuBIRiMK3aEg2HN4sYoQTCy8wtIUOPDmAoTq4ue8HuF=w1280","bio":"Dios los Bendiga","level":1,"xp":700,"gold":400,"inventory":[],"skills":{"SQL":2,"Sheet":3,"Looker Studio":1},"stats":{"done":3},"achievements":[],"attributes":{"Lógica":2,"Programação":2,"Estatística":0,"IA":0,"ML":0,"Analysis":4,"DataViz":1,"Projeto":0,"Business":0}},{"id":"h1764274519719","name":"Lean Bibini","class":"Ranger","avatar":"https://lh3.googleusercontent.com/sitesv/AAzXCkcwVcybqKjhjhZZ70BP4rJ3UNxQLCJ7eJHrfUyXesJ9EStv9yMBBXgGG1Kus24jARqf-A9aGEFxPKw7NCe3-SeBPgiOeLgGd54bIJqU0G4c0KBNVwT9vLJWTswnADWryoUDvgXcnGoE5b-ZPZngnucQGZm_s2917HSQZmkB4NstX-GB71XxbsjN-Uwm7YFKiSVT-A8Z7kwn66kGtrtfOeWLBKSZQdoV9lCD=w1280","bio":"Impecable","level":1,"xp":600,"gold":350,"inventory":[],"skills":{"SQL":1,"Sheet":2},"stats":{"done":2},"achievements":[],"attributes":{"Lógica":1,"Programação":1,"Estatística":0,"IA":0,"ML":0,"Analysis":2,"DataViz":0,"Projeto":0,"Business":0}},{"id":"h1764274576510","name":"Mike Herrera","class":"Mage","avatar":"https://lh3.googleusercontent.com/sitesv/AAzXCkdXOaZtuYRlWxfzgydPUHhrfSVTU3KqQOpxIspTUelBN2rRWbiQTFYfu-OB7Jxxg7gAgwa5HGRDnyIlhtAGiy42kSClkXBEAmmQfb105DONxpLxILmZLs-aMWgXnSxJitcdg-rdQCPc5r-B8tjfTKG35aNfcvYKWk2SwEUSwJ-pgsWKZSEoXsieaMXiEiZbgLwyeJD1bd7_rWu-LF-0YLTkko9KbWvNypER7JQ=w1280","bio":"Cruz Azul","level":1,"xp":600,"gold":350,"inventory":[],"skills":{"SQL":1,"Sheet":2},"stats":{"done":2},"achievements":[],"attributes":{"Lógica":1,"Programação":1,"Estatística":0,"IA":0,"ML":0,"Analysis":2,"DataViz":0,"Projeto":0,"Business":0}}],"dungeons":[{"id":"d1764274756251","name":"Maturidad Sites","rank":"A","status":"Active","date":"2025-12-02","desc":"Projeto sobre a madurez de todos os sites do MercadoLivre.","hunters":["h1764274519719"],"tools":["SQL","Python","Sheet","Looker Studio","Data Flow"]},{"id":"d1764274835729","name":"Idleness General Deep","rank":"B","status":"Active","date":"2025-11-28","desc":"Categoriza e quantifica os tipos de ociosidade na operação para melhorar a gestão de tempo.","hunters":["h1764274576510"],"tools":["SQL","Sheet","Looker Studio"]},{"id":"d1764274896344","name":"Optima | BRSP06","rank":"A","status":"Active","date":"2025-12-12","desc":"Aplicar o nosso Modelo Preditivo (OPTIMA) ao processo de picking para identificar oportunidades e impulsionar a produtividade.","hunters":["h1764274519719"],"tools":["SQL","Python","Looker Studio"]},{"id":"d1764274964251","name":"Available TIme","rank":"C","status":"Active","date":"","desc":"Encontrar anomalias dos sites e fazer Deep Dive de como podemos melhorar esses números para que fiquem mais próximos do promédio regional.","hunters":["h1764274483403"],"tools":["SQL","Sheet"]},{"id":"d1764275061364","name":"Optima | Wave","rank":"A","status":"Active","date":"2025-12-19","desc":"Usar modelo OPTIMA para melhorar a \"produtividade\" de Wave (Flow).","hunters":[],"tools":["SQL","Python","Looker Studio","Data Flow"]},{"id":"d1764275115634","name":"Chat Bot Monday","rank":"B","status":"Active","date":"2025-12-19","desc":"Criar bot com n8n para verificar status de projetos e também para validar descrição dos projetos com intuito de encontrar projetos similares e evitar retrabalho.","hunters":["h1764274483403"],"tools":["Monday"]},{"id":"d1764275169928","name":"Isaac - Sumulator Agente","rank":"A","status":"Active","date":"2025-12-28","desc":"Agente IA Simulaciones Isaac","hunters":["h1764274576510"],"tools":[]},{"id":"d1764275211329","name":"Gen AI | Workflow Operating Leavers","rank":"C","status":"Active","date":"2025-11-28","desc":"","hunters":["h1764274519719"],"tools":[]},{"id":"d1764275246387","name":"Big Bets Goals 2026","rank":"A","status":"Active","date":"2025-12-31","desc":"Identificar oportunidades de projetos com base na apresentação de Big Bets.","hunters":["h1764274448752"],"tools":["Monday"]},{"id":"d1764275312827","name":"Idleness | RISE","rank":"C","status":"Active","date":"2026-01-09","desc":"Auxiliar equipe de RISE ao entendimento de Idleness.","hunters":["h1764274576510"],"tools":["SQL","Sheet","Looker Studio"]},{"id":"d1764275367766","name":"Optima | CLRM03","rank":"A","status":"Done","date":"2025-11-28","desc":"","hunters":["h1764274448752"],"tools":["SQL","Python","Sheet","Looker Studio","Data Flow"]},{"id":"d1764275415063","name":"Proteo","rank":"E","status":"Pending","date":"2025-09-30","desc":"Analisa dados, custos e impactos operacionais para validar e apresentar a produtividade real da operação.","hunters":["h1764274576510"],"tools":["SQL","Sheet","Looker Studio"]},{"id":"d1764275448446","name":"Big Bets","rank":"C","status":"Done","date":"","desc":"Deep dive de itens para apresentação gerencial de oportunidades para 2026.","hunters":["h1764274448752","h1764274483403","h1764274519719","h1764274576510"],"tools":["SQL","Sheet"]},{"id":"d1764275513307","name":"Dahsboard Wave","rank":"E","status":"Done","date":"2025-12-05","desc":"No está actualizando los datos pós dia 26. https://lookerstudio.google.com/u/0/reporting/a3d7d8d6-6fec-4b9f-8810-5de5363237ba/page/SA1cD\n","hunters":["h1764274448752","h1764274483403"],"tools":["SQL","Sheet","Looker Studio"]},{"id":"d1764275587272","name":"MatrizRACI - Monthly","rank":"E","status":"Done","date":"2025-11-07","desc":"","hunters":["h1764274448752","h1764274483403","h1764274519719","h1764274576510"],"tools":["Sheet"]}],"guilds":[{"id":"g1","name":"Analytics","leaderId":"h1764274448752","members":["h1764274448752","h1764274483403","h1764274519719","h1764274576510"],"emblem":"https://lh3.googleusercontent.com/sitesv/AAzXCkevjpBFDjYWaxD0gJhuDOAm58-H10DZGZM-c5xS2cKozBbhY3ynxtC9z5qR60256BNgPoDzZDuwim77O53uyFIvVGViPoiEjbdijP05P1AyQw5Nj-tfBS0JC3vkN0omJUu-S0wNiyWCEPy5K0TK093KV1TJehydH2096YajYBlDZVj-Kcwigi1_kIk_kbc-OxnWgpAuEKsf_StG0kLKI6LdMf4t9kJlTbFp=w1280"}],"raidBoss":{"hp":46650,"max":50000},"currentUserIndex":0};
-
-                app.data = initialData;
-                app.ensureIntegrity(); // Ensure ID mapping happens
+                app.data.hunters = [
+                    { id: 'h1', name: 'Sung Jin-Woo', class: 'Assassin', level: 1, xp: 0, gold: 500, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sung', bio: 'O Monarca das Sombras.', inventory: [], skills: {}, attributes: {}, stats: {done:0}, achievements: [] },
+                    { id: 'h2', name: 'Cha Hae-In', class: 'Fighter', level: 1, xp: 0, gold: 500, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Cha', bio: 'A dançarina da espada.', inventory: [], skills: {}, attributes: {}, stats: {done:0}, achievements: [] }
+                ];
+                app.data.guilds = [
+                    { id: 'g1', name: 'Ahjin Guild', leaderId: 'h1', members: ['h1'], emblem: '' }
+                ];
+                app.data.dungeons = [];
                 app.save();
             },
 
-            // AUTO-SAVE logic
-            save: () => {
-                try {
-                    localStorage.setItem(DB_KEY, JSON.stringify(app.data));
-                    console.log("Auto-save completed.");
-                } catch(e) {
-                    console.error("Erro ao salvar:", e);
-                    ui.showToast("Erro ao salvar dados (Storage Full?)", "error");
-                }
-            },
+            save: () => localStorage.setItem(DB_KEY, JSON.stringify(app.data)),
 
             setLang: (l) => {
                 app.lang = l;
                 localStorage.setItem('sololeveling_lang', l);
                 ui.updateTranslations();
-                ui.renderAll(); 
+                ui.renderAll(); // Re-render dynamic content
             },
 
-            getCurrentUser: () => {
-                const user = app.data.hunters.find(h => h.id === app.data.currentUserId);
-                return user || app.data.hunters[0];
-            },
+            getCurrentUser: () => app.data.hunters[app.data.currentUserIndex] || app.data.hunters[0],
 
-            switchUser: (id) => {
-                app.data.currentUserId = id;
+            switchUser: (index) => {
+                app.data.currentUserIndex = parseInt(index);
                 app.save();
                 ui.renderAll();
                 ui.showToast(`Logado como ${app.getCurrentUser().name}`);
@@ -892,9 +839,6 @@
                 } else if (type === 'raid_bomb') {
                     app.data.raidBoss.hp = Math.max(0, app.data.raidBoss.hp - 2000);
                     ui.showToast('Boom! 2000 Dano no Boss', 'success');
-                    sfx.boom();
-                    document.getElementById('raid-boss-card').classList.add('animate-shake');
-                    setTimeout(() => document.getElementById('raid-boss-card').classList.remove('animate-shake'), 500);
                 }
                 app.save();
                 ui.renderAll();
@@ -957,6 +901,7 @@
                 const avatar = document.getElementById('h-avatar').value || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
                 const bio = document.getElementById('h-bio').value;
 
+                // Collect Initial Attributes
                 const initialAttributes = {};
                 ATTRIBUTES.forEach(attr => {
                     const input = document.getElementById(`attr-input-${attr}`);
@@ -967,6 +912,7 @@
                     const h = app.data.hunters.find(x => x.id === id);
                     if(h) {
                         Object.assign(h, {name, class: cls, avatar, bio});
+                        // Update attrs only if specified or if empty (to avoid overwriting progress)
                         if(Object.keys(h.attributes || {}).length === 0) h.attributes = initialAttributes;
                     }
                 } else {
@@ -993,10 +939,7 @@
                     if(g.leaderId === id) g.leaderId = g.members[0] || null;
                 });
 
-                if(app.data.currentUserId === id) {
-                    app.data.currentUserId = app.data.hunters[0] ? app.data.hunters[0].id : null;
-                }
-                
+                app.data.currentUserIndex = 0; 
                 app.save();
                 ui.closeModal('modal-hunter');
                 ui.renderAll();
@@ -1054,47 +997,53 @@
 
                 let xpGained = false;
                 if (status === 'Done') {
-                      const oldDungeon = app.data.dungeons.find(d => d.id === id);
-                      if (!oldDungeon || oldDungeon.status !== 'Done') {
-                          const rewards = RANKS[rank];
-                          hunters.forEach(hId => {
-                              const hunter = app.data.hunters.find(h => h.id === hId);
-                              if (hunter) {
-                                  hunter.xp += rewards.xp;
-                                  hunter.gold += rewards.gold;
-                                  if(!hunter.stats) hunter.stats = {done:0};
-                                  hunter.stats.done++;
-                                  
-                                  if(hunters.length === 1) {
-                                      if(!hunter.achievements) hunter.achievements = [];
-                                      if(!hunter.achievements.includes('solo')) {
-                                          hunter.achievements.push('solo');
-                                          ui.showToast(`Achievement: Solo Player (${hunter.name})`, 'success');
-                                      }
-                                  }
+                     const oldDungeon = app.data.dungeons.find(d => d.id === id);
+                     if (!oldDungeon || oldDungeon.status !== 'Done') {
+                         const rewards = RANKS[rank];
+                         hunters.forEach(hId => {
+                             const hunter = app.data.hunters.find(h => h.id === hId);
+                             if (hunter) {
+                                 // Add XP/Gold
+                                 hunter.xp += rewards.xp;
+                                 hunter.gold += rewards.gold;
+                                 
+                                 // Update Stats
+                                 if(!hunter.stats) hunter.stats = {done:0};
+                                 hunter.stats.done++;
+                                 
+                                 // Achievement Check: Solo
+                                 if(hunters.length === 1) {
+                                     if(!hunter.achievements) hunter.achievements = [];
+                                     if(!hunter.achievements.includes('solo')) {
+                                         hunter.achievements.push('solo');
+                                         ui.showToast(`Achievement: Solo Player (${hunter.name})`, 'success');
+                                     }
+                                 }
 
-                                  if(!hunter.attributes) hunter.attributes = {};
-                                  tools.forEach(tool => {
-                                      hunter.skills[tool] = (hunter.skills[tool] || 0) + 1;
-                                      const mappedAttrs = SKILL_MAP[tool];
-                                      if(mappedAttrs) {
-                                          mappedAttrs.forEach(attr => {
-                                              hunter.attributes[attr] = (hunter.attributes[attr] || 0) + 1;
-                                          });
-                                      }
-                                  });
+                                 // Update Attributes based on SKILL_MAP
+                                 if(!hunter.attributes) hunter.attributes = {};
+                                 tools.forEach(tool => {
+                                     hunter.skills[tool] = (hunter.skills[tool] || 0) + 1;
+                                     const mappedAttrs = SKILL_MAP[tool];
+                                     if(mappedAttrs) {
+                                         mappedAttrs.forEach(attr => {
+                                             hunter.attributes[attr] = (hunter.attributes[attr] || 0) + 1;
+                                         });
+                                     }
+                                 });
 
-                                  if (hunter.xp >= hunter.level * 1000) {
-                                      hunter.level++;
-                                      hunter.xp = 0;
-                                      ui.showToast(`${hunter.name} subiu de nível!`, 'success');
-                                  }
-                                  app.checkAchievements(hunter);
-                              }
-                          });
-                          app.data.raidBoss.hp = Math.max(0, app.data.raidBoss.hp - (rewards.xp * 0.5));
-                          xpGained = true;
-                      }
+                                 // Level Up Check
+                                 if (hunter.xp >= hunter.level * 1000) {
+                                     hunter.level++;
+                                     hunter.xp = 0;
+                                     ui.showToast(`${hunter.name} subiu de nível!`, 'success');
+                                 }
+                                 app.checkAchievements(hunter);
+                             }
+                         });
+                         app.data.raidBoss.hp = Math.max(0, app.data.raidBoss.hp - (rewards.xp * 0.5));
+                         xpGained = true;
+                     }
                 }
 
                 if (id) {
@@ -1108,11 +1057,7 @@
                 ui.closeModal('modal-dungeon');
                 ui.renderAll();
                 ui.showToast(xpGained ? 'Missão Concluída! Recompensas distribuídas.' : 'Missão salva.', 'success');
-                if(xpGained) {
-                     sfx.levelup();
-                     document.getElementById('raid-boss-card').classList.add('animate-shake');
-                     setTimeout(() => document.getElementById('raid-boss-card').classList.remove('animate-shake'), 500);
-                } else sfx.success();
+                if(xpGained) sfx.levelup(); else sfx.success();
             },
 
             deleteDungeon: () => {
@@ -1124,7 +1069,7 @@
                 ui.renderAll();
             },
 
-            // --- IMPORT / EXPORT (JSON BACKUP) ---
+            // --- DATA SAFE LOAD ---
             importData: (input) => {
                 if (!input.files || !input.files[0]) return;
 
@@ -1140,8 +1085,7 @@
                         }
 
                         app.data = importedData;
-                        app.ensureIntegrity();
-                        app.save(); // FORCE SAVE TO LOCALSTORAGE
+                        app.save();
                         alert("Backup carregado com sucesso! O sistema será reiniciado.");
                         location.reload();
 
@@ -1156,12 +1100,9 @@
 
             exportData: () => {
                 const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(app.data));
-                const date = new Date().toISOString().slice(0,10);
-                const filename = `dungeon_analytics_backup_${date}.json`;
-                
                 const node = document.createElement('a');
                 node.setAttribute("href", dataStr);
-                node.setAttribute("download", filename);
+                node.setAttribute("download", "hunter_system_backup.json");
                 document.body.appendChild(node);
                 node.click();
                 node.remove();
@@ -1177,10 +1118,481 @@
             toggleSound: () => {
                 const btn = document.getElementById('sound-btn');
                 btn.classList.toggle('text-neon-blue');
-                if(audioCtx.state === 'suspended') audioCtx.resume();
+            }
+        };
+
+        // --- UI MANAGER ---
+        const ui = {
+            t: (key) => {
+                const l = app.lang || 'pt';
+                return TRANSLATIONS[l][key] || key;
+            },
+
+            updateTranslations: () => {
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    el.innerText = ui.t(key);
+                });
+            },
+
+            renderAll: () => {
+                ui.updateTranslations(); // Translate Static Text first
+
+                const user = app.getCurrentUser();
+                document.getElementById('user-name-display').innerText = user.name;
+                document.getElementById('user-role-display').innerText = `Level ${user.level} ${user.class}`;
+                document.getElementById('user-avatar-display').src = user.avatar;
+                
+                document.getElementById('dash-user-name').innerText = user.name;
+                document.getElementById('stat-gold').innerText = user.gold;
+                document.getElementById('stat-level').innerText = user.level;
+                
+                const active = app.data.dungeons.filter(d => d.status === 'Active').length;
+                document.getElementById('stat-active').innerText = active;
+                document.getElementById('stat-hunters').innerText = app.data.guilds.length;
+
+                const hpPct = (app.data.raidBoss.hp / app.data.raidBoss.max) * 100;
+                document.getElementById('boss-hp-bar').style.width = `${hpPct}%`;
+                document.getElementById('boss-hp-text').innerText = `${Math.floor(app.data.raidBoss.hp)} / ${app.data.raidBoss.max} HP`;
+
+                document.getElementById('shop-gold-display').innerText = user.gold;
+
+                ui.renderDungeons();
+                ui.renderHuntersAndGuilds();
+                ui.renderShop();
+                ui.renderSettingsUserSelect();
+            },
+
+            renderDungeons: () => {
+                const container = document.getElementById('dungeons-grid');
+                const recentContainer = document.getElementById('recent-dungeons-list');
+                const filter = document.getElementById('filter-dungeon').value;
+                const search = document.getElementById('search-dungeon').value.toLowerCase();
+                const userId = app.getCurrentUser().id;
+
+                let list = app.data.dungeons.filter(d => {
+                    if (search && !d.name.toLowerCase().includes(search)) return false;
+                    if (filter === 'active' && d.status !== 'Active') return false;
+                    if (filter === 'mine' && !d.hunters.includes(userId)) return false;
+                    return true;
+                });
+
+                const cardHTML = (d) => {
+                    const r = RANKS[d.rank];
+                    const isDone = d.status === 'Done';
+                    const statusColor = isDone ? 'text-green-500' : (d.status === 'Active' ? 'text-neon-blue' : 'text-gray-500');
+                    
+                    return `
+                    <div onclick="ui.prepareDungeonForm('${d.id}')" class="glass-panel p-4 rounded-xl border border-border hover:border-neon-blue transition group cursor-pointer relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition">
+                            <span class="text-6xl font-display font-bold ${r.color}">${d.rank}</span>
+                        </div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold border ${r.border} ${r.color} px-2 py-0.5 rounded rank-tag">RANK ${d.rank}</span>
+                                <span class="text-[10px] uppercase font-bold ${statusColor}">${d.status}</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-1 truncate">${d.name}</h4>
+                            <p class="text-xs text-gray-500 mb-3 truncate">${d.desc || 'Sem descrição.'}</p>
+                            <div class="flex justify-between items-center text-xs text-gray-400">
+                                <span><i class="fas fa-users mr-1"></i> ${d.hunters.length}</span>
+                                <span><i class="fas fa-clock mr-1"></i> ${d.date || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                };
+
+                container.innerHTML = list.map(cardHTML).join('');
+                recentContainer.innerHTML = list.slice(0, 3).map(cardHTML).join('');
+            },
+
+            renderHuntersAndGuilds: () => {
+                const container = document.getElementById('hunters-grid');
+                const ranking = document.getElementById('ranking-list');
+                const guildContainer = document.getElementById('guilds-grid');
+                
+                if (app.data.guilds.length === 0) {
+                     guildContainer.innerHTML = `<div class="text-gray-500 text-xs col-span-3 text-center py-4">Nenhuma guilda formada.</div>`;
+                } else {
+                    guildContainer.innerHTML = app.data.guilds.map(g => {
+                        const leader = app.data.hunters.find(h => h.id === g.leaderId);
+                        const leaderName = leader ? leader.name : "Desconhecido";
+                        const emblem = g.emblem || `https://ui-avatars.com/api/?name=${g.name}&background=0D8ABC&color=fff`;
+
+                        return `
+                        <div onclick="ui.prepareGuildForm('${g.id}')" class="glass-panel p-4 rounded-lg flex items-center gap-4 hover:border-neon-blue cursor-pointer transition relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-neon-blue/5 translate-y-full group-hover:translate-y-0 transition duration-300"></div>
+                            <img src="${emblem}" class="w-12 h-12 rounded-full object-cover border-2 border-neon-blue relative z-10">
+                            <div class="relative z-10">
+                                <h4 class="font-bold text-white font-display text-lg">${g.name}</h4>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-wider">${ui.t('guild_leader')}: <span class="text-white">${leaderName}</span></div>
+                                <div class="text-[10px] text-neon-blue mt-1"><i class="fas fa-users"></i> ${g.members.length} Membros</div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+                }
+
+                // SORT and RENDER Hunters
+                const list = [...app.data.hunters].sort((a,b) => b.level - a.level);
+                
+                const hunterHTML = (h, idx) => {
+                    const xpNeeded = h.level * 1000;
+                    const xpPct = Math.min(100, (h.xp / xpNeeded) * 100);
+                    const completed = h.stats ? h.stats.done : 0; 
+                    const isAwakened = h.rank === 'S';
+                    const borderClass = isAwakened ? 'border-neon-gold shadow-[0_0_10px_#FFD700]' : 'border-transparent hover:border-neon-purple';
+
+                    return `
+                    <div onclick="ui.showHunterDetails('${h.id}')" class="glass-panel p-3 rounded-lg flex items-center gap-4 hover:bg-white/5 cursor-pointer transition border ${borderClass} relative overflow-hidden">
+                        <div class="font-display font-bold text-gray-600 text-xl w-6 text-center z-10">${idx+1}</div>
+                        <img src="${h.avatar}" class="w-12 h-12 rounded object-cover bg-gray-800 z-10 border border-border">
+                        <div class="flex-grow z-10">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-white text-sm ${isAwakened ? 'text-neon-gold' : ''}">${h.name} ${isAwakened ? '<i class="fas fa-crown text-[10px]"></i>' : ''}</h4>
+                                <span class="${isAwakened ? 'text-neon-gold' : 'text-neon-purple'} text-xs font-bold">LVL ${h.level}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="text-[10px] text-gray-400 uppercase tracking-wider">${h.class}</p>
+                                <span class="text-[10px] text-neon-blue bg-neon-blue/10 px-1 rounded">Missões: ${completed}</span>
+                            </div>
+                            <div class="w-full bg-black h-1 rounded-full overflow-hidden border border-white/10">
+                                <div class="bg-neon-purple h-full rounded-full" style="width: ${xpPct}%"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                };
+
+                container.innerHTML = list.map(hunterHTML).join('');
+                ranking.innerHTML = list.slice(0, 5).map(hunterHTML).join('');
+            },
+
+            showHunterDetails: (id) => {
+                const h = app.data.hunters.find(x => x.id === id);
+                if(!h) return;
+
+                const xpNeeded = h.level * 1000;
+                const xpPct = Math.min(100, (h.xp / xpNeeded) * 100);
+                const stats = h.stats || {done: 0};
+                const inventory = h.inventory || [];
+                const attributes = h.attributes || {};
+                const skills = h.skills || {};
+                const achievements = h.achievements || [];
+                const isAwakened = h.rank === 'S';
+
+                const attributesListHtml = ATTRIBUTES.map(attr => {
+                    const val = attributes[attr] || 0;
+                    const width = Math.min(100, val * 5); 
+                    return `
+                    <div class="mb-2">
+                        <div class="flex justify-between text-[10px] uppercase font-bold mb-1">
+                            <span class="text-gray-400">${attr}</span>
+                            <span class="text-neon-blue">${val}</span>
+                        </div>
+                        <div class="w-full bg-black h-1.5 rounded-full overflow-hidden border border-white/5">
+                            <div class="bg-gradient-to-r from-blue-600 to-neon-blue h-full" style="width: ${width}%"></div>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+
+                const toolsListHtml = TOOLS.map(tool => {
+                    const val = skills[tool] || 0;
+                    const width = Math.min(100, val * 5); // Assuming 20 is a good visual cap
+                    return `
+                    <div class="mb-2">
+                        <div class="flex justify-between text-[10px] uppercase font-bold mb-1">
+                            <span class="text-gray-400">${tool}</span>
+                            <span class="text-neon-green">${val}</span>
+                        </div>
+                        <div class="w-full bg-black h-1.5 rounded-full overflow-hidden border border-white/5">
+                            <div class="bg-gradient-to-r from-green-900 to-neon-green h-full" style="width: ${width}%"></div>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+
+                const html = `
+                    <div class="relative bg-gradient-to-r from-purple-900/40 to-black p-6 border-b border-neon-purple/30">
+                        <button onclick="ui.closeModal('modal-hunter-details')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+                        <div class="flex items-end gap-6">
+                            <img src="${h.avatar}" class="w-24 h-24 rounded-lg object-cover border-2 ${isAwakened ? 'border-neon-gold shadow-[0_0_20px_#FFD700]' : 'border-neon-purple shadow-[0_0_20px_rgba(189,0,255,0.4)]'}">
+                            <div>
+                                <h2 class="text-3xl font-display font-bold text-white leading-none mb-1">${h.name} ${isAwakened ? '<span class="text-neon-gold text-lg"><i class="fas fa-crown"></i></span>' : ''}</h2>
+                                <p class="${isAwakened ? 'text-neon-gold' : 'text-neon-purple'} text-sm font-bold uppercase tracking-widest mb-2">${h.class} &bull; LVL ${h.level}</p>
+                                <div class="text-xs text-gray-400 italic">"${h.bio || 'Sem lema.'}"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 overflow-y-auto custom-scrollbar flex-grow space-y-6">
+                        
+                        ${(!isAwakened && h.level >= 10) ? `
+                        <div class="text-center">
+                            <button onclick="app.awakenHunter('${h.id}')" class="w-full py-2 bg-gradient-to-r from-neon-gold/20 to-black border border-neon-gold text-neon-gold font-bold uppercase tracking-[0.2em] animate-pulse hover:bg-neon-gold hover:text-black transition">
+                                <i class="fas fa-bolt mr-2"></i> DESPERTAR DISPONÍVEL
+                            </button>
+                        </div>` : ''}
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold uppercase mb-1 text-gray-400">
+                                        <span>Progresso Atual</span>
+                                        <span>${h.xp} / ${xpNeeded} XP</span>
+                                    </div>
+                                    <div class="w-full bg-black h-3 rounded-full border border-gray-700 overflow-hidden">
+                                        <div class="bg-neon-purple h-full shadow-[0_0_10px_#BD00FF]" style="width: ${xpPct}%"></div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-black/40 border border-border p-2 rounded text-center">
+                                        <div class="text-xl font-display font-bold text-white">${stats.done}</div>
+                                        <div class="text-[8px] uppercase text-gray-500">Missões</div>
+                                    </div>
+                                    <div class="bg-black/40 border border-border p-2 rounded text-center">
+                                        <div class="text-xl font-display font-bold text-neon-gold">${h.gold}</div>
+                                        <div class="text-[8px] uppercase text-gray-500">Ouro</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Conquistas</h4>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${achievements.length === 0 ? '<span class="text-xs text-gray-600">Nenhuma.</span>' : 
+                                          achievements.map(aid => {
+                                              const a = ACHIEVEMENTS.find(x => x.id === aid);
+                                              return `<div class="w-8 h-8 rounded-full bg-neon-gold/20 border border-neon-gold flex items-center justify-center text-neon-gold text-xs" title="${a.name}: ${a.desc}"><i class="fas ${a.icon}"></i></div>`;
+                                          }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-black/20 rounded-lg p-3 border border-white/5 overflow-y-auto custom-scrollbar" style="max-height: 300px;">
+                                <h4 class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-white/10 pb-1">${ui.t('status_window')}</h4>
+                                ${attributesListHtml}
+                                
+                                <h4 class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-white/10 pb-1 mt-4">${ui.t('tool_proficiency')}</h4>
+                                ${toolsListHtml}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-bold text-white border-l-2 border-neon-green pl-2 mb-3">Inventário</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${inventory.length === 0 ? '<p class="text-gray-600 text-xs italic">Mochila vazia.</p>' : 
+                                  inventory.map(itemId => {
+                                      const item = COLLECTIBLES.find(c => c.id === itemId);
+                                      if(!item) return '';
+                                      return `
+                                        <div class="w-10 h-10 bg-black/50 border border-gray-700 rounded flex items-center justify-center text-gray-300 hover:border-white hover:text-white transition" title="${item.name}">
+                                            <i class="fas ${item.icon}"></i>
+                                        </div>
+                                      `;
+                                  }).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t border-border bg-black/40 text-right">
+                        <button onclick="ui.prepareHunterForm('${h.id}'); ui.closeModal('modal-hunter-details')" class="px-4 py-2 border border-gray-600 text-gray-300 hover:text-white hover:border-white rounded text-xs font-bold uppercase transition">
+                            <i class="fas fa-edit mr-1"></i> Editar Dados
+                        </button>
+                    </div>
+                `;
+
+                document.getElementById('hunter-details-content').innerHTML = html;
+                ui.openModal('modal-hunter-details');
+            },
+
+            renderShop: () => {
+                const grid = document.getElementById('shop-collectibles-grid');
+                const invGrid = document.getElementById('user-inventory-grid');
+                const user = app.getCurrentUser();
+                const userInv = user.inventory || [];
+
+                grid.innerHTML = COLLECTIBLES.map(c => {
+                    const owned = userInv.includes(c.id);
+                    return `
+                    <div class="glass-panel p-6 border border-border ${owned ? 'opacity-50 grayscale' : 'hover:border-neon-blue'} transition group text-center relative overflow-hidden">
+                        ${owned ? '<div class="absolute top-2 right-2 text-neon-green text-xs font-bold uppercase"><i class="fas fa-check"></i> Adquirido</div>' : ''}
+                        <div class="w-16 h-16 rounded-full bg-gray-800/50 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                            <i class="fas ${c.icon} text-2xl ${c.color}"></i>
+                        </div>
+                        <h3 class="font-bold text-white mb-1 truncate">${c.name}</h3>
+                        <p class="text-[10px] text-gray-500 mb-4 h-8 overflow-hidden">${c.desc}</p>
+                        <button onclick="app.buyCollectible('${c.id}')" ${owned ? 'disabled' : ''} class="w-full py-2 bg-gray-800 border border-gray-600 text-gray-300 ${owned ? 'cursor-not-allowed' : 'hover:bg-neon-blue hover:text-black hover:border-neon-blue'} font-bold text-xs uppercase transition">
+                            ${owned ? 'Item Único' : `${ui.t('buy')} (${c.price} G)`}
+                        </button>
+                    </div>`;
+                }).join('');
+
+                if(userInv.length === 0) {
+                     invGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 text-xs py-4">${ui.t('empty_inv')}</p>`;
+                } else {
+                    invGrid.innerHTML = userInv.map(cId => {
+                        const item = COLLECTIBLES.find(c => c.id === cId);
+                        if (!item) return '';
+                        return `
+                        <div class="flex flex-col items-center justify-center p-2 bg-black/40 rounded border border-gray-800 hover:border-neon-green transition" title="${item.name}">
+                            <i class="fas ${item.icon} text-xl ${item.color} mb-2"></i>
+                            <div class="text-[10px] text-white text-center font-bold truncate w-full">${item.name}</div>
+                        </div>`;
+                    }).join('');
+                }
+            },
+
+            renderSettingsUserSelect: () => {
+                const sel = document.getElementById('settings-user-select');
+                sel.innerHTML = app.data.hunters.map((h, idx) => 
+                    `<option value="${idx}" ${idx === app.data.currentUserIndex ? 'selected' : ''}>${h.name} (Lvl ${h.level})</option>`
+                ).join('');
+            },
+
+            // --- FORMS & MODALS ---
+
+            openModal: (id) => {
+                document.getElementById(id).classList.remove('hidden');
+                sfx.click();
+            },
+            closeModal: (id) => document.getElementById(id).classList.add('hidden'),
+
+            prepareDungeonForm: (id = null) => {
+                document.getElementById('form-dungeon').reset();
+                document.getElementById('d-id').value = '';
+                document.getElementById('btn-delete-dungeon').classList.add('hidden');
+                
+                const hList = document.getElementById('d-hunters-list');
+                hList.innerHTML = app.data.hunters.map(h => `
+                    <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer hover:text-white">
+                        <input type="checkbox" value="${h.id}" class="chk-hunter accent-neon-blue">
+                        <img src="${h.avatar}" class="w-5 h-5 rounded"> ${h.name}
+                    </label>
+                `).join('');
+
+                const tList = document.getElementById('d-tools-list');
+                tList.innerHTML = TOOLS.map(t => `
+                    <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+                        <input type="checkbox" value="${t}" class="chk-tool accent-neon-blue"> ${t}
+                    </label>
+                `).join('');
+
+                if (id) {
+                    const d = app.data.dungeons.find(x => x.id === id);
+                    if (d) {
+                        document.getElementById('d-id').value = d.id;
+                        document.getElementById('d-name').value = d.name;
+                        document.getElementById('d-rank').value = d.rank;
+                        document.getElementById('d-status').value = d.status;
+                        document.getElementById('d-date').value = d.date;
+                        document.getElementById('d-desc').value = d.desc;
+                        document.getElementById('btn-delete-dungeon').classList.remove('hidden');
+                        
+                        d.hunters.forEach(hid => {
+                            const chk = document.querySelector(`.chk-hunter[value="${hid}"]`);
+                            if(chk) chk.checked = true;
+                        });
+                        d.tools.forEach(t => {
+                            const chk = document.querySelector(`.chk-tool[value="${t}"]`);
+                            if(chk) chk.checked = true;
+                        });
+                    }
+                }
+                ui.updateXPPreview();
+                ui.openModal('modal-dungeon');
+            },
+
+            prepareHunterForm: (id = null) => {
+                document.getElementById('form-hunter').reset();
+                document.getElementById('h-id').value = '';
+                document.getElementById('btn-delete-hunter').classList.add('hidden');
+
+                // Render Attribute Inputs
+                const attrContainer = document.getElementById('h-attributes-inputs');
+                attrContainer.innerHTML = ATTRIBUTES.map(attr => `
+                    <div>
+                        <label class="block text-[10px] text-gray-500 uppercase">${attr}</label>
+                        <input type="number" id="attr-input-${attr}" value="0" min="0" class="w-full bg-black/30 border border-border rounded p-1 text-white text-xs outline-none">
+                    </div>
+                `).join('');
+
+                if (id) {
+                    const h = app.data.hunters.find(x => x.id === id);
+                    if (h) {
+                        document.getElementById('h-id').value = h.id;
+                        document.getElementById('h-name').value = h.name;
+                        document.getElementById('h-class').value = h.class;
+                        document.getElementById('h-avatar').value = h.avatar;
+                        document.getElementById('h-bio').value = h.bio;
+                        document.getElementById('btn-delete-hunter').classList.remove('hidden');
+                        
+                        // Populate existing attributes if any
+                        if(h.attributes) {
+                            ATTRIBUTES.forEach(attr => {
+                                const el = document.getElementById(`attr-input-${attr}`);
+                                if(el) el.value = h.attributes[attr] || 0;
+                            });
+                        }
+                    }
+                }
+                ui.openModal('modal-hunter');
+            },
+
+            prepareGuildForm: (id = null) => {
+                document.getElementById('form-guild').reset();
+                document.getElementById('g-id').value = '';
+                document.getElementById('btn-delete-guild').classList.add('hidden');
+
+                const leaderSel = document.getElementById('g-leader');
+                leaderSel.innerHTML = '<option value="">Selecione o Líder...</option>' + 
+                    app.data.hunters.map(h => `<option value="${h.id}">${h.name}</option>`).join('');
+
+                const memList = document.getElementById('g-members-list');
+                memList.innerHTML = app.data.hunters.map(h => `
+                    <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer hover:text-white p-1 hover:bg-white/5 rounded">
+                        <input type="checkbox" value="${h.id}" class="chk-guild-member accent-neon-blue">
+                        <img src="${h.avatar}" class="w-5 h-5 rounded"> 
+                        <span class="truncate">${h.name}</span>
+                    </label>
+                `).join('');
+
+                if (id) {
+                    const g = app.data.guilds.find(x => x.id === id);
+                    if (g) {
+                        document.getElementById('g-id').value = g.id;
+                        document.getElementById('g-name').value = g.name;
+                        document.getElementById('g-emblem').value = g.emblem;
+                        document.getElementById('g-leader').value = g.leaderId;
+                        document.getElementById('btn-delete-guild').classList.remove('hidden');
+
+                        g.members.forEach(mid => {
+                            const chk = document.querySelector(`.chk-guild-member[value="${mid}"]`);
+                            if(chk) chk.checked = true;
+                        });
+                    }
+                }
+                ui.openModal('modal-guild');
+            },
+
+            updateXPPreview: () => {
+                const r = document.getElementById('d-rank').value;
+                const rew = RANKS[r];
+                document.getElementById('xp-preview').innerText = `${rew.xp} XP / ${rew.gold} G`;
+            },
+
+            showToast: (msg, type = 'normal') => {
+                const container = document.getElementById('toast-container');
+                const div = document.createElement('div');
+                const color = type === 'success' ? 'border-neon-green text-neon-green' : (type === 'error' ? 'border-neon-red text-neon-red' : 'border-neon-blue text-white');
+                
+                div.className = `glass-panel px-4 py-3 rounded-lg border-l-4 ${color} shadow-lg flex items-center gap-3 animate-bounce`;
+                div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> <span class="font-bold text-xs uppercase">${msg}</span>`;
+                
+                container.appendChild(div);
+                setTimeout(() => div.remove(), 3000);
             }
         };
 
     </script>
 </body>
 </html>
+
