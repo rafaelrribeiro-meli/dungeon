@@ -34,6 +34,7 @@
                         'glow': 'glow 2s ease-in-out infinite alternate',
                         'level-up': 'levelUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
                         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         glow: {
@@ -66,11 +67,17 @@
             background-attachment: fixed;
         }
 
-        /* Custom Scrollbar */
+        /* Custom Scrollbar Cross-Browser */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0f1115; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
+        
+        /* Firefox Scrollbar Support */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #374151 #0f1115;
+        }
 
         .glass-panel {
             background: rgba(15, 17, 21, 0.7);
@@ -81,6 +88,7 @@
         .text-shadow { text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
         .text-shadow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
         .rank-tag { clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
+        .clip-polygon { clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
         
         /* Loader */
         .system-loader {
@@ -105,7 +113,7 @@
         <p class="text-gray-500 font-mono text-xs tracking-widest mb-12" data-translate="init_resources">INITIALIZING SYSTEM...</p>
         
         <div id="init-btn-area" class="animate-bounce">
-            <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase" data-translate="btn_init">
+            <button onclick="app.init()" class="px-10 py-3 border border-neon-blue text-neon-blue font-display font-bold text-xl tracking-widest hover:bg-neon-blue hover:text-black transition-all duration-300 uppercase clip-polygon" data-translate="btn_init">
                 Initialize
             </button>
         </div>
@@ -116,8 +124,8 @@
         </div>
     </div>
 
-    <div id="level-up-modal" class="fixed inset-0 z-[90] bg-black/90 flex items-center justify-center hidden">
-        <div class="text-center animate-level-up">
+    <div id="level-up-modal" class="fixed inset-0 z-[90] bg-black/95 flex items-center justify-center hidden" onclick="if(event.target === this) this.classList.add('hidden')">
+        <div class="text-center animate-level-up relative">
             <h2 class="text-6xl md:text-8xl font-display font-bold text-neon-gold text-shadow-gold mb-4">LEVEL UP!</h2>
             <div class="text-2xl text-white font-display tracking-widest mb-8" data-translate="levelup_msg">You have become stronger.</div>
             <div class="inline-block p-1 rounded-full bg-gradient-to-r from-transparent via-neon-gold to-transparent w-full h-[1px] mb-8"></div>
@@ -126,7 +134,7 @@
                     <div class="text-gray-400 text-xs uppercase" data-translate="prev_level">Level Anterior</div>
                     <div class="text-4xl font-bold text-white" id="lvl-prev">1</div>
                 </div>
-                <div class="text-neon-gold text-4xl"><i class="fas fa-arrow-right"></i></div>
+                <div class="text-neon-gold text-4xl self-center"><i class="fas fa-arrow-right"></i></div>
                 <div>
                     <div class="text-neon-gold text-xs uppercase font-bold" data-translate="new_level">Novo Level</div>
                     <div class="text-6xl font-bold text-neon-gold text-shadow-gold" id="lvl-new">2</div>
@@ -139,8 +147,8 @@
     <div id="awakening-modal" class="fixed inset-0 z-[95] bg-black flex flex-col items-center justify-center hidden">
         <div class="absolute inset-0 bg-neon-purple blur-[100px] opacity-20 animate-pulse"></div>
         <i class="fas fa-bolt text-6xl text-neon-gold mb-6 animate-bounce"></i>
-        <h1 class="text-5xl font-display font-bold text-white tracking-[0.3em] mb-4">AWAKENING</h1>
-        <p class="text-gray-300 mb-8 text-center max-w-md" data-translate="awk_msg">O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.</p>
+        <h1 class="text-5xl font-display font-bold text-white tracking-[0.3em] mb-4">CLASSE EVOLUÍDA</h1>
+        <p class="text-gray-300 mb-8 text-center max-w-md" data-translate="awk_msg">O sistema reconheceu seu poder. Sua classe foi atualizada automaticamente.</p>
         
         <div class="text-center mb-8">
             <div class="text-2xl text-gray-500 line-through" id="awk-old-class">Fighter</div>
@@ -148,7 +156,7 @@
         </div>
 
         <button onclick="document.getElementById('awakening-modal').classList.add('hidden')" class="px-8 py-3 border border-neon-gold bg-neon-gold/10 text-neon-gold font-bold uppercase tracking-widest hover:bg-neon-gold hover:text-black transition" data-translate="awk_accept">
-            ACEITAR PODER
+            CONTINUAR
         </button>
     </div>
 
@@ -157,7 +165,7 @@
         <nav class="h-16 border-b border-border glass-panel sticky top-0 z-40">
             <div class="container mx-auto px-4 h-full flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <i class="fas fa-dragon text-neon-blue text-2xl"></i>
+                    <i class="fas fa-dragon text-neon-blue text-2xl animate-pulse-slow"></i>
                     <span class="text-xl font-bold font-display tracking-wider hidden md:block">DUNGEON & <span class="text-neon-blue">ANALYTICS</span></span>
                 </div>
 
@@ -169,8 +177,8 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <button onclick="app.toggleSound()" id="sound-btn" class="text-gray-400 hover:text-neon-blue"><i class="fas fa-volume-up"></i></button>
-                    <button onclick="ui.openModal('modal-settings')" class="text-gray-400 hover:text-white"><i class="fas fa-cog"></i></button>
+                    <button onclick="app.toggleSound()" id="sound-btn" class="text-gray-400 hover:text-neon-blue transition"><i class="fas fa-volume-up"></i></button>
+                    <button onclick="ui.openModal('modal-settings')" class="text-gray-400 hover:text-white transition"><i class="fas fa-cog"></i></button>
                     <div class="flex items-center gap-3 pl-4 border-l border-border cursor-pointer hover:bg-white/5 p-1 rounded transition" onclick="ui.openModal('modal-settings')" title="Trocar Usuário">
                         <div class="text-right hidden lg:block">
                             <div class="text-white font-bold text-xs leading-none" id="user-name-display">Loading...</div>
@@ -192,7 +200,7 @@
                         <div class="absolute -right-10 -top-10 w-64 h-64 bg-neon-blue/10 rounded-full blur-3xl group-hover:bg-neon-blue/20 transition duration-700"></div>
                         <h1 class="text-3xl md:text-4xl font-display font-bold text-white mb-2"><span data-translate="welcome">Bem-vindo</span>, <span class="text-neon-blue" id="dash-user-name">Hunter</span>.</h1>
                         <p class="text-gray-400 text-sm mb-6 max-w-md" data-translate="welcome_sub">O sistema aguarda suas ordens. Novas dungeons detectadas na área.</p>
-                        <div class="flex gap-3">
+                        <div class="flex gap-3 relative z-10">
                             <button onclick="ui.prepareDungeonForm()" class="px-5 py-2 bg-neon-blue text-black font-bold text-xs uppercase tracking-widest hover:shadow-[0_0_15px_rgba(0,240,255,0.6)] transition clip-polygon" data-translate="new_mission">Nova Missão</button>
                             <button onclick="app.claimDaily()" id="btn-daily" class="px-5 py-2 border border-neon-gold text-neon-gold font-bold text-xs uppercase tracking-widest hover:bg-neon-gold hover:text-black transition">
                                 <i class="fas fa-gift mr-2"></i> <span data-translate="daily_reward">Recompensa Diária</span>
@@ -237,14 +245,12 @@
                             <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-blue pl-3" data-translate="recent_dungeons">Dungeons Recentes</h3>
                             <button onclick="app.router('dungeons')" class="text-xs text-gray-500 hover:text-neon-blue transition" data-translate="view_all">Ver Todas</button>
                         </div>
-                        <div id="recent-dungeons-list" class="grid grid-cols-1 gap-3">
-                            </div>
+                        <div id="recent-dungeons-list" class="grid grid-cols-1 gap-3"></div>
                     </div>
 
                     <div>
                         <h3 class="font-display font-bold text-lg text-white border-l-4 border-neon-purple pl-3 mb-4">Elite Hunters</h3>
-                        <div id="ranking-list" class="flex flex-col gap-3">
-                            </div>
+                        <div id="ranking-list" class="flex flex-col gap-3"></div>
                     </div>
                 </div>
             </div>
@@ -272,8 +278,7 @@
                             <i class="fas fa-shield-alt mr-2"></i> <span data-translate="new_guild">Nova Guilda</span>
                         </button>
                     </div>
-                    <div id="guilds-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        </div>
+                    <div id="guilds-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
                 </div>
 
                 <div>
@@ -298,7 +303,7 @@
 
                 <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-purple-500 pl-3" data-translate="consumables">Consumíveis</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div class="glass-panel p-6 border border-border hover:border-neon-purple transition group text-center">
+                    <div class="glass-panel p-6 border border-border hover:border-neon-purple transition group text-center cursor-pointer">
                         <div class="w-16 h-16 rounded-full bg-purple-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
                             <i class="fas fa-flask text-2xl text-purple-400"></i>
                         </div>
@@ -308,7 +313,7 @@
                             <span data-translate="buy">Comprar</span> (1000 G)
                         </button>
                     </div>
-                    <div class="glass-panel p-6 border border-border hover:border-neon-red transition group text-center">
+                    <div class="glass-panel p-6 border border-border hover:border-neon-red transition group text-center cursor-pointer">
                         <div class="w-16 h-16 rounded-full bg-red-900/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
                             <i class="fas fa-bomb text-2xl text-red-400"></i>
                         </div>
@@ -321,8 +326,7 @@
                 </div>
 
                 <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-blue pl-3" data-translate="artifacts">Artefatos Lendários</h3>
-                <div id="shop-collectibles-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
-                    </div>
+                <div id="shop-collectibles-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></div>
 
                 <h3 class="text-lg font-bold text-white mb-4 border-l-4 border-neon-green pl-3" data-translate="inventory">Seu Inventário</h3>
                 <div id="user-inventory-grid" class="bg-black/30 border border-border rounded-lg p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 min-h-[100px]">
@@ -339,7 +343,7 @@
 
     </div>
 
-    <div id="modal-dungeon" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-dungeon" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) ui.closeModal('modal-dungeon')">
         <div class="bg-[#0f1115] border border-border w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-border flex justify-between items-center bg-[#15181e]">
                 <h3 class="text-xl font-display font-bold text-white" data-translate="mission_details">Detalhes da Missão</h3>
@@ -407,7 +411,7 @@
         </div>
     </div>
 
-    <div id="modal-hunter" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-hunter" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) ui.closeModal('modal-hunter')">
         <div class="bg-[#0f1115] border border-border w-full max-w-md rounded-xl shadow-2xl overflow-y-auto max-h-[90vh]">
             <div class="p-6 border-b border-border flex justify-between items-center">
                 <h3 class="text-xl font-display font-bold text-white" data-translate="hunter_reg">Registro de Hunter</h3>
@@ -440,8 +444,7 @@
                     
                     <div class="border-t border-border pt-4">
                         <label class="block text-xs font-bold text-neon-blue uppercase mb-2" data-translate="init_attrs">Atributos Iniciais</label>
-                        <div id="h-attributes-inputs" class="grid grid-cols-3 gap-2">
-                            </div>
+                        <div id="h-attributes-inputs" class="grid grid-cols-3 gap-2"></div>
                     </div>
 
                     <div>
@@ -455,13 +458,13 @@
         </div>
     </div>
 
-    <div id="modal-hunter-details" class="fixed inset-0 z-[82] hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-hunter-details" class="fixed inset-0 z-[82] hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) ui.closeModal('modal-hunter-details')">
         <div class="bg-[#0f1115] border border-neon-purple w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div id="hunter-details-content" class="flex flex-col h-full"></div>
         </div>
     </div>
 
-    <div id="modal-guild" class="fixed inset-0 z-[85] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-guild" class="fixed inset-0 z-[85] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) ui.closeModal('modal-guild')">
         <div class="bg-[#0f1115] border border-neon-blue w-full max-w-lg rounded-xl shadow-[0_0_30px_rgba(0,240,255,0.2)]">
             <div class="p-6 border-b border-border flex justify-between items-center bg-[#15181e]">
                 <h3 class="text-xl font-display font-bold text-neon-blue"><i class="fas fa-shield-alt mr-2"></i> <span data-translate="manage_guild">Gerenciar Guilda</span></h3>
@@ -483,8 +486,7 @@
                     
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1" data-translate="guild_leader">Líder</label>
-                        <select id="g-leader" required class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none">
-                        </select>
+                        <select id="g-leader" required class="w-full bg-black/50 border border-border rounded p-3 text-white outline-none"></select>
                     </div>
 
                     <div>
@@ -502,7 +504,7 @@
         </div>
     </div>
 
-    <div id="modal-settings" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-settings" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) ui.closeModal('modal-settings')">
         <div class="bg-[#0f1115] border border-border w-full max-w-sm rounded-xl shadow-2xl">
             <div class="p-6 border-b border-border flex justify-between items-center">
                 <h3 class="text-xl font-display font-bold text-white" data-translate="settings">Configurações</h3>
@@ -521,8 +523,7 @@
 
                 <div>
                     <label class="block text-xs font-bold text-neon-blue uppercase mb-2" data-translate="active_hunter">Hunter Ativo</label>
-                    <select id="settings-user-select" onchange="app.switchUser(this.value)" class="w-full bg-black border border-neon-blue/30 rounded p-3 text-white outline-none">
-                    </select>
+                    <select id="settings-user-select" onchange="app.switchUser(this.value)" class="w-full bg-black border border-neon-blue/30 rounded p-3 text-white outline-none"></select>
                     <p class="text-[10px] text-gray-500 mt-1" data-translate="active_hunter_hint">Troque de personagem para gerenciar inventário individual.</p>
                 </div>
 
@@ -560,8 +561,15 @@
         };
 
         const CLASS_EVOLUTION = {
-            "Fighter": "Warlord", "Mage": "Archmage", "Assassin": "Reaper", 
-            "Tank": "Guardian", "Healer": "Saint", "Ranger": "Sniper"
+            "Fighter": "Warlord", 
+            "Mage": "Archmage", 
+            "Assassin": "Reaper", 
+            "Tank": "Guardian", 
+            "Healer": "Saint", 
+            "Ranger": "Sniper",
+            // Loops for evolved classes (Optional simple progression)
+            "Warlord": "Warlord II", "Archmage": "Archmage II", "Reaper": "Reaper II",
+            "Guardian": "Guardian II", "Saint": "Saint II", "Sniper": "Sniper II"
         };
 
         const ACHIEVEMENTS = [
@@ -595,7 +603,7 @@
             'pt': {
                 init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AO SERVIDOR...",
                 levelup_msg: "Você se tornou mais forte.", prev_level: "Nível Anterior", new_level: "Novo Nível", close: "Fechar",
-                awk_msg: "O Hunter rompeu seus limites. Uma nova classe e poder foram desbloqueados.", awk_accept: "ACEITAR PODER",
+                awk_msg: "O sistema reconheceu seu poder. Sua classe foi atualizada automaticamente.", awk_accept: "CONTINUAR",
                 nav_dash: "Dash", nav_missions: "Missões", nav_guild: "Guilda", nav_shop: "Loja",
                 welcome: "Bem-vindo", welcome_sub: "O sistema aguarda suas ordens. Novas dungeons detectadas na área.",
                 new_mission: "Nova Missão", daily_reward: "Recompensa Diária",
@@ -613,7 +621,7 @@
             'en': {
                 init_resources: "INITIALIZING RESOURCES...", btn_init: "INITIALIZE", connecting: "CONNECTING TO SERVER...",
                 levelup_msg: "You have become stronger.", prev_level: "Previous Level", new_level: "New Level", close: "Close",
-                awk_msg: "The Hunter has broken their limits. A new class and power have been unlocked.", awk_accept: "ACCEPT POWER",
+                awk_msg: "The system acknowledged your power. Class updated automatically.", awk_accept: "CONTINUE",
                 nav_dash: "Dash", nav_missions: "Missions", nav_guild: "Guild", nav_shop: "Shop",
                 welcome: "Welcome", welcome_sub: "The system awaits your orders. New dungeons detected in the area.",
                 new_mission: "New Mission", daily_reward: "Daily Reward",
@@ -631,7 +639,7 @@
             'es': {
                 init_resources: "INICIALIZANDO RECURSOS...", btn_init: "INICIALIZAR", connecting: "CONECTANDO AL SERVIDOR...",
                 levelup_msg: "Te has vuelto más fuerte.", prev_level: "Nivel Anterior", new_level: "Nuevo Nivel", close: "Cerrar",
-                awk_msg: "El Cazador ha roto sus límites. Se ha desbloqueado una nueva clase y poder.", awk_accept: "ACEPTAR PODER",
+                awk_msg: "El sistema reconoció tu poder. Clase actualizada automáticamente.", awk_accept: "CONTINUAR",
                 nav_dash: "Tablero", nav_missions: "Misiones", nav_guild: "Gremio", nav_shop: "Tienda",
                 welcome: "Bienvenido", welcome_sub: "El sistema espera tus órdenes. Nuevas mazmorras detectadas.",
                 new_mission: "Nueva Misión", daily_reward: "Recompensa Diaria",
@@ -676,6 +684,21 @@
             data: { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0 },
             lang: localStorage.getItem('sololeveling_lang') || 'pt', // Language State
             
+            // Security: Escape HTML to prevent XSS
+            escapeHTML: (str) => {
+                if (!str) return '';
+                return str.replace(/[&<>'"]/g, 
+                    tag => ({
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        "'": '&#39;',
+                        '"': '&quot;'
+                    }[tag]));
+            },
+            
+            generateId: (prefix) => prefix + Date.now() + Math.floor(Math.random() * 1000),
+
             init: async () => {
                 // Initialize Language UI
                 ui.updateTranslations();
@@ -688,38 +711,43 @@
                     const loadingText = document.querySelector('#loading-bar-area div:last-child');
                     loadingText.innerText = "FETCHING REMOTE DATA...";
                     
+                    let remoteData = null;
                     if(REMOTE_DB_URL && REMOTE_DB_URL.includes('http')) {
-                        const response = await fetch(REMOTE_DB_URL);
-                        if (!response.ok) throw new Error('Falha na rede');
-                        const remoteData = await response.json();
-                        
-                        if(remoteData.hunters) {
-                            app.data = remoteData;
-                            app.save(); 
-                            console.log("Dados carregados do GitHub com sucesso!");
-                        } else {
-                            throw new Error('JSON Inválido');
+                        try {
+                            const response = await fetch(REMOTE_DB_URL);
+                            if (response.ok) {
+                                remoteData = await response.json();
+                                console.log("Dados carregados do GitHub com sucesso!");
+                            }
+                        } catch (fetchErr) {
+                            console.warn("Fetch failed, falling back to local/seed.", fetchErr);
                         }
+                    }
+
+                    if(remoteData && remoteData.hunters) {
+                        app.data = remoteData;
+                        app.save(); 
                     } else {
-                        throw new Error('URL não configurada');
+                        const stored = localStorage.getItem(DB_KEY);
+                        if (stored) {
+                            app.data = JSON.parse(stored);
+                            // Ensure data integrity for legacy upgrades
+                            if (!app.data.guilds) app.data.guilds = [];
+                            app.data.hunters.forEach(h => { 
+                                if(!h.inventory) h.inventory = []; 
+                                if(!h.skills) h.skills = {};
+                                if(!h.stats) h.stats = { done: 0 };
+                                if(!h.attributes) h.attributes = {}; 
+                                if(!h.achievements) h.achievements = [];
+                            });
+                        } else {
+                            app.seedData();
+                        }
                     }
 
                 } catch (error) {
-                    console.warn("Não foi possível carregar do GitHub, usando LocalStorage/Seed.", error);
-                    const stored = localStorage.getItem(DB_KEY);
-                    if (stored) {
-                        app.data = JSON.parse(stored);
-                        if (!app.data.guilds) app.data.guilds = [];
-                        app.data.hunters.forEach(h => { 
-                            if(!h.inventory) h.inventory = []; 
-                            if(!h.skills) h.skills = {};
-                            if(!h.stats) h.stats = { done: 0 };
-                            if(!h.attributes) h.attributes = {}; 
-                            if(!h.achievements) h.achievements = [];
-                        });
-                    } else {
-                        app.seedData();
-                    }
+                    console.error("Critical Init Error:", error);
+                    app.seedData();
                 }
                 
                 setTimeout(() => {
@@ -788,10 +816,40 @@
                     document.getElementById('lvl-new').innerText = user.level;
                     document.getElementById('level-up-modal').classList.remove('hidden');
                     sfx.levelup();
+                    
+                    // Trigger Automatic Awakening if level reaches 10 (or multiples if logic changes, currently 10 triggers reset)
+                    if (user.level >= 10) {
+                        setTimeout(() => app.checkAwakening(user), 1000); // Slight delay for visual flow
+                    }
                 }
                 app.checkAchievements(user);
                 app.save();
                 ui.renderAll();
+            },
+
+            checkAwakening: (hunter) => {
+                const currentClass = hunter.class;
+                const nextClass = CLASS_EVOLUTION[currentClass];
+
+                if (nextClass) {
+                    // Update visuals in modal
+                    document.getElementById('awk-old-class').innerText = currentClass;
+                    document.getElementById('awk-new-class').innerText = nextClass;
+                    
+                    // Apply Upgrade IMMEDIATELY (Automatic)
+                    hunter.class = nextClass;
+                    hunter.level = 1; // Reset level to keep the loop
+                    hunter.xp = 0;
+                    hunter.rank = 'S';
+                    
+                    app.checkAchievements(hunter);
+                    app.save();
+                    
+                    // Show Modal just for info
+                    document.getElementById('awakening-modal').classList.remove('hidden');
+                    ui.renderAll();
+                    sfx.playTone(50, 'sawtooth', 0.8); // Awakening Sound
+                }
             },
 
             checkAchievements: (hunter) => {
@@ -871,28 +929,6 @@
                 sfx.success();
             },
 
-            awakenHunter: (id) => {
-                const h = app.data.hunters.find(x => x.id === id);
-                if(h && h.level >= 10) {
-                    const oldClass = h.class;
-                    const newClass = CLASS_EVOLUTION[oldClass] || "Monarch";
-                    
-                    document.getElementById('awk-old-class').innerText = oldClass;
-                    document.getElementById('awk-new-class').innerText = newClass;
-                    document.getElementById('awakening-modal').classList.remove('hidden');
-                    
-                    h.class = newClass;
-                    h.level = 1;
-                    h.xp = 0;
-                    h.rank = 'S';
-                    app.checkAchievements(h);
-                    app.save();
-                    ui.closeModal('modal-hunter-details');
-                    ui.renderAll();
-                    sfx.levelup();
-                }
-            },
-
             saveHunter: (e) => {
                 e.preventDefault();
                 const id = document.getElementById('h-id').value;
@@ -917,7 +953,7 @@
                     }
                 } else {
                     app.data.hunters.push({
-                        id: 'h' + Date.now(),
+                        id: app.generateId('h'),
                         name, class: cls, avatar, bio,
                         level: 1, xp: 0, gold: 0, inventory: [], skills: {}, stats: {done:0}, achievements: [],
                         attributes: initialAttributes
@@ -962,7 +998,7 @@
                     const g = app.data.guilds.find(x => x.id === id);
                     if(g) Object.assign(g, guildData);
                 } else {
-                    app.data.guilds.push({ id: 'g' + Date.now(), ...guildData });
+                    app.data.guilds.push({ id: app.generateId('g'), ...guildData });
                 }
 
                 app.save();
@@ -1033,10 +1069,20 @@
                                  });
 
                                  // Level Up Check
-                                 if (hunter.xp >= hunter.level * 1000) {
+                                 // Re-use app.addXP logic to handle multiple level ups if needed
+                                 const xpNeeded = hunter.level * 1000;
+                                 if (hunter.xp >= xpNeeded) {
+                                     // Call addXP with 0 just to trigger the level up logic within the function
+                                     // Actually better to just duplicate the logic here or call addXP recursively
+                                     // For simplicity, sticking to previous logic but invoking awakening check
                                      hunter.level++;
-                                     hunter.xp = 0;
+                                     hunter.xp = hunter.xp - xpNeeded;
                                      ui.showToast(`${hunter.name} subiu de nível!`, 'success');
+                                     
+                                     // Check Awakening
+                                     if (hunter.level >= 10) {
+                                         app.checkAwakening(hunter);
+                                     }
                                  }
                                  app.checkAchievements(hunter);
                              }
@@ -1050,7 +1096,7 @@
                     const d = app.data.dungeons.find(x => x.id === id);
                     if(d) Object.assign(d, dungeonData);
                 } else {
-                    app.data.dungeons.push({ id: 'd' + Date.now(), ...dungeonData });
+                    app.data.dungeons.push({ id: app.generateId('d'), ...dungeonData });
                 }
 
                 app.save();
@@ -1139,23 +1185,23 @@
                 ui.updateTranslations(); // Translate Static Text first
 
                 const user = app.getCurrentUser();
-                document.getElementById('user-name-display').innerText = user.name;
-                document.getElementById('user-role-display').innerText = `Level ${user.level} ${user.class}`;
+                document.getElementById('user-name-display').textContent = user.name;
+                document.getElementById('user-role-display').textContent = `Level ${user.level} ${user.class}`;
                 document.getElementById('user-avatar-display').src = user.avatar;
                 
-                document.getElementById('dash-user-name').innerText = user.name;
-                document.getElementById('stat-gold').innerText = user.gold;
-                document.getElementById('stat-level').innerText = user.level;
+                document.getElementById('dash-user-name').textContent = user.name;
+                document.getElementById('stat-gold').textContent = user.gold;
+                document.getElementById('stat-level').textContent = user.level;
                 
                 const active = app.data.dungeons.filter(d => d.status === 'Active').length;
-                document.getElementById('stat-active').innerText = active;
-                document.getElementById('stat-hunters').innerText = app.data.guilds.length;
+                document.getElementById('stat-active').textContent = active;
+                document.getElementById('stat-hunters').textContent = app.data.guilds.length;
 
                 const hpPct = (app.data.raidBoss.hp / app.data.raidBoss.max) * 100;
                 document.getElementById('boss-hp-bar').style.width = `${hpPct}%`;
-                document.getElementById('boss-hp-text').innerText = `${Math.floor(app.data.raidBoss.hp)} / ${app.data.raidBoss.max} HP`;
+                document.getElementById('boss-hp-text').textContent = `${Math.floor(app.data.raidBoss.hp)} / ${app.data.raidBoss.max} HP`;
 
-                document.getElementById('shop-gold-display').innerText = user.gold;
+                document.getElementById('shop-gold-display').textContent = user.gold;
 
                 ui.renderDungeons();
                 ui.renderHuntersAndGuilds();
@@ -1192,8 +1238,8 @@
                                 <span class="text-xs font-bold border ${r.border} ${r.color} px-2 py-0.5 rounded rank-tag">RANK ${d.rank}</span>
                                 <span class="text-[10px] uppercase font-bold ${statusColor}">${d.status}</span>
                             </div>
-                            <h4 class="text-lg font-bold text-white mb-1 truncate">${d.name}</h4>
-                            <p class="text-xs text-gray-500 mb-3 truncate">${d.desc || 'Sem descrição.'}</p>
+                            <h4 class="text-lg font-bold text-white mb-1 truncate">${app.escapeHTML(d.name)}</h4>
+                            <p class="text-xs text-gray-500 mb-3 truncate">${app.escapeHTML(d.desc) || 'Sem descrição.'}</p>
                             <div class="flex justify-between items-center text-xs text-gray-400">
                                 <span><i class="fas fa-users mr-1"></i> ${d.hunters.length}</span>
                                 <span><i class="fas fa-clock mr-1"></i> ${d.date || 'N/A'}</span>
@@ -1224,8 +1270,8 @@
                             <div class="absolute inset-0 bg-neon-blue/5 translate-y-full group-hover:translate-y-0 transition duration-300"></div>
                             <img src="${emblem}" class="w-12 h-12 rounded-full object-cover border-2 border-neon-blue relative z-10">
                             <div class="relative z-10">
-                                <h4 class="font-bold text-white font-display text-lg">${g.name}</h4>
-                                <div class="text-[10px] text-gray-400 uppercase tracking-wider">${ui.t('guild_leader')}: <span class="text-white">${leaderName}</span></div>
+                                <h4 class="font-bold text-white font-display text-lg">${app.escapeHTML(g.name)}</h4>
+                                <div class="text-[10px] text-gray-400 uppercase tracking-wider">${ui.t('guild_leader')}: <span class="text-white">${app.escapeHTML(leaderName)}</span></div>
                                 <div class="text-[10px] text-neon-blue mt-1"><i class="fas fa-users"></i> ${g.members.length} Membros</div>
                             </div>
                         </div>
@@ -1249,7 +1295,7 @@
                         <img src="${h.avatar}" class="w-12 h-12 rounded object-cover bg-gray-800 z-10 border border-border">
                         <div class="flex-grow z-10">
                             <div class="flex justify-between items-center">
-                                <h4 class="font-bold text-white text-sm ${isAwakened ? 'text-neon-gold' : ''}">${h.name} ${isAwakened ? '<i class="fas fa-crown text-[10px]"></i>' : ''}</h4>
+                                <h4 class="font-bold text-white text-sm ${isAwakened ? 'text-neon-gold' : ''}">${app.escapeHTML(h.name)} ${isAwakened ? '<i class="fas fa-crown text-[10px]"></i>' : ''}</h4>
                                 <span class="${isAwakened ? 'text-neon-gold' : 'text-neon-purple'} text-xs font-bold">LVL ${h.level}</span>
                             </div>
                             <div class="flex justify-between items-center mb-1">
@@ -1318,22 +1364,15 @@
                         <div class="flex items-end gap-6">
                             <img src="${h.avatar}" class="w-24 h-24 rounded-lg object-cover border-2 ${isAwakened ? 'border-neon-gold shadow-[0_0_20px_#FFD700]' : 'border-neon-purple shadow-[0_0_20px_rgba(189,0,255,0.4)]'}">
                             <div>
-                                <h2 class="text-3xl font-display font-bold text-white leading-none mb-1">${h.name} ${isAwakened ? '<span class="text-neon-gold text-lg"><i class="fas fa-crown"></i></span>' : ''}</h2>
+                                <h2 class="text-3xl font-display font-bold text-white leading-none mb-1">${app.escapeHTML(h.name)} ${isAwakened ? '<span class="text-neon-gold text-lg"><i class="fas fa-crown"></i></span>' : ''}</h2>
                                 <p class="${isAwakened ? 'text-neon-gold' : 'text-neon-purple'} text-sm font-bold uppercase tracking-widest mb-2">${h.class} &bull; LVL ${h.level}</p>
-                                <div class="text-xs text-gray-400 italic">"${h.bio || 'Sem lema.'}"</div>
+                                <div class="text-xs text-gray-400 italic">"${app.escapeHTML(h.bio) || 'Sem lema.'}"</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-6 overflow-y-auto custom-scrollbar flex-grow space-y-6">
                         
-                        ${(!isAwakened && h.level >= 10) ? `
-                        <div class="text-center">
-                            <button onclick="app.awakenHunter('${h.id}')" class="w-full py-2 bg-gradient-to-r from-neon-gold/20 to-black border border-neon-gold text-neon-gold font-bold uppercase tracking-[0.2em] animate-pulse hover:bg-neon-gold hover:text-black transition">
-                                <i class="fas fa-bolt mr-2"></i> DESPERTAR DISPONÍVEL
-                            </button>
-                        </div>` : ''}
-
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <div>
@@ -1384,9 +1423,9 @@
                                       const item = COLLECTIBLES.find(c => c.id === itemId);
                                       if(!item) return '';
                                       return `
-                                        <div class="w-10 h-10 bg-black/50 border border-gray-700 rounded flex items-center justify-center text-gray-300 hover:border-white hover:text-white transition" title="${item.name}">
-                                            <i class="fas ${item.icon}"></i>
-                                        </div>
+                                      <div class="w-10 h-10 bg-black/50 border border-gray-700 rounded flex items-center justify-center text-gray-300 hover:border-white hover:text-white transition" title="${item.name}">
+                                          <i class="fas ${item.icon}"></i>
+                                      </div>
                                       `;
                                   }).join('')}
                             </div>
@@ -1576,7 +1615,7 @@
             updateXPPreview: () => {
                 const r = document.getElementById('d-rank').value;
                 const rew = RANKS[r];
-                document.getElementById('xp-preview').innerText = `${rew.xp} XP / ${rew.gold} G`;
+                document.getElementById('xp-preview').textContent = `${rew.xp} XP / ${rew.gold} G`;
             },
 
             showToast: (msg, type = 'normal') => {
@@ -1595,4 +1634,3 @@
     </script>
 </body>
 </html>
-
