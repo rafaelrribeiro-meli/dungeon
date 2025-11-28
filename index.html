@@ -249,7 +249,12 @@
                             <div id="boss-hp-bar" class="h-full bg-gradient-to-r from-red-800 via-red-600 to-neon-red shadow-[0_0_10px_#FF2A2A] transition-all duration-300" style="width: 0%"></div>
                         </div>
                         
-                        <p class="text-[10px] text-red-400/50 text-center mt-2 font-mono uppercase tracking-widest group-hover:text-red-400 transition">Clique para atacar!</p>
+                        <div class="flex justify-between items-center mt-2 relative z-10">
+                            <p class="text-[10px] text-red-400/50 font-mono uppercase tracking-widest group-hover:text-red-400 transition">Clique para atacar!</p>
+                            <div class="flex items-center gap-2 text-neon-red font-bold text-xs bg-red-950/50 px-2 py-1 rounded border border-red-900">
+                                <i class="fas fa-bomb"></i> <span id="dash-bomb-count">0</span>
+                            </div>
+                        </div>
                         
                         <div class="absolute inset-0 bg-gradient-to-t from-red-900/20 to-transparent pointer-events-none"></div>
                     </div>
@@ -916,14 +921,15 @@
                     if(!h.stats) h.stats = { done: 0, requests: 0 };
                     if(typeof h.stats.requests === 'undefined') h.stats.requests = 0;
                     if(!h.attributes) h.attributes = {}; 
+                    if(!h.consumables) h.consumables = { raid_bomb: 0, xp_potion: 0 }; // Ensure consumables
                     if(!h.achievements) h.achievements = [];
                 });
             },
 
             seedData: () => {
                 app.data.hunters = [
-                    { id: 'h1', name: 'Sung Jin-Woo', class: 'Assassin', level: 1, xp: 0, gold: 500, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sung', bio: 'O Monarca das Sombras.', inventory: [], skills: {}, attributes: {}, stats: {done:0, requests:0}, achievements: [] },
-                    { id: 'h2', name: 'Cha Hae-In', class: 'Fighter', level: 1, xp: 0, gold: 500, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Cha', bio: 'A dançarina da espada.', inventory: [], skills: {}, attributes: {}, stats: {done:0, requests:0}, achievements: [] }
+                    { id: 'h1', name: 'Sung Jin-Woo', class: 'Assassin', level: 1, xp: 0, gold: 500, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sung', bio: 'O Monarca das Sombras.', inventory: [], skills: {}, attributes: {}, stats: {done:0, requests:0}, consumables: { raid_bomb: 0, xp_potion: 0 }, achievements: [] },
+                    { id: 'h2', name: 'Cha Hae-In', class: 'Fighter', level: 1, xp: 0, gold: 500, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Cha', bio: 'A dançarina da espada.', inventory: [], skills: {}, attributes: {}, stats: {done:0, requests:0}, consumables: { raid_bomb: 0, xp_potion: 0 }, achievements: [] }
                 ];
                 app.data.guilds = [
                     { id: 'g1', name: 'Ahjin Guild', leaderId: 'h1', members: ['h1'], emblem: '' }
@@ -950,10 +956,27 @@
             },
 
             switchUser: (index) => {
-                app.data.currentUserIndex = parseInt(index);
+                const targetIndex = parseInt(index);
+                const targetHunter = app.data.hunters[targetIndex];
+                
+                // Check if target is a leader
+                const isLeader = app.data.guilds.some(g => g.leaderId === targetHunter.id);
+                
+                if(isLeader) {
+                    const input = prompt("🔐 ACESSO RESTRITO A LÍDERES\nDigite o PIN de Segurança:");
+                    if(input !== "535759") {
+                        ui.showToast("Acesso Negado: PIN Incorreto.", "error");
+                        sfx.error();
+                        // Revert UI selection
+                        ui.renderSettingsUserSelect(); 
+                        return;
+                    }
+                }
+
+                app.data.currentUserIndex = targetIndex;
                 app.save();
                 ui.renderAll();
-                ui.showToast(`Logado como ${app.getCurrentUser().name}`);
+                ui.showToast(`Logado como ${targetHunter.name}`);
                 ui.closeModal('modal-settings');
             },
 
@@ -1060,6 +1083,18 @@
 
             attackBoss: () => {
                 const user = app.getCurrentUser();
+                
+                // CONSUMABLE CHECK
+                const bombCount = user.consumables?.raid_bomb || 0;
+                if (bombCount <= 0) {
+                    ui.showToast("Precisa de uma Raid Bomb!", "error");
+                    sfx.error();
+                    return;
+                }
+
+                // Consume Item
+                user.consumables.raid_bomb--;
+
                 let damage = (user.level * 20) + Math.floor(Math.random() * 50);
                 if (user.rank === 'S') damage *= 2;
                 
@@ -1123,13 +1158,14 @@
                 }
                 user.gold -= cost;
                 
-                if (type === 'xp_potion') {
-                    app.addXP(500);
-                    ui.showToast('Poção consumida: +500 XP', 'success');
-                } else if (type === 'raid_bomb') {
-                    app.data.raidBoss.hp = Math.max(0, app.data.raidBoss.hp - 2000);
-                    ui.showToast('Boom! 2000 Dano no Boss', 'success');
-                }
+                // Add to Consumables Stock
+                if (!user.consumables) user.consumables = { raid_bomb: 0, xp_potion: 0 };
+                user.consumables[type] = (user.consumables[type] || 0) + 1;
+
+                // Toast logic
+                if(type === 'xp_potion') ui.showToast('Poção comprada! (Use no Inventário)', 'success');
+                if(type === 'raid_bomb') ui.showToast('Raid Bomb comprada!', 'success');
+
                 app.save();
                 ui.renderAll();
             },
@@ -1185,7 +1221,7 @@
                     app.data.hunters.push({
                         id: 'h' + Date.now(),
                         name, class: cls, avatar, bio,
-                        level: 1, xp: 0, gold: 0, inventory: [], skills: {}, stats: {done:0, requests:0}, achievements: [],
+                        level: 1, xp: 0, gold: 0, inventory: [], skills: {}, stats: {done:0, requests:0}, consumables: { raid_bomb: 0, xp_potion: 0 }, achievements: [],
                         attributes: initialAttributes
                     });
                 }
@@ -1404,6 +1440,7 @@
                 document.getElementById('dash-user-name').innerText = user.name;
                 document.getElementById('stat-gold').innerText = user.gold;
                 document.getElementById('stat-level').innerText = user.level;
+                document.getElementById('dash-bomb-count').innerText = user.consumables?.raid_bomb || 0;
                 
                 const active = app.data.dungeons.filter(d => d.status === 'Active').length;
                 document.getElementById('stat-active').innerText = active;
@@ -1769,9 +1806,11 @@
 
             renderSettingsUserSelect: () => {
                 const sel = document.getElementById('settings-user-select');
-                sel.innerHTML = app.data.hunters.map((h, idx) => 
-                    `<option value="${idx}" ${idx === app.data.currentUserIndex ? 'selected' : ''}>${escapeHTML(h.name)} (Lvl ${h.level})</option>`
-                ).join('');
+                sel.innerHTML = app.data.hunters.map((h, idx) => {
+                    const isLeader = app.data.guilds.some(g => g.leaderId === h.id);
+                    const prefix = isLeader ? '👑 ' : '';
+                    return `<option value="${idx}" ${idx === app.data.currentUserIndex ? 'selected' : ''}>${prefix}${escapeHTML(h.name)} (Lvl ${h.level})</option>`;
+                }).join('');
             },
 
             openModal: (id) => {
