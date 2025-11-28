@@ -729,7 +729,7 @@
                 market: "Black Market", consumables: "Consumables", item_potion: "XP Potion (Large)", item_potion_desc: "Grants +500 XP instantly.", buy: "Buy", item_bomb_desc: "Deals 2000 damage to Raid Boss.", artifacts: "Legendary Artifacts", inventory: "Your Inventory", empty_inv: "Empty inventory.",
                 mission_details: "Mission Details", form_title: "Dungeon Name", form_rank: "Rank", form_date: "Deadline", form_tools: "Tools", form_desc: "Description", reward: "Reward", delete: "Delete", save: "Save",
                 hunter_reg: "Hunter Registration", form_name: "Name", form_class: "Class", init_attrs: "Initial Attributes", confirm: "Confirm", revoke: "Revoke",
-                manage_guild: "Manage Guild", guild_name: "Name", guild_leader: "Leader", guild_members: "Members", guild_members_hint: "Select Hunters.",
+                manage_guild: "Manage Guild", guild_name: "Name", guild_leader: "Líder", guild_members: "Members", guild_members_hint: "Select Hunters.",
                 settings: "Settings", language: "Language", active_hunter: "Active Hunter", active_hunter_hint: "Switch character to manage inventory.", restore: "Restore",
                 tool_proficiency: "Tool Proficiency", status_window: "Status Window"
             },
@@ -961,6 +961,10 @@
                     document.getElementById('modal-evolution').classList.remove('hidden');
 
                     sfx.evolution();
+                    
+                    // SAVE AND RENDER IMMEDIATELY (so the background UI updates while modal is open)
+                    app.save();
+                    ui.renderAll();
                 }
             },
 
