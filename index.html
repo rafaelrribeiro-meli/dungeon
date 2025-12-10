@@ -254,6 +254,28 @@
 </head>
 <body class="font-body overflow-x-hidden text-sm md:text-base selection:bg-neon-blue selection:text-black">
 
+    <div id="login-screen" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center">
+        <div class="mb-8 relative">
+             <div class="absolute inset-0 bg-neon-purple blur-[40px] opacity-20 animate-pulse"></div>
+             <i class="fas fa-fingerprint text-6xl text-neon-purple relative z-10"></i>
+        </div>
+        <h2 class="text-2xl font-display font-bold text-white mb-6 tracking-[0.2em]">ACCESS RESTRICTED</h2>
+        
+        <div class="flex flex-col gap-4 w-64">
+            <input type="password" id="sys-pwd" placeholder="Enter Password" 
+                   class="bg-gray-900 border border-gray-700 text-center text-white p-3 rounded font-mono text-sm outline-none focus:border-neon-purple focus:shadow-[0_0_15px_#BD00FF] transition"
+                   onkeypress="if(event.key === 'Enter') checkSystemLogin()">
+            
+            <button onclick="checkSystemLogin()" class="bg-white/5 border border-white/20 text-white hover:bg-neon-purple hover:border-neon-purple hover:text-black font-bold uppercase text-xs py-3 rounded tracking-widest transition">
+                Unlock System
+            </button>
+        </div>
+        <p id="login-error" class="text-red-500 text-xs font-mono mt-4 opacity-0 transition">ACCESS DENIED</p>
+    </div>
+    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-[9999]"></canvas>
+    <div id="floating-hud" class="floating-hud"></div>
+    ```
+
     <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-[9999]"></canvas>
     <div id="floating-hud" class="floating-hud"></div>
     
@@ -1158,6 +1180,32 @@
                 }
             });
         })();
+
+// --- SISTEMA DE LOGIN ---
+function checkSystemLogin() {
+            const pass = "1302"; // SENHA
+            const input = document.getElementById('sys-pwd');
+            const errorMsg = document.getElementById('login-error');
+            const screen = document.getElementById('login-screen');
+
+            if (input.value === pass) {
+                if(typeof sfx !== 'undefined') sfx.success();
+                screen.style.transition = "opacity 0.5s ease";
+                screen.style.opacity = "0";
+                setTimeout(() => screen.remove(), 500);
+            } else {
+                if(typeof sfx !== 'undefined') sfx.error();
+                input.value = "";
+                input.classList.add('border-red-500', 'shake');
+                errorMsg.classList.remove('opacity-0');
+                
+                setTimeout(() => {
+                    input.classList.remove('border-red-500', 'shake');
+                    errorMsg.classList.add('opacity-0');
+                }, 1000);
+            }
+        }
+
 
         // --- APP CONTROLLER ---
         let saveTimeout = null;
@@ -2586,13 +2634,34 @@
                 document.getElementById('xp-preview').innerText = `${rew.xp} XP / ${rew.gold} G`;
             },
             showToast: (msg, type = 'normal') => {
-                const container = document.getElementById('toast-container');
+                // 1. Tenta achar o container
+                let container = document.getElementById('toast-container');
+                
+                // 2. BLINDAGEM: Se não achar, cria ele na hora e adiciona ao corpo do site
+                if (!container) {
+                    container = document.createElement('div');
+                    container.id = 'toast-container';
+                    // Copia as classes de estilo originais
+                    container.className = 'fixed top-20 right-5 z-50 flex flex-col gap-2 pointer-events-none';
+                    document.body.appendChild(container);
+                }
+
+                // 3. Cria a notificação normalmente
                 const div = document.createElement('div');
                 const color = type === 'success' ? 'border-neon-green text-neon-green' : (type === 'error' ? 'border-neon-red text-neon-red' : 'border-neon-blue text-white');
+                
                 div.className = `glass-panel px-4 py-3 rounded-lg border-l-4 ${color} shadow-lg flex items-center gap-3 animate-bounce`;
                 div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> <span class="font-bold text-xs uppercase text-gray-900 dark:text-white">${msg}</span>`;
+                
+                // Agora é seguro, pois garantimos que 'container' existe
                 container.appendChild(div);
-                setTimeout(() => div.remove(), 3000);
+                
+                // Remove a notificação após 3 segundos
+                setTimeout(() => {
+                    div.style.opacity = '0';
+                    div.style.transition = 'opacity 0.5s';
+                    setTimeout(() => div.remove(), 500);
+                }, 3000);
             }
         };
     </script>
