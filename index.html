@@ -36,6 +36,7 @@
                         'evo-text': 'evoText 1s ease-out forwards 0.5s',
                         'slide-in': 'slideIn 0.3s ease-out forwards',
                         'arise-pulse': 'arisePulse 2s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         glow: {
@@ -253,28 +254,6 @@
     </style>
 </head>
 <body class="font-body overflow-x-hidden text-sm md:text-base selection:bg-neon-blue selection:text-black">
-
-    <div id="login-screen" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center">
-        <div class="mb-8 relative">
-             <div class="absolute inset-0 bg-neon-purple blur-[40px] opacity-20 animate-pulse"></div>
-             <i class="fas fa-fingerprint text-6xl text-neon-purple relative z-10"></i>
-        </div>
-        <h2 class="text-2xl font-display font-bold text-white mb-6 tracking-[0.2em]">ACCESS RESTRICTED</h2>
-        
-        <div class="flex flex-col gap-4 w-64">
-            <input type="password" id="sys-pwd" placeholder="Enter Password" 
-                   class="bg-gray-900 border border-gray-700 text-center text-white p-3 rounded font-mono text-sm outline-none focus:border-neon-purple focus:shadow-[0_0_15px_#BD00FF] transition"
-                   onkeypress="if(event.key === 'Enter') checkSystemLogin()">
-            
-            <button onclick="checkSystemLogin()" class="bg-white/5 border border-white/20 text-white hover:bg-neon-purple hover:border-neon-purple hover:text-black font-bold uppercase text-xs py-3 rounded tracking-widest transition">
-                Unlock System
-            </button>
-        </div>
-        <p id="login-error" class="text-red-500 text-xs font-mono mt-4 opacity-0 transition">ACCESS DENIED</p>
-    </div>
-    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-[9999]"></canvas>
-    <div id="floating-hud" class="floating-hud"></div>
-    ```
 
     <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-[9999]"></canvas>
     <div id="floating-hud" class="floating-hud"></div>
@@ -747,13 +726,6 @@
             <div id="hunter-details-content" class="flex flex-col h-full overflow-hidden"></div>
         </div>
     </div>
-    ```
-
-    <div id="modal-hunter-details" class="fixed inset-0 z-[82] hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-[#0f1115] border border-neon-purple w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
-            <div id="hunter-details-content" class="flex flex-col h-full overflow-hidden"></div>
-        </div>
-    </div>
 
     <div id="modal-guild" class="fixed inset-0 z-[85] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#0f1115] border border-neon-blue w-full max-w-lg rounded-xl shadow-[0_0_30px_rgba(0,240,255,0.2)] flex flex-col max-h-[90vh]">
@@ -793,61 +765,6 @@
         </div>
     </div>
 
-    <div id="modal-settings" class="fixed inset-0 z-[80] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-[#0f1115] border border-gray-200 dark:border-border w-full max-w-sm rounded-xl shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="p-6 border-b border-gray-200 dark:border-border flex justify-between items-center shrink-0">
-                <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white" data-translate="settings">Configurações</h3>
-                <button onclick="ui.closeModal('modal-settings')" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-6 space-y-6 overflow-y-auto custom-scrollbar grow">
-                <div>
-                    <label class="block text-xs font-bold text-neon-purple uppercase mb-2">Tema / Theme</label>
-                    <div class="flex gap-2">
-                        <button onclick="app.toggleTheme('dark')" class="flex-1 py-2 border border-gray-300 dark:border-border rounded text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-white"><i class="fas fa-moon mr-2"></i> Dark</button>
-                        <button onclick="app.toggleTheme('light')" class="flex-1 py-2 border border-gray-300 dark:border-border rounded text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-white"><i class="fas fa-sun mr-2"></i> Light</button>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-neon-green uppercase mb-2" data-translate="language">Idioma / Language</label>
-                    <div class="flex gap-2">
-                        <button onclick="app.setLang('pt')" class="flex-1 py-2 border border-gray-300 dark:border-border rounded text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-white">🇧🇷 PT</button>
-                        <button onclick="app.setLang('en')" class="flex-1 py-2 border border-gray-300 dark:border-border rounded text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-white">🇺🇸 EN</button>
-                        <button onclick="app.setLang('es')" class="flex-1 py-2 border border-gray-300 dark:border-border rounded text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 text-gray-900 dark:text-white">🇪🇸 ES</button>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-neon-blue uppercase mb-2" data-translate="active_hunter">Hunter Ativo</label>
-                    <select id="settings-user-select" onchange="app.switchUser(this.value)" class="w-full bg-gray-100 dark:bg-black border border-gray-300 dark:border-neon-blue/30 rounded p-3 text-gray-900 dark:text-white outline-none">
-                    </select>
-                    <p class="text-[10px] text-gray-500 mt-1" data-translate="active_hunter_hint">Troque de personagem para gerenciar inventário individual.</p>
-                </div>
-                <div class="border-t border-gray-200 dark:border-border pt-4">
-                    <button onclick="app.exportData()" class="w-full border border-gray-300 dark:border-border text-gray-500 dark:text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-black/5 dark:hover:bg-white/5 mb-2"><i class="fas fa-download mr-2"></i> Backup</button>
-                    <label class="block w-full border border-gray-300 dark:border-border text-gray-500 dark:text-gray-300 py-2 rounded text-xs font-bold uppercase hover:bg-black/5 dark:hover:bg-white/5 text-center cursor-pointer mb-4">
-                        <i class="fas fa-upload mr-2"></i> <span data-translate="restore">Restaurar</span>
-                        <input type="file" class="hidden" onchange="app.importData(this)">
-                    </label>
-                    <button onclick="app.factoryReset()" class="w-full bg-red-900/20 text-red-500 py-2 rounded text-xs font-bold uppercase hover:bg-red-900/40">Factory Reset</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div id="modal-confirm" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="glass-panel border border-neon-red p-6 max-w-sm w-full rounded-xl text-center shadow-[0_0_50px_rgba(255,42,42,0.2)] animate-shake">
-            <i class="fas fa-exclamation-triangle text-5xl text-neon-red mb-4"></i>
-            <h3 class="text-2xl font-display font-bold text-white mb-2 tracking-widest">ATENÇÃO</h3>
-            <p id="confirm-msg" class="text-gray-400 text-sm mb-8 font-mono"></p>
-            <div class="flex gap-4 justify-center">
-                <button onclick="ui.closeModal('modal-confirm')" class="px-6 py-2 border border-gray-600 text-gray-400 hover:text-white hover:border-white rounded uppercase text-xs font-bold transition">Cancelar</button>
-                <button id="btn-confirm-yes" class="px-6 py-2 bg-neon-red text-black hover:bg-white hover:text-red-900 rounded uppercase text-xs font-bold transition shadow-[0_0_15px_#FF2A2A]">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-
-
     <script>
         // --- SECURITY ---
         const escapeHTML = (str) => {
@@ -862,8 +779,8 @@
         };
 
         // --- CONFIG & STATE ---
-        // ⚠️ SUBSTITUA PELA URL DO SEU SCRIPT DE CONTA PESSOAL AQUI
-        const API_URL = 'https://script.google.com/macros/s/AKfycbxOFQ_kAtK8djutOc4lkNFnOYvAvMJAv7cV1azoKbrGbxnXMdAVeAwKMGFsgclAIVxu/exec'; 
+        // ⚠️ SUBSTITUA PELA URL QUE VOCÊ COPIOU DO GOOGLE APPS SCRIPT
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzNrs25u5zwm27RXPnPM4l9x1fL49_hCeD7X2NOkoRisXORQJemIBWLgdQyLIGXKoU/exec'; 
         
         const TOOLS = ["SQL", "Python", "Excel", "Sheet", "Looker Studio", "Power BI", "Tableau", "Monday", "Miro", "Data Flow","Verdi Flow"];
         const ATTRIBUTES = ["Lógica", "Programação", "Estatística", "IA", "ML", "Analysis", "DataViz", "Projeto", "Business"];
@@ -1052,19 +969,6 @@
                 gain.connect(audioCtx.destination);
                 osc.start(now);
                 osc.stop(now + 1.2);
-                setTimeout(() => {
-                    const osc2 = audioCtx.createOscillator();
-                    const gain2 = audioCtx.createGain();
-                    osc2.type = 'square';
-                    osc2.frequency.setValueAtTime(50, audioCtx.currentTime);
-                    osc2.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 1.5);
-                    gain2.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                    gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
-                    osc2.connect(gain2);
-                    gain2.connect(audioCtx.destination);
-                    osc2.start(audioCtx.currentTime);
-                    osc2.stop(audioCtx.currentTime + 1.5);
-                }, 1000);
             },
             requestComplete: () => {
                 sfx.playTone(1200, 'sine', 0.1);
@@ -1180,32 +1084,6 @@
                 }
             });
         })();
-
-// --- SISTEMA DE LOGIN ---
-function checkSystemLogin() {
-            const pass = "1302"; // SENHA
-            const input = document.getElementById('sys-pwd');
-            const errorMsg = document.getElementById('login-error');
-            const screen = document.getElementById('login-screen');
-
-            if (input.value === pass) {
-                if(typeof sfx !== 'undefined') sfx.success();
-                screen.style.transition = "opacity 0.5s ease";
-                screen.style.opacity = "0";
-                setTimeout(() => screen.remove(), 500);
-            } else {
-                if(typeof sfx !== 'undefined') sfx.error();
-                input.value = "";
-                input.classList.add('border-red-500', 'shake');
-                errorMsg.classList.remove('opacity-0');
-                
-                setTimeout(() => {
-                    input.classList.remove('border-red-500', 'shake');
-                    errorMsg.classList.add('opacity-0');
-                }, 1000);
-            }
-        }
-
 
         // --- APP CONTROLLER ---
         let saveTimeout = null;
@@ -1324,7 +1202,7 @@ function checkSystemLogin() {
                 if (saveTimeout) clearTimeout(saveTimeout);
 
                 const indicator = document.getElementById('sync-indicator');
-                if (indicator) indicator.classList.add('visible');
+                indicator.classList.add('visible');
 
                 saveTimeout = setTimeout(() => {
                     fetch(API_URL, {
@@ -1334,13 +1212,13 @@ function checkSystemLogin() {
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                     })
                     .then(() => {
-                        if (indicator) indicator.classList.remove('visible');
+                        indicator.classList.remove('visible');
                         console.log("Data synced.");
                     })
                     .catch(err => {
                         console.error("Save error:", err);
                         ui.showToast("Erro ao sincronizar com a nuvem", "error");
-                        if (indicator) indicator.classList.remove('visible');
+                        indicator.classList.remove('visible');
                     });
                 }, 2000); // 2 second delay to bundle saves
             },
@@ -1397,8 +1275,7 @@ function checkSystemLogin() {
 
             router: (viewId) => {
                 ['dashboard', 'dungeons', 'hunters', 'shop', 'requests'].forEach(v => {
-                    const el = document.getElementById(`view-${v}`);
-                    if(el) el.classList.add('hidden');
+                    document.getElementById(`view-${v}`).classList.add('hidden');
                     const nav = document.getElementById(`nav-${v}`);
                     if(nav) {
                         nav.classList.remove('text-neon-blue', 'bg-neon-blue/10');
@@ -1407,8 +1284,7 @@ function checkSystemLogin() {
                         }
                     }
                 });
-                const targetView = document.getElementById(`view-${viewId}`);
-                if(targetView) targetView.classList.remove('hidden');
+                document.getElementById(`view-${viewId}`).classList.remove('hidden');
                 
                 const navBtn = document.getElementById(`nav-${viewId}`);
                 if(navBtn) {
@@ -1543,14 +1419,14 @@ function checkSystemLogin() {
                 const id = document.getElementById('req-id').value;
                 if (!id) return;
                 
-                ui.showConfirm("Excluir este request permanentemente?", () => {
-                    app.data.requests = app.data.requests.filter(r => r.id !== id);
-                    app.save();
-                    ui.closeModal('modal-request');
-                    ui.renderAll();
-                    ui.showToast('Request excluído.', 'success');
-                    sfx.click();
-                });
+                if(!confirm('Excluir este request permanentemente?')) return;
+                
+                app.data.requests = app.data.requests.filter(r => r.id !== id);
+                app.save();
+                ui.closeModal('modal-request');
+                ui.renderAll();
+                ui.showToast('Request excluído.', 'success');
+                sfx.click();
             },
 
             completeRequest: (id) => {
@@ -1754,19 +1630,18 @@ function checkSystemLogin() {
 
             deleteHunter: () => {
                 const id = document.getElementById('h-id').value;
-                
-                ui.showConfirm("Tem certeza? Isso apagará o Hunter para sempre.", () => {
-                    app.data.hunters = app.data.hunters.filter(h => h.id !== id);
-                    app.data.guilds.forEach(g => {
-                        g.members = g.members.filter(mId => mId !== id);
-                        if(g.leaderId === id) g.leaderId = g.members[0] || null;
-                    });
-                    app.data.currentUserIndex = 0; 
-                    app.save();
-                    ui.closeModal('modal-hunter');
-                    ui.renderAll();
-                    sfx.click();
+                if(!confirm('Tem certeza? Isso é irreversível.')) return;
+                app.data.hunters = app.data.hunters.filter(h => h.id !== id);
+                app.data.guilds.forEach(g => {
+                    g.members = g.members.filter(mId => mId !== id);
+                    if(g.leaderId === id) g.leaderId = g.members[0] || null;
                 });
+
+                app.data.currentUserIndex = 0; 
+                app.save();
+                ui.closeModal('modal-hunter');
+                ui.renderAll();
+                sfx.click();
             },
 
             saveGuild: (e) => {
@@ -1798,14 +1673,12 @@ function checkSystemLogin() {
             },
 
             deleteGuild: () => {
-                const id = document.getElementById('d-id').value;
-                
-                ui.showConfirm("Cancelar e excluir esta missão?", () => {
-                    app.data.dungeons = app.data.dungeons.filter(d => d.id !== id);
-                    app.save();
-                    ui.closeModal('modal-dungeon');
-                    ui.renderAll();
-                });
+                const id = document.getElementById('g-id').value;
+                if(!confirm('Dissolver guilda?')) return;
+                app.data.guilds = app.data.guilds.filter(g => g.id !== id);
+                app.save();
+                ui.closeModal('modal-guild');
+                ui.renderAll();
             },
 
             saveDungeon: (e) => {
@@ -2011,12 +1884,12 @@ function checkSystemLogin() {
             },
 
             factoryReset: () => {
-                ui.showConfirm("ATENÇÃO: Isso apagará TUDO no Google Sheets. Continuar?", () => {
+                if(confirm("ATENÇÃO: Isso apagará tudo no Google Sheets. Continuar?")) {
                     app.data = { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0, requests: [], settings: { lang: 'pt', theme: 'dark' } };
                     app.seedData();
                     app.save();
                     setTimeout(() => location.reload(), 2000);
-                });
+                }
             },
             
             toggleSound: () => {
@@ -2027,28 +1900,6 @@ function checkSystemLogin() {
 
         // --- UI MANAGER ---
         const ui = {
-
-            showConfirm: (msg, callback) => {
-                const modal = document.getElementById('modal-confirm');
-                const txt = document.getElementById('confirm-msg');
-                const btnYes = document.getElementById('btn-confirm-yes');
-                
-                if(!modal) { console.error("Falta modal-confirm"); return; }
-
-                txt.innerText = msg;
-                
-                // Remove eventos antigos do botão para não duplicar cliques
-                const newBtn = btnYes.cloneNode(true);
-                btnYes.parentNode.replaceChild(newBtn, btnYes);
-                
-                newBtn.onclick = () => {
-                    callback();
-                    ui.closeModal('modal-confirm');
-                };
-
-                modal.classList.remove('hidden');
-                if(sfx && sfx.error) sfx.error();
-            },
             t: (key) => {
                 const l = app.data.settings?.lang || 'pt';
                 if(!TRANSLATIONS[l]) return key;
@@ -2533,31 +2384,17 @@ function checkSystemLogin() {
 
             openModal: (id) => {
                 const modal = document.getElementById(id);
-                // --- PROTEÇÃO DE ERRO ---
-                if (!modal) {
-                    console.error("ERRO CRÍTICO: Modal não encontrado no HTML ->", id);
-                    return; 
-                }
-                // ------------------------
-
                 if(id === 'modal-dungeon') {
                     sfx.door();
-                    const dModal = document.getElementById('modal-dungeon');
-                    if(dModal) dModal.classList.add('active');
+                    document.getElementById('modal-dungeon').classList.add('active');
                 }
-                
                 modal.classList.remove('hidden');
                 sfx.click();
             },
-
             closeModal: (id) => {
                 const modal = document.getElementById(id);
-                if (!modal) return; 
-
                 modal.classList.add('hidden');
-                if(id === 'modal-dungeon') {
-                    modal.classList.remove('active');
-                }
+                if(id === 'modal-dungeon') document.getElementById('modal-dungeon').classList.remove('active');
             },
             
             prepareDungeonForm: (id = null) => {
@@ -2634,34 +2471,13 @@ function checkSystemLogin() {
                 document.getElementById('xp-preview').innerText = `${rew.xp} XP / ${rew.gold} G`;
             },
             showToast: (msg, type = 'normal') => {
-                // 1. Tenta achar o container
-                let container = document.getElementById('toast-container');
-                
-                // 2. BLINDAGEM: Se não achar, cria ele na hora e adiciona ao corpo do site
-                if (!container) {
-                    container = document.createElement('div');
-                    container.id = 'toast-container';
-                    // Copia as classes de estilo originais
-                    container.className = 'fixed top-20 right-5 z-50 flex flex-col gap-2 pointer-events-none';
-                    document.body.appendChild(container);
-                }
-
-                // 3. Cria a notificação normalmente
+                const container = document.getElementById('toast-container');
                 const div = document.createElement('div');
                 const color = type === 'success' ? 'border-neon-green text-neon-green' : (type === 'error' ? 'border-neon-red text-neon-red' : 'border-neon-blue text-white');
-                
                 div.className = `glass-panel px-4 py-3 rounded-lg border-l-4 ${color} shadow-lg flex items-center gap-3 animate-bounce`;
                 div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> <span class="font-bold text-xs uppercase text-gray-900 dark:text-white">${msg}</span>`;
-                
-                // Agora é seguro, pois garantimos que 'container' existe
                 container.appendChild(div);
-                
-                // Remove a notificação após 3 segundos
-                setTimeout(() => {
-                    div.style.opacity = '0';
-                    div.style.transition = 'opacity 0.5s';
-                    setTimeout(() => div.remove(), 500);
-                }, 3000);
+                setTimeout(() => div.remove(), 3000);
             }
         };
     </script>
