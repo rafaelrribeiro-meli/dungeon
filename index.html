@@ -146,11 +146,120 @@
             50% { border-color: #ff0000; box-shadow: 0 0 20px rgba(255, 42, 42, 0.6); }
             100% { border-color: #FF2A2A; box-shadow: 0 0 5px rgba(255, 42, 42, 0.2); }
         }
+
+        .floating-hud {
+            position: fixed;
+            top: 18px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .floating-hud span {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(15, 15, 15, 0.7);
+            color: #00F0FF;
+            letter-spacing: 0.25em;
+            opacity: 0;
+            animation: floatUp 1.2s ease forwards;
+        }
+        .floating-hud span.gold {
+            background: rgba(255, 215, 0, 0.95);
+            color: #000;
+        }
+        .floating-hud span.danger {
+            background: rgba(255, 42, 42, 0.95);
+            color: #fff;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            60% { opacity: 1; }
+            100% { transform: translateY(-10px); opacity: 0; }
+        }
+
+        .rank-s {
+            box-shadow: 0 0 25px rgba(255,215,0,0.8);
+            position: relative;
+        }
+        .rank-s::before {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(255,215,0,0.5);
+            border-radius: 1rem;
+            animation: rankPulse 2.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .rank-a {
+            box-shadow: 0 0 18px rgba(189,0,255,0.7);
+        }
+        .rank-c {
+            box-shadow: 0 0 12px rgba(0,208,255,0.6);
+        }
+        @keyframes rankPulse {
+            0% { box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+            50% { box-shadow: 0 0 35px rgba(255,215,0,0.6); }
+            100% { box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+        }
+
+        #modal-dungeon.active::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 1rem;
+            border: 1px solid rgba(0,240,255,0.5);
+            animation: portalGlow 1.4s ease-out infinite;
+        }
+        @keyframes portalGlow {
+            0% { box-shadow: 0 0 0 rgba(0,240,255,0.5); }
+            50% { box-shadow: 0 0 30px rgba(0,240,255,0.4); }
+            100% { box-shadow: 0 0 0 rgba(0,240,255,0.5); }
+        }
+
+        .skill-effect {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid currentColor;
+            pointer-events: none;
+            animation: skillBurst 1.4s ease forwards;
+            z-index: 9998;
+        }
+        @keyframes skillBurst {
+            0% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: scale(1.2) rotate(30deg); }
+        }
+        
+        #sync-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        #sync-indicator.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="font-body overflow-x-hidden text-sm md:text-base selection:bg-neon-blue selection:text-black">
 
     <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-[9999]"></canvas>
+    <div id="floating-hud" class="floating-hud"></div>
+    
+    <div id="sync-indicator" class="flex items-center gap-2 bg-black/80 text-neon-blue px-3 py-1.5 rounded-full border border-neon-blue/30 text-xs font-mono uppercase tracking-widest shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+        <i class="fas fa-sync fa-spin"></i> Saving...
+    </div>
 
     <div id="boot-screen" class="fixed inset-0 z-[100] bg-gray-900 dark:bg-black flex flex-col items-center justify-center">
         <div class="relative mb-8">
@@ -168,7 +277,7 @@
         
         <div id="loading-bar-area" class="hidden w-64">
             <div class="system-loader mb-2"></div>
-            <div class="font-mono text-[10px] text-gray-500 text-right" data-translate="connecting">CONNECTING TO SERVER...</div>
+            <div class="font-mono text-[10px] text-gray-500 text-right" data-translate="connecting">CONNECTING TO DATABASE...</div>
         </div>
     </div>
 
@@ -273,8 +382,6 @@
 
         <main class="flex-grow container mx-auto px-4 py-6 pb-24">
             
-            <div id="toast-container" class="fixed top-20 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
             <div id="view-dashboard" class="animate-level-up">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
                     <div class="md:col-span-8 glass-panel p-6 rounded-xl border border-neon-blue/20 relative overflow-hidden group">
@@ -498,12 +605,12 @@
     </div>
 
     <div id="modal-dungeon" class="fixed inset-0 z-[80] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-[#0f1115] border border-gray-200 dark:border-border w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[90vh]">
+        <div class="bg-white dark:bg-[#0f1115] border border-gray-200 dark:border-border w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[90vh] relative">
             <div class="p-4 md:p-6 border-b border-gray-200 dark:border-border flex justify-between items-center bg-gray-50 dark:bg-[#15181e] shrink-0">
                 <h3 class="text-xl font-display font-bold text-gray-900 dark:text-white" data-translate="mission_details">Detalhes da Missão</h3>
                 <button onclick="ui.closeModal('modal-dungeon')" class="text-gray-500 hover:text-black dark:hover:text-white p-2"><i class="fas fa-times"></i></button>
             </div>
-            <div class="p-4 md:p-6 overflow-y-auto custom-scrollbar grow">
+            <div class="p-4 md:p-6 overflow-y-auto custom-scrollbar grow relative">
                 <form id="form-dungeon" onsubmit="app.saveDungeon(event)" class="space-y-4">
                     <input type="hidden" id="d-id">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -618,6 +725,13 @@
             <div id="hunter-details-content" class="flex flex-col h-full overflow-hidden"></div>
         </div>
     </div>
+    ```
+
+    <div id="modal-hunter-details" class="fixed inset-0 z-[82] hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#0f1115] border border-neon-purple w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+            <div id="hunter-details-content" class="flex flex-col h-full overflow-hidden"></div>
+        </div>
+    </div>
 
     <div id="modal-guild" class="fixed inset-0 z-[85] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#0f1115] border border-neon-blue w-full max-w-lg rounded-xl shadow-[0_0_30px_rgba(0,240,255,0.2)] flex flex-col max-h-[90vh]">
@@ -697,6 +811,21 @@
         </div>
     </div>
 
+
+    <div id="modal-confirm" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel border border-neon-red p-6 max-w-sm w-full rounded-xl text-center shadow-[0_0_50px_rgba(255,42,42,0.2)] animate-shake">
+            <i class="fas fa-exclamation-triangle text-5xl text-neon-red mb-4"></i>
+            <h3 class="text-2xl font-display font-bold text-white mb-2 tracking-widest">ATENÇÃO</h3>
+            <p id="confirm-msg" class="text-gray-400 text-sm mb-8 font-mono"></p>
+            <div class="flex gap-4 justify-center">
+                <button onclick="ui.closeModal('modal-confirm')" class="px-6 py-2 border border-gray-600 text-gray-400 hover:text-white hover:border-white rounded uppercase text-xs font-bold transition">Cancelar</button>
+                <button id="btn-confirm-yes" class="px-6 py-2 bg-neon-red text-black hover:bg-white hover:text-red-900 rounded uppercase text-xs font-bold transition shadow-[0_0_15px_#FF2A2A]">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+
+
     <script>
         // --- SECURITY ---
         const escapeHTML = (str) => {
@@ -711,10 +840,10 @@
         };
 
         // --- CONFIG & STATE ---
-        const DB_KEY = 'dungeon_analytics_reset_v1';
-        const REMOTE_DB_URL = 'https://raw.githubusercontent.com/rafaelrribeiro-meli/dungeon/main/hunter_system.json'; 
+        // ⚠️ SUBSTITUA PELA URL DO SEU SCRIPT DE CONTA PESSOAL AQUI
+        const API_URL = 'https://script.google.com/macros/s/AKfycbya1QTrQ7yEh9PT15Tj2yzIYFT-7_ufBJUU9wGkGBm_z737scHgWlNM0g_F8upwd2hOQg/exec'; 
         
-        const TOOLS = ["SQL", "Python", "Excel", "Sheet", "Looker Studio", "Power BI", "Tableau", "Monday", "Miro", "Data Flow"];
+        const TOOLS = ["SQL", "Python", "Excel", "Sheet", "Looker Studio", "Power BI", "Tableau", "Monday", "Miro", "Data Flow","Verdi Flow"];
         const ATTRIBUTES = ["Lógica", "Programação", "Estatística", "IA", "ML", "Analysis", "DataViz", "Projeto", "Business"];
         
         const CLASS_EVOLUTION = {
@@ -765,7 +894,7 @@
         };
 
         const SKILL_MAP = {
-            "SQL": ["Lógica", "Programação"],
+            "SQL": ["Lógica"],
             "Python": ["Lógica", "Programação", "Estatística"],
             "Excel": ["Analysis"],
             "Sheet": ["Analysis"],
@@ -774,7 +903,8 @@
             "Tableau": ["Analysis", "DataViz"],
             "Monday": ["Projeto"],
             "Miro": ["Projeto"],
-            "Data Flow": ["Projeto", "Business"]
+            "Data Flow": ["Projeto", "Business"],
+            "Verdi Flow": ["IA"]
         };
 
         const SHADOWS = [
@@ -824,7 +954,7 @@
                 guilds_registered: "Guildas Registradas", new_guild: "Nova Guilda", all_hunters: "Todos os Hunters", recruit: "Recrutar",
                 market: "Mercado Negro", consumables: "Consumibles", item_potion: "Poção de XP (Grande)", item_potion_desc: "Garante +500 XP instantaneamente.", buy: "Comprar", item_bomb_desc: "Causa 2000 de dano ao Raid Boss.", artifacts: "Artefactos Lendários", inventory: "Seu Inventário", empty_inv: "Inventário vazio.",
                 mission_details: "Detalhes da Missão", form_title: "Nome da Dungeon", form_rank: "Rank", form_date: "Prazo", form_tools: "Ferramentas", form_desc: "Descrição", reward: "Recompensa", delete: "Excluir", save: "Salvar",
-                hunter_reg: "Registro de Hunter", form_name: "Nome", form_class: "Classe", init_attrs: "Atributos Iniciais", confirm: "Confirmar", revoke: "Revocar",
+                hunter_reg: "Registro de Hunter", form_name: "Nome", form_class: "Classe", init_attrs: "Atributos Iniciais", confirm: "Confirmar", revoke: "Revogar",
                 manage_guild: "Gerenciar Guilda", guild_name: "Nome", guild_leader: "Líder", guild_members: "Membros", guild_members_hint: "Selecione os Hunters.",
                 settings: "Configurações", language: "Idioma / Language", active_hunter: "Hunter Ativo", active_hunter_hint: "Troque de personagem para gerenciar inventário.", restore: "Restaurar",
                 tool_proficiency: "Proficiência em Ferramentas", status_window: "Janela de Status"
@@ -867,18 +997,18 @@
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const sfx = {
-            playTone: (freq, type, duration) => {
+            playTone: (freq, type, duration, gainValue = 0.12) => {
                 if(audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = type;
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                gain.gain.setValueAtTime(gainValue, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (duration || 0.1));
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(audioCtx.currentTime + duration);
+                osc.stop(audioCtx.currentTime + (duration || 0.1));
             },
             success: () => { sfx.playTone(880, 'sine', 0.1); setTimeout(()=>sfx.playTone(1760, 'sine', 0.3), 100); },
             error: () => sfx.playTone(150, 'sawtooth', 0.3),
@@ -930,54 +1060,155 @@
                 gain.connect(audioCtx.destination);
                 osc.start(now);
                 osc.stop(now + 2);
+            },
+            door: () => {
+                sfx.playTone(200, 'triangle', 0.22, 0.12);
+                setTimeout(() => sfx.playTone(320, 'triangle', 0.32, 0.1), 70);
+            },
+            mission: () => {
+                [440, 560, 680].forEach((freq, idx) => setTimeout(() => sfx.playTone(freq, 'square', 0.16, 0.14), idx * 120));
+            },
+            chime: () => {
+                [520, 640].forEach((freq, idx) => setTimeout(() => sfx.playTone(freq, 'sine', 0.08, 0.08), idx * 80));
+            },
+            slash: () => {
+                sfx.playTone(220, 'sawtooth', 0.12, 0.2);
+                setTimeout(() => sfx.playTone(340, 'sawtooth', 0.1, 0.15), 90);
             }
         };
 
+        const HUD = {
+            spawn: (msg, style = '') => {
+                const hud = document.createElement('span');
+                hud.className = style;
+                hud.innerText = msg;
+                const container = document.getElementById('floating-hud');
+                container.appendChild(hud);
+                hud.addEventListener('animationend', () => hud.remove());
+            }
+        };
+
+        // --- PARTICLE SYSTEM UTILITY ---
+        (function() {
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return; 
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 5 + 2;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                    this.life = 1.0;
+                    this.decay = Math.random() * 0.03 + 0.01;
+                    this.gravity = 0.15;
+                    this.color = color;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vy += this.gravity;
+                    this.life -= this.decay;
+                }
+                draw(context) {
+                    context.save();
+                    context.globalAlpha = this.life;
+                    context.fillStyle = this.color;
+                    context.beginPath();
+                    context.arc(this.x, this.y, Math.random() * 3 + 1, 0, Math.PI * 2);
+                    context.fill();
+                    context.restore();
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw(ctx);
+                    if (particles[i].life <= 0) {
+                        particles.splice(i, 1);
+                        i--;
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            window.createExplosion = function(x, y, color = '#00F0FF', count = 15) {
+                for (let i = 0; i < count; i++) {
+                    particles.push(new Particle(x, y, color));
+                }
+            };
+
+            document.addEventListener('click', (e) => {
+                if(e.target.closest('button') || e.target.closest('.glass-panel')) {
+                     window.createExplosion(e.clientX, e.clientY, '#00F0FF', 8);
+                }
+            });
+        })();
+
         // --- APP CONTROLLER ---
+        let saveTimeout = null;
+
         const app = {
-            data: { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0, requests: [] },
-            lang: localStorage.getItem('sololeveling_lang') || 'pt',
-            theme: localStorage.getItem('sololeveling_theme') || 'dark',
+            data: { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0, requests: [], settings: { lang: 'pt', theme: 'dark' } },
             
             init: async () => {
-                ui.updateTranslations();
-                app.applyTheme();
+                // UI Inicial
                 document.getElementById('init-btn-area').classList.add('hidden');
                 document.getElementById('loading-bar-area').classList.remove('hidden');
                 
                 if(audioCtx.state === 'suspended') audioCtx.resume();
                 sfx.playTone(200, 'square', 0.1);
 
-                const storedData = localStorage.getItem(DB_KEY);
+                // Fetch Google Sheets
+                try {
+                    const loadingText = document.querySelector('#loading-bar-area div:last-child');
+                    loadingText.innerText = "CONNECTING TO SERVER..."; 
 
-                if (storedData) {
-                    app.data = JSON.parse(storedData);
-                    app.ensureDataIntegrity();
-                    app.checkDailyReset(); 
-                    app.finishBoot();
-                } else {
-                    try {
-                        const loadingText = document.querySelector('#loading-bar-area div:last-child');
-                        loadingText.innerText = "FETCHING REMOTE DATA...";
-                        
-                        if(REMOTE_DB_URL && REMOTE_DB_URL.includes('http')) {
-                            const response = await fetch(REMOTE_DB_URL);
-                            if (!response.ok) throw new Error('Falha na rede');
-                            const remoteData = await response.json();
-                            
-                            if(remoteData.hunters) {
-                                app.data = remoteData;
-                                app.save(); 
-                            } else {
-                                throw new Error('JSON Inválido');
-                            }
-                        } else {
-                            throw new Error('URL não configurada');
-                        }
-                    } catch (error) {
-                        console.warn("Usando Seed Local.", error);
-                        app.seedData();
+                    const response = await fetch(API_URL);
+                    if (!response.ok) throw new Error('Connection failed');
+                    
+                    const cloudData = await response.json();
+
+                    if (cloudData && cloudData.hunters && cloudData.hunters.length > 0) {
+                        app.data = cloudData;
+                    } else {
+                        // Se nuvem vazia, seedar e salvar
+                        app.seedData(); 
+                        app.save();
                     }
+
+                    // Garante que settings existe
+                    if (!app.data.settings) {
+                        app.data.settings = { lang: 'pt', theme: 'dark' };
+                    }
+
+                    // Aplica configs da nuvem
+                    app.applyTheme();
+                    ui.updateTranslations();
+
+                    app.ensureDataIntegrity();
+                    app.checkDailyReset();
+                    app.finishBoot();
+
+                } catch (error) {
+                    console.error("Cloud load failed:", error);
+                    alert("Erro ao conectar ao Google Sheets. Verifique a URL do Script.");
+                    // Fallback para seed local temporário (não salva)
+                    app.seedData();
                     app.finishBoot();
                 }
             },
@@ -1038,29 +1269,54 @@
                 ];
                 app.data.dungeons = [];
                 app.data.requests = [];
-                app.save();
             },
 
-            save: () => localStorage.setItem(DB_KEY, JSON.stringify(app.data)),
+            save: () => {
+                // Debounce Logic for Google Sheets
+                if (saveTimeout) clearTimeout(saveTimeout);
+
+                const indicator = document.getElementById('sync-indicator');
+                if (indicator) indicator.classList.add('visible');
+
+                saveTimeout = setTimeout(() => {
+                    fetch(API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(app.data),
+                        redirect: 'follow',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    })
+                    .then(() => {
+                        if (indicator) indicator.classList.remove('visible');
+                        console.log("Data synced.");
+                    })
+                    .catch(err => {
+                        console.error("Save error:", err);
+                        ui.showToast("Erro ao sincronizar com a nuvem", "error");
+                        if (indicator) indicator.classList.remove('visible');
+                    });
+                }, 2000); // 2 second delay to bundle saves
+            },
 
             setLang: (l) => {
-                app.lang = l;
-                localStorage.setItem('sololeveling_lang', l);
+                if(!app.data.settings) app.data.settings = {};
+                app.data.settings.lang = l;
                 ui.updateTranslations();
                 ui.renderAll(); 
+                app.save(); 
             },
 
-            // --- THEME LOGIC ---
             toggleTheme: (t) => {
-                app.theme = t;
-                localStorage.setItem('sololeveling_theme', t);
+                if(!app.data.settings) app.data.settings = {};
+                app.data.settings.theme = t;
                 app.applyTheme();
                 sfx.click();
+                app.save();
             },
 
             applyTheme: () => {
                 const html = document.documentElement;
-                if (app.theme === 'dark') {
+                const currentTheme = app.data.settings?.theme || 'dark';
+                if (currentTheme === 'dark') {
                     html.classList.add('dark');
                 } else {
                     html.classList.remove('dark');
@@ -1079,15 +1335,9 @@
                 const targetHunter = app.data.hunters[targetIndex];
                 
                 const isLeader = app.data.guilds.some(g => g.leaderId === targetHunter.id);
-                
+
                 if(isLeader) {
-                    const input = prompt("🔐 ACESSO RESTRITO A LÍDERES\nDigite o PIN de Segurança:");
-                    if(input !== "535759") {
-                        ui.showToast("Acesso Negado: PIN Incorreto.", "error");
-                        sfx.error();
-                        ui.renderSettingsUserSelect(); 
-                        return;
-                    }
+                    ui.showToast("Logando como líder...", "success");
                 }
 
                 app.data.currentUserIndex = targetIndex;
@@ -1099,7 +1349,8 @@
 
             router: (viewId) => {
                 ['dashboard', 'dungeons', 'hunters', 'shop', 'requests'].forEach(v => {
-                    document.getElementById(`view-${v}`).classList.add('hidden');
+                    const el = document.getElementById(`view-${v}`);
+                    if(el) el.classList.add('hidden');
                     const nav = document.getElementById(`nav-${v}`);
                     if(nav) {
                         nav.classList.remove('text-neon-blue', 'bg-neon-blue/10');
@@ -1108,7 +1359,8 @@
                         }
                     }
                 });
-                document.getElementById(`view-${viewId}`).classList.remove('hidden');
+                const targetView = document.getElementById(`view-${viewId}`);
+                if(targetView) targetView.classList.remove('hidden');
                 
                 const navBtn = document.getElementById(`nav-${viewId}`);
                 if(navBtn) {
@@ -1122,6 +1374,8 @@
                 const user = app.getCurrentUser();
                 const oldLevel = user.level;
                 user.xp += amount;
+                HUD.spawn(`+${amount} XP`);
+                sfx.chime();
                 const xpNeeded = user.level * 1000;
                 
                 if (user.xp >= xpNeeded) {
@@ -1162,7 +1416,8 @@
                 input.value = '';
                 app.save();
                 ui.renderDailyModal();
-                sfx.click();
+                sfx.chime();
+                HUD.spawn('TAREFA CRIADA', 'gold');
             },
 
             removeDailyTask: (id) => {
@@ -1186,6 +1441,7 @@
                             task.lastReward = today;
                             app.addXP(50); 
                             user.gold += 20;
+                            HUD.spawn('+20 G', 'gold');
                             ui.showToast('Tarefa Concluída: +50 XP | +20 Gold', 'success');
                             sfx.success();
                             if(window.createExplosion) window.createExplosion(window.innerWidth/2, window.innerHeight/2, '#FFD700', 30);
@@ -1198,7 +1454,7 @@
                 }
             },
 
-            // --- REQUEST SYSTEM LOGIC (UPDATED: Edit/Delete) ---
+            // --- REQUEST SYSTEM LOGIC ---
             saveRequest: (e) => {
                 e.preventDefault();
                 const id = document.getElementById('req-id').value;
@@ -1209,7 +1465,6 @@
                 if (!title) return;
 
                 if (id) {
-                    // Update Existing
                     const req = app.data.requests.find(x => x.id === id);
                     if(req) {
                         req.title = title;
@@ -1218,7 +1473,6 @@
                         ui.showToast('Ticket atualizado.', 'success');
                     }
                 } else {
-                    // Create New
                     const newReq = {
                         id: 'r' + Date.now(),
                         title: title,
@@ -1241,14 +1495,14 @@
                 const id = document.getElementById('req-id').value;
                 if (!id) return;
                 
-                if(!confirm('Excluir este request permanentemente?')) return;
-                
-                app.data.requests = app.data.requests.filter(r => r.id !== id);
-                app.save();
-                ui.closeModal('modal-request');
-                ui.renderAll();
-                ui.showToast('Request excluído.', 'success');
-                sfx.click();
+                ui.showConfirm("Excluir este request permanentemente?", () => {
+                    app.data.requests = app.data.requests.filter(r => r.id !== id);
+                    app.save();
+                    ui.closeModal('modal-request');
+                    ui.renderAll();
+                    ui.showToast('Request excluído.', 'success');
+                    sfx.click();
+                });
             },
 
             completeRequest: (id) => {
@@ -1265,6 +1519,9 @@
                     req.completedBy = user.id;
 
                     app.addXP(req.xp);
+                    HUD.spawn(`+${req.xp} XP`);
+                    HUD.spawn('+REQ OK', 'gold');
+
                     app.save();
                     ui.renderAll(); 
                     ui.showToast(`Request Concluído: +${req.xp} XP`, 'success');
@@ -1307,6 +1564,8 @@
                         const centerX = rect.left + rect.width / 2;
                         const centerY = rect.top + rect.height / 2;
                         window.createExplosion(centerX, centerY, '#FF2A2A', 30);
+                    } else {
+                        window.createExplosion(window.innerWidth/2, window.innerHeight/2, '#FF2A2A', 30);
                     }
                 }
 
@@ -1321,8 +1580,11 @@
                 bossBar.parentElement.classList.add('animate-shake');
                 setTimeout(() => bossBar.parentElement.classList.remove('animate-shake'), 500);
 
+                HUD.spawn(`- ${damage} HP`, 'danger');
+
                 if(app.data.raidBoss.hp <= 0) {
                     sfx.levelup(); 
+                    HUD.spawn('+1000 G', 'gold');
                     ui.showToast('☠️ BOSS DERROTADO! +1000 Gold!', 'success');
                     user.gold += 1000;
                     app.addXP(1000); 
@@ -1363,9 +1625,16 @@
                 if (!user.consumables) user.consumables = { raid_bomb: 0, xp_potion: 0 };
                 user.consumables[type] = (user.consumables[type] || 0) + 1;
 
-                if(type === 'xp_potion') ui.showToast('Poção comprada! (Use no Inventário)', 'success');
-                if(type === 'raid_bomb') ui.showToast('Raid Bomb comprada!', 'success');
+                if(type === 'xp_potion') {
+                    ui.showToast('Poção comprada! (Use no Inventário)', 'success');
+                    HUD.spawn('+1 POÇÃO');
+                }
+                if(type === 'raid_bomb') {
+                    ui.showToast('Raid Bomb comprada!', 'success');
+                    HUD.spawn('+1 BOMB', 'danger');
+                }
 
+                sfx.chime();
                 app.save();
                 ui.renderAll();
             },
@@ -1394,7 +1663,8 @@
                 app.save();
                 ui.renderAll();
                 ui.showToast(`${item.name} adquirido!`, 'success');
-                sfx.success();
+                HUD.spawn(item.name, 'gold');
+                sfx.chime();
             },
 
             saveHunter: (e) => {
@@ -1436,18 +1706,19 @@
 
             deleteHunter: () => {
                 const id = document.getElementById('h-id').value;
-                if(!confirm('Tem certeza? Isso é irreversível.')) return;
-                app.data.hunters = app.data.hunters.filter(h => h.id !== id);
-                app.data.guilds.forEach(g => {
-                    g.members = g.members.filter(mId => mId !== id);
-                    if(g.leaderId === id) g.leaderId = g.members[0] || null;
+                
+                ui.showConfirm("Tem certeza? Isso apagará o Hunter para sempre.", () => {
+                    app.data.hunters = app.data.hunters.filter(h => h.id !== id);
+                    app.data.guilds.forEach(g => {
+                        g.members = g.members.filter(mId => mId !== id);
+                        if(g.leaderId === id) g.leaderId = g.members[0] || null;
+                    });
+                    app.data.currentUserIndex = 0; 
+                    app.save();
+                    ui.closeModal('modal-hunter');
+                    ui.renderAll();
+                    sfx.click();
                 });
-
-                app.data.currentUserIndex = 0; 
-                app.save();
-                ui.closeModal('modal-hunter');
-                ui.renderAll();
-                sfx.click();
             },
 
             saveGuild: (e) => {
@@ -1479,15 +1750,16 @@
             },
 
             deleteGuild: () => {
-                const id = document.getElementById('g-id').value;
-                if(!confirm('Dissolver guilda?')) return;
-                app.data.guilds = app.data.guilds.filter(g => g.id !== id);
-                app.save();
-                ui.closeModal('modal-guild');
-                ui.renderAll();
+                const id = document.getElementById('d-id').value;
+                
+                ui.showConfirm("Cancelar e excluir esta missão?", () => {
+                    app.data.dungeons = app.data.dungeons.filter(d => d.id !== id);
+                    app.save();
+                    ui.closeModal('modal-dungeon');
+                    ui.renderAll();
+                });
             },
 
-            // --- SYNERGY & SHADOW SYSTEM (UPDATED STEP 4) ---
             saveDungeon: (e) => {
                 e.preventDefault();
                 const id = document.getElementById('d-id').value;
@@ -1572,6 +1844,7 @@
                          });
                          app.data.raidBoss.hp = Math.max(0, app.data.raidBoss.hp - (rewards.xp * 0.5));
                          xpGained = true;
+                         app.triggerMissionVFX(rank);
                      }
                 }
 
@@ -1588,7 +1861,23 @@
                 ui.closeModal('modal-dungeon');
                 ui.renderAll();
                 ui.showToast(xpGained ? 'Missão Concluída! Recompensas distribuídas.' : 'Missão salva.', 'success');
-                if(xpGained) sfx.levelup(); else sfx.success();
+                if(xpGained) { sfx.mission(); HUD.spawn(`+${RANKS[rank].xp} XP`); } else sfx.success();
+            },
+
+            triggerMissionVFX: (rank) => {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const colors = { 'S': '#FFD700', 'A': '#BD00FF', 'C': '#00F0FF' };
+                const color = colors[rank] || '#00F0FF';
+                window.createExplosion(centerX, centerY, color, rank === 'S' ? 50 : 30);
+
+                const effect = document.createElement('div');
+                effect.className = 'skill-effect';
+                effect.style.left = `${centerX - 90}px`;
+                effect.style.top = `${centerY - 90}px`;
+                effect.style.color = color;
+                document.body.appendChild(effect);
+                setTimeout(() => effect.remove(), 1400);
             },
 
             triggerArise: () => {
@@ -1626,6 +1915,7 @@
                 document.getElementById('modal-arise').classList.add('hidden');
                 ui.showToast(`EXTRAÇÃO BEM SUCEDIDA: ${shadow.name} OBTAINED!`, 'success');
                 sfx.levelup();
+                HUD.spawn(shadow.name, 'gold');
                 ui.renderAll();
             },
 
@@ -1673,10 +1963,12 @@
             },
 
             factoryReset: () => {
-                if(confirm("ATENÇÃO: Isso apagará tudo. Continuar?")) {
-                    localStorage.removeItem(DB_KEY);
-                    location.reload();
-                }
+                ui.showConfirm("ATENÇÃO: Isso apagará TUDO no Google Sheets. Continuar?", () => {
+                    app.data = { hunters: [], dungeons: [], guilds: [], raidBoss: { hp: 50000, max: 50000 }, currentUserIndex: 0, requests: [], settings: { lang: 'pt', theme: 'dark' } };
+                    app.seedData();
+                    app.save();
+                    setTimeout(() => location.reload(), 2000);
+                });
             },
             
             toggleSound: () => {
@@ -1687,8 +1979,31 @@
 
         // --- UI MANAGER ---
         const ui = {
+
+            showConfirm: (msg, callback) => {
+                const modal = document.getElementById('modal-confirm');
+                const txt = document.getElementById('confirm-msg');
+                const btnYes = document.getElementById('btn-confirm-yes');
+                
+                if(!modal) { console.error("Falta modal-confirm"); return; }
+
+                txt.innerText = msg;
+                
+                // Remove eventos antigos do botão para não duplicar cliques
+                const newBtn = btnYes.cloneNode(true);
+                btnYes.parentNode.replaceChild(newBtn, btnYes);
+                
+                newBtn.onclick = () => {
+                    callback();
+                    ui.closeModal('modal-confirm');
+                };
+
+                modal.classList.remove('hidden');
+                if(sfx && sfx.error) sfx.error();
+            },
             t: (key) => {
-                const l = app.lang || 'pt';
+                const l = app.data.settings?.lang || 'pt';
+                if(!TRANSLATIONS[l]) return key;
                 return TRANSLATIONS[l][key] || key;
             },
 
@@ -1938,9 +2253,10 @@
                     const statusColor = isDone ? 'text-green-500' : (d.status === 'Active' ? 'text-neon-blue' : 'text-gray-500');
                     const breakClass = isBreak ? 'dungeon-break' : 'border-gray-200 dark:border-border hover:border-neon-blue';
                     const breakIcon = isBreak ? '<i class="fas fa-exclamation-triangle text-red-500 animate-bounce mr-2"></i>' : '';
+                    const rankClass = `rank-${d.rank.toLowerCase()}`.replace(/\d/, '');
 
                     return `
-                    <div onclick="ui.prepareDungeonForm('${d.id}')" class="glass-panel p-4 rounded-xl border ${breakClass} transition group cursor-pointer relative overflow-hidden">
+                    <div onclick="ui.prepareDungeonForm('${d.id}')" class="glass-panel p-4 rounded-xl border ${breakClass} transition group cursor-pointer relative overflow-hidden ${rankClass}" data-dungeon-rank="${d.rank}">
                         <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition">
                             <span class="text-6xl font-display font-bold ${r.color}">${d.rank}</span>
                         </div>
@@ -2137,7 +2453,7 @@
                         </div>
                         <h3 class="font-bold text-gray-900 dark:text-white mb-1 truncate">${c.name}</h3>
                         <p class="text-[10px] text-gray-500 mb-4 h-8 overflow-hidden">${c.desc}</p>
-                        <button onclick="app.buyCollectible('${c.id}')" ${owned ? 'disabled' : ''} class="w-full py-2 bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 ${owned ? 'cursor-not-allowed' : 'hover:bg-neon-blue hover:text-black hover:border-neon-blue'} font-bold text-xs uppercase transition">
+                        <button onclick="app.buyCollectible('${c.id}')" ${owned ? 'disabled' : ''} class="w-full py-2 bg-gray-200 dark:bg-black/80 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 ${owned ? 'cursor-not-allowed' : 'hover:bg-neon-blue hover:text-black hover:border-neon-blue'} font-bold text-xs uppercase transition">
                             ${owned ? 'Item Único' : `${ui.t('buy')} (${c.price} G)`}
                         </button>
                     </div>`;
@@ -2168,12 +2484,33 @@
             },
 
             openModal: (id) => {
-                document.getElementById(id).classList.remove('hidden');
+                const modal = document.getElementById(id);
+                // --- PROTEÇÃO DE ERRO ---
+                if (!modal) {
+                    console.error("ERRO CRÍTICO: Modal não encontrado no HTML ->", id);
+                    return; 
+                }
+                // ------------------------
+
+                if(id === 'modal-dungeon') {
+                    sfx.door();
+                    const dModal = document.getElementById('modal-dungeon');
+                    if(dModal) dModal.classList.add('active');
+                }
+                
+                modal.classList.remove('hidden');
                 sfx.click();
             },
-            closeModal: (id) => document.getElementById(id).classList.add('hidden'),
-            
-            // ... (Other prepare functions kept same for brevity, but they are crucial for functionality. Assuming they are preserved from previous block if not explicitly changed, but for full copy-paste, I'll include them).
+
+            closeModal: (id) => {
+                const modal = document.getElementById(id);
+                if (!modal) return; 
+
+                modal.classList.add('hidden');
+                if(id === 'modal-dungeon') {
+                    modal.classList.remove('active');
+                }
+            },
             
             prepareDungeonForm: (id = null) => {
                 document.getElementById('form-dungeon').reset();
@@ -2201,6 +2538,7 @@
                 ui.updateXPPreview();
                 ui.openModal('modal-dungeon');
             },
+
             prepareHunterForm: (id = null) => {
                 document.getElementById('form-hunter').reset();
                 document.getElementById('h-id').value = '';
@@ -2257,78 +2595,6 @@
                 setTimeout(() => div.remove(), 3000);
             }
         };
-
-        // --- PARTICLE SYSTEM UTILITY ---
-        (function() {
-            const canvas = document.getElementById('particle-canvas');
-            if (!canvas) return; 
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            class Particle {
-                constructor(x, y, color) {
-                    this.x = x;
-                    this.y = y;
-                    this.color = color;
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 5 + 2;
-                    this.vx = Math.cos(angle) * speed;
-                    this.vy = Math.sin(angle) * speed;
-                    this.life = 1.0;
-                    this.decay = Math.random() * 0.03 + 0.01;
-                    this.gravity = 0.15;
-                }
-                update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    this.vy += this.gravity;
-                    this.life -= this.decay;
-                }
-                draw(context) {
-                    context.save();
-                    context.globalAlpha = this.life;
-                    context.fillStyle = this.color;
-                    context.beginPath();
-                    context.arc(this.x, this.y, Math.random() * 3 + 1, 0, Math.PI * 2);
-                    context.fill();
-                    context.restore();
-                }
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw(ctx);
-                    if (particles[i].life <= 0) {
-                        particles.splice(i, 1);
-                        i--;
-                    }
-                }
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-            window.createExplosion = function(x, y, color = '#00F0FF', count = 15) {
-                for (let i = 0; i < count; i++) {
-                    particles.push(new Particle(x, y, color));
-                }
-            };
-
-            document.addEventListener('click', (e) => {
-                if(e.target.closest('button') || e.target.closest('.glass-panel')) {
-                     window.createExplosion(e.clientX, e.clientY, '#00F0FF', 8);
-                }
-            });
-        })();
-
     </script>
 </body>
 </html>
